@@ -1,0 +1,35 @@
+.sidebar {
+    width: 27vw;
+    height: 100vh;
+    background-color: #4596cb;
+}
+
+.sidebar-header {
+    height: 160px;
+    text-align: center;
+  
+}
+
+.logo img {
+    width: 230px;
+    
+}
+
+.sidebar-contents {
+    margin-bottom: 10px;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+    font-size: 15px;
+    font-family:sans-serif;
+}
+
+.sidebar-contents a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.sidebar .active{
+    background-color: #f6f7f2;
+    font-weight: bolder;
+}

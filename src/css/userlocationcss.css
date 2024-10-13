@@ -1,0 +1,45 @@
+.userloc-background{
+    width: 100%;
+    height: 100vh;
+    background-image: url(/pics/locationbg.jpg);
+    background-position: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.userloc-content {
+    display: flex;
+    height: 50%;
+    width: 100%;
+    align-items: center;
+}
+
+.userloc-search {
+    display: flex;
+    height: 40px;
+    width: 420px;
+    border: solid 1px white;
+    border-radius: 30px;
+    margin-left: 200px;
+    color: white;
+    align-items: center;
+    font-size: 20px;
+}
+
+.userloc-search img {
+    align-self: center;
+    width: 30px;
+    height: 30px;
+    margin: 0px 30px;
+}
+.userloc-donebtn {
+    color: white;
+    background-color: #3e9acc;
+    height: 50px;
+    width: 110px;
+    margin-left: 30px;
+    border-radius: 30px;
+    font-size: 25px;
+    font-weight: bolder;
+    border-color: transparent;
+}

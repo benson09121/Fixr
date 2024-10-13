@@ -1,0 +1,100 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+  }
+  
+  .googlebtn, .facebookbtn, .emailform, .loginbtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border-radius: 20px;
+    height: 50px;
+    width: 400px; 
+    border: 1px solid #ccc; 
+    padding: 0 15px;
+    cursor: pointer;
+  }
+
+  .googlebtn:hover, .facebookbtn:hover{
+    background-color: #e7e7e7
+  }
+
+  .loginbtn:hover {
+    background-color: #366a8a;
+  }
+  
+  
+  .googlebtn img, .facebookbtn img {
+    width: 24px; 
+    height: 24px; 
+    margin-right: 10px; 
+  }
+  
+  .password {
+    width: 400px; 
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .password h5, .email h5 {
+    margin-bottom: 5px; 
+  }
+  
+  .forgotpass {
+    align-self: flex-end;
+    margin-top: 10px;
+    color: purple;
+    text-decoration: none;
+    margin-bottom: 20px;
+  }  
+  
+  .loginbtn {
+    background-color: #4596ca;
+    color: white;
+    border-radius: 20px;
+    height: 50px;
+    width: 400px; 
+    border: 1px solid #ccc; 
+    padding: 0 15px;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-weight: bold;
+  }
+  
+  .noaccount {
+    display: flex;
+    margin-top: 40px;
+    text-decoration: none;
+
+
+  }
+
+  .register {
+    margin-left: 5px;
+    color: purple;
+    text-decoration: none;
+  }
+
+  
+ 
+  .input-group {
+    position: relative;
+  }
+  
+  .eye-icon {
+    position: absolute;
+    top: 50%; 
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+    font-size: 20px;
+  }
+  
+  .fa {
+    font-size: 20px;
+  }
+  
+ 
