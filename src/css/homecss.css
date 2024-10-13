@@ -1,0 +1,232 @@
+.root {
+    --sidebar: #4596cb;
+}
+
+.home-content {
+    display: flex;
+    background-color: white;
+}
+
+.profile {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+
+.profile button {
+    border-radius: 50px;
+    background-color: #4596cb;
+    border-color: transparent;
+    margin-right: 5px;
+}
+
+.card-sets {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 80px;
+    margin-left: 25px;
+}
+
+
+.card {
+    width: 310px;
+    margin-right: 20px;
+}
+
+.card-header {
+    background-color: #dee0df;
+    text-align: center;
+}
+
+.card-header p {
+    font-size: 20px;
+    margin: 10px;
+
+}
+
+.card-content {
+    background-color: #dee0df;
+}
+
+.message {
+    display: flex;
+    background-color: #aac5d8;
+    height: 45px;
+    margin-bottom: 2px;
+    padding: 5px;   
+}
+
+
+.message h6{
+    font-size: 10px;
+    text-align: center;
+    align-content: center;
+
+}
+
+.message2 {
+    display: flex;
+    background-color: #90d4b3;
+    height: 45px;
+    margin-bottom: 2px;
+    padding: 5px;
+}
+
+.message2 h6{
+    font-size: 10px;
+    text-align: center;
+    align-content: center;
+
+}
+
+.message3 {
+    display: flex;
+    background-color: transparent;
+    height: 45px;
+    margin-bottom: 2px;
+    padding: 5px;
+}
+
+.message3 h6{
+    font-size: 10px;
+    text-align: center;
+    align-content: center;
+
+}
+
+.card-content .message img{
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    margin-left: 10px;
+}
+
+.text-message{
+    width: 70%;
+    text-align: center;
+}
+.text-message p {
+    text-align: start;
+    font-size: 10px;
+    margin-left: 5px;
+    
+}
+
+.text-message span {
+    font-size: 12px;
+    font-weight:bold;
+}
+
+.card-footer {
+    height: 80px;
+}
+
+.request p{
+    text-align: center;
+    font-size: 10px;
+    height: 20px;
+}   
+.buttons {
+    display: flex;
+    gap: 2px;
+}
+
+.buttons .accept {
+    margin-top: -15px;
+    height: 15px;
+    font-size: 7px;
+    font-weight: bolder;
+    background-color: #4795ca;
+}
+
+.buttons .reject {
+    margin-top: -15px;
+    height: 15px;
+    font-size: 7px;
+    font-weight: bolder;
+    background-color: #e84c3d;
+}
+
+.profile-box {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    height: 320px;
+    width: 250px;
+    border: solid 2px;
+    background-color: #4596cb;
+    z-index: 1000;
+}
+
+.profile-header {
+    display: flex;
+    height: 25%;
+    margin: 10px;
+}
+
+.profile-image {
+    height: 100%;
+    text-align: center;
+    width: 40%;
+    
+}
+.profile-image img {
+    width: 80px;
+
+    
+}
+
+.profile-class {
+    background-color: #ece7e9;
+    margin: 0px 20px;
+    text-align: center;
+    border-radius: 20px;
+    font-size: 10px;
+}
+
+.profile-info {
+    text-align: center;
+    margin-left: 10px;
+    margin-top: 5px;
+    font-size: 20px;
+}
+
+.profile-info span{
+    
+    font-size: 12px;
+}
+
+.profile-info button{
+    font-weight: bolder;
+    border-radius: 5px;
+    border-color: transparent;
+    background-color: #ededea;
+    border: solid 1 p
+}
+
+.profile-dropdown {
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;  
+}
+
+.profile-dropdown a{
+   text-decoration: none;
+   color: inherit;
+}
+
+
+.profile-dropdown img{
+    margin-left: 10px;
+}
+
+.dropdown-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+

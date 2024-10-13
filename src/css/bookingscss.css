@@ -1,0 +1,119 @@
+.root {
+    --sidebar: #4596cb;
+}
+
+.bookings-content {
+    display: flex;
+    background-color: white;
+}
+
+.profile {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.profile-image #profile-picture {
+    margin-top: 10px;
+    width: 70px;
+}
+
+.profile img {
+    width: 50px;
+    padding: 10px;
+}
+
+.profile button {
+    border-radius: 50px;
+    background-color: #4596cb;
+    border-color: transparent;
+    margin-right: 5px;
+}
+
+.booking-search-bar{
+    margin-bottom: 10px;
+}
+
+.booking-search-bar img {
+    width: 20px;
+    margin-right: 5px;
+}
+
+.booking-booked{
+    margin: 20px;
+}
+
+.booking-booked-header {
+    display: flex;
+    height: 40px;
+    border: solid 1px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+
+}
+
+.booking-nearyou {
+    flex-wrap: wrap;
+    height: 70%;
+    font-size: 100%;
+    text-align: center;
+    display: inline;
+    align-self: center;
+    border: solid 1px;
+    margin-left: 45%;
+    padding: 0px 20px;
+}
+
+.booking-ratings-header {
+    margin-left: 30%;
+    align-self: center;
+}
+
+.booking-booked-card {
+    display: flex;
+    height: 70px;
+    border: solid 1px;
+    border-radius: 5px;
+    text-align: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+   
+}
+
+.booking-booked-name{
+    width: 25%;
+    display: flex;
+    padding: 10px;
+    margin: 0px 30px;
+}
+.booking-booked-profile{
+    width: 50px; 
+}
+.booking-booked-card span{
+    align-self: center;
+    font-weight: bolder;
+    font-size: 15px;
+    margin: 0px 15px
+}
+
+.location-icon {
+    width:30px;
+    height: 30px;
+    align-self: center;
+}
+
+.booking-booked-location {
+    display: flex;
+    align-items: center;
+}
+
+
+.booking-booked-ratings {
+    display: flex;
+    align-items: center;
+    margin: 0px 30px;
+}
+
+.booking-booked-ratings span {
+    font-size: 20px;
+}
