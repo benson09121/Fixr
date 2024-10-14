@@ -4,15 +4,18 @@ import { Link } from "react-router-dom";
 import Menu_Profile from "../Profile_Menu/Menu_Profile";
 import Message from "./Message";
 import SideNav from "../SideNav/SideNav";
+import Navbar from "../Navbar/Navbar";
+import Appointment from "../Profile_Menu/Appointment";
 
 const Home = () => {
   return (
+    <>
+    <Navbar/>
+   
     <div className="home-content">
-      <SideNav />
-
-      <div className="container">
-        {/* profile button */}
-        <Menu_Profile />
+    <SideNav/>
+      <div className="home-container">
+      
 
         <div className="card-sets">
           {/*review card*/}
@@ -192,153 +195,180 @@ const Home = () => {
             </div>
           </div>
 
-          {/*incoming appointment card*/}
+          {/* Calendar card*/}
           <div className="card">
             <div className="card-header">
-              <p>Incoming Appointment</p>
+              <p>Calendar</p>
             </div>
-            <div className="card-content">
-              <div className="message2">
-                <img src="/pics/woman.png" alt="" />
-                <div className="text-message">
-                  <p>
-                    {" "}
-                    <span>Anya</span>
-                    <br />
-                    Lankaan, Dasmariñas
-                  </p>
-                </div>
-                <div className="request">
-                  <p>Cleaning</p>
-                  <div className="buttons">
-                    <button className="accept">Accept</button>
-                    <button className="reject">Reject</button>
-                  </div>
-                </div>
-              </div>
+                <div className="card-content">
+                      <div className="card-month">
+                              <span>July</span>
+                      </div>
+                      <div className="card-week">
+                            <div className="card-days">
+                                  <span>Su</span>
+                            </div>
+                            <div className="card-days">
+                                  <span>Mo</span>
+                            </div>
+                            <div className="card-days">
+                                  <span>Tu</span>
+                            </div>
+                            <div className="card-days">
+                                  <span>We</span>
+                            </div>
+                            <div className="card-days">
+                                  <span>Th</span>
+                            </div>
+                            <div className="card-days">
+                                  <span>Fr</span>
+                            </div>
+                            <div className="card-days">
+                                  <span>Sa</span>
+                            </div>
+                      </div>
+                      
+                      <div className="card-calendar-date">
+                        <div className="card-date">
+                                  <span></span>
+                            </div>
+                            <div className="card-date">
+                                  <span>1</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>2</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>3</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>4</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>5</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>6</span>
+                            </div>
+                      </div>  
+                      <div className="card-calendar-date">
+                        <div className="card-date">
+                                  <span>7</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>8</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>9</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>10</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>11</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>12</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>13</span>
+                            </div>
+                      </div>  
 
-              <div className="message2">
-                <img src="/pics/man.png" alt="" />
-                <div className="text-message">
-                  <p>
-                    {" "}
-                    <span>Raemil</span>
-                    <br />
-                    Lankaan, Dasmariñas
-                  </p>
-                </div>
-                <div className="request">
-                  <p>Aircon</p>
-                  <div className="buttons">
-                    <button className="accept">Accept</button>
-                    <button className="reject">Reject</button>
-                  </div>
-                </div>
-              </div>
+                      <div className="card-calendar-date">
+                        <div className="card-date">
+                                  <span>14</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>15</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>16</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>17</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>18</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>19</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>20</span>
+                            </div>
+                      </div>  
 
-              <div className="message3">
-                <img src="/pics/woman.png" alt="" />
-                <div className="text-message">
-                  <p>
-                    {" "}
-                    <span>Charmaine</span>
-                    <br />
-                    Lankaan, Dasmariñas
-                  </p>
-                </div>
-                <div className="request">
-                  <p>Massage</p>
-                  <div className="buttons">
-                    <button className="accept">Accept</button>
-                    <button className="reject">Reject</button>
-                  </div>
-                </div>
-              </div>
+                      <div className="card-calendar-date">
+                        <div className="card-date">
+                                  <span>21</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>22</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>23</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>24</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>25</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>26</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>27</span>
+                            </div>
+                      </div>  
 
-              <div className="message2">
-                <img src="/pics/man.png" alt="" />
-                <div className="text-message">
-                  <p>
-                    {" "}
-                    <span>Aircon</span>
-                    <br />
-                    Lankaan, Dasmariñas
-                  </p>
-                </div>
-                <div className="request">
-                  <p>Cleaning</p>
-                  <div className="buttons">
-                    <button className="accept">Accept</button>
-                    <button className="reject">Reject</button>
-                  </div>
-                </div>
-              </div>
+                      <div className="card-calendar-date">
+                        <div className="card-date">
+                                  <span>28</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>29</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>30</span>
+                            </div>
+                            <div className="card-date">
+                                  <span>31</span>
+                            </div>
+                            <div className="card-date">
+                                  <span></span>
+                            </div>
+                            <div className="card-date">
+                                  <span></span>
+                            </div>
+                            <div className="card-date">
+                                  <span></span>
+                            </div>
+                      </div>  
 
-              <div className="message3">
-                <img src="/pics/woman.png" alt="" />
-                <div className="text-message">
-                  <p>
-                    {" "}
-                    <span>Thea</span>
-                    <br />
-                    Lankaan, Dasmariñas
-                  </p>
+               
                 </div>
-                <div className="request">
-                  <p>Beauty</p>
-                  <div className="buttons">
-                    <button className="accept">Accept</button>
-                    <button className="reject">Reject</button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="message2">
-                <img src="/pics/woman.png" alt="" />
-                <div className="text-message">
-                  <p>
-                    {" "}
-                    <span>Aisha</span>
-                    <br />
-                    Lankaan, Dasmariñas
-                  </p>
-                </div>
-                <div className="request">
-                  <p>Massage</p>
-                  <div className="buttons">
-                    <button className="accept">Accept</button>
-                    <button className="reject">Reject</button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="message2">
-                <img src="/pics/man.png" alt="" />
-                <div className="text-message">
-                  <p>
-                    {" "}
-                    <span>Rallian</span>
-                    <br />
-                    Lankaan, Dasmariñas
-                  </p>
-                </div>
-                <div className="request">
-                  <p>Hair Care</p>
-                  <div className="buttons">
-                    <button className="accept">Accept</button>
-                    <button className="reject">Reject</button>
-                  </div>
-                </div>
-              </div>
-            </div>
 
             <div className="card-footer">
-              <h5>Total</h5>
+              <h5>Schedule</h5>
+              <div className="card-schedule">
+                  <span>July 26: Cleaning Service for Harry Potter</span>
+                  <span>July 26: Cleaning Service for Harry Potter</span>
+                  <span>July 26: Cleaning Service for Harry Potter</span>
+              </div>
             </div>
           </div>
         </div>
+
+       <Appointment/>
+       
+
       </div>
+
+     
     </div>
+    </>
   );
 };
 

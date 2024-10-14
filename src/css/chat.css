@@ -2,129 +2,193 @@
     display: flex;
     height: 100vh;  
     background-color: #f5f9fa;
-    box-sizing: border-box; 
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
-
-
-.menu {
-    list-style-type: none;
-    padding: 0;
-    width: 100%; 
-}
-
-.menu li {
-    margin: 20px 0;
-    font-size: 18px;
-    cursor: pointer;
-    transition: 0.3s;
-    padding: 10px 15px; 
-    text-align: center; 
-}
-
-.menu li:hover {
-    background-color: #225978;
-    border-radius: 10px;
+.chat-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff; 
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    padding: 15px 25px;
+    background-color: #ffffff; 
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-
 h2 {
-    font-size: 28px; 
+    font-size: 24px; 
     color: #333;
 }
 
-/* Search Input */
+.profile {
+    display: flex;
+    align-items: center;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    position: relative;
+    top: -2px;
+    left: -425px;
+    color: #4caf50;
+}
+
+.status-online {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #4caf50; 
+    margin-right: 5px;
+}
+
+.options-icon {
+    font-size: 18px;
+    margin-left: 20px;
+    cursor: pointer;
+    position: relative;
+    top: 15px;
+    left: 60px;
+}
+
 .search input {
     padding: 12px;
     border-radius: 20px;
     border: 1px solid #ccc;
-    width: 100%; /* Full width for search input */
+    width: 100%;
+    background-color: #f0f4f8; 
+    margin-bottom: 15px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); 
 }
-
-/* Profile Section */
-
-
-.avatar {
-    font-size: 28px;
-    margin-left: 20px;
-}
-
 
 .chat-layout {
     display: flex;
     flex-direction: row;
-    height: calc(100vh - 100px); 
+    height: calc(100vh - 80px); 
 }
-
 
 .chat-history {
-    width: 30%; 
-    padding: 10px; 
-    border-right: 1px solid #ccc; 
-    overflow-y: auto; 
+    width: 30%;
+    background-color: #f9f9f9; 
+    padding: 10px;
+    border-right: 1px solid #ccc;
+    overflow-y: auto;
 }
 
+.history-list {
+    margin-top: 10px;
+}
+
+.chat-item {
+    display: flex;
+    align-items: flex-start;
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.chat-item:hover {
+    background-color: #e0f7fa;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.avatar-icon {
+    font-size: 32px;
+    margin-right: 15px;
+    color: #4c9ccf;
+}
+
+.chat-details {
+    flex-grow: 1;
+}
+
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.time {
+    font-size: 12px;
+    color: #777;
+}
 
 .booking-chat {
-    width: 70%; 
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #ffffff; 
+}
+
+.chat-display {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    padding-right: 10px;
     display: flex;
     flex-direction: column;
 }
 
-
-.chat-display {
-    flex-grow: 1; 
-    padding: 20px;
-    overflow-y: auto; 
-}
-
-
 .chat-message {
-    padding: 15px;
+    padding: 12px;
     border-radius: 8px;
     margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    max-width: 60%;
+    word-wrap: break-word;
 }
 
 .client {
-    background-color: #d6ecf7; 
-    align-self: flex-start; 
+    background-color: #e0f7fa;
+    align-self: flex-end; 
+    color: #00796b;
+    text-align: right; 
 }
+
 
 .provider {
-    background-color: #cfe9d6; 
-    align-self: flex-end; 
+    background-color: #ffffff;
+    align-self: flex-start;
+    color: #597ea5;
+    text-align: left;
 }
 
-.service-name {
-    font-weight: bold; 
-}
-
-/* Message Input */
 .message-input {
     display: flex;
     align-items: center;
     padding: 10px;
+    background-color: #e3f2fd;
+    border-top: 1px solid #ccc;
 }
 
 .message-input .icon {
-    font-size: 24px; /* Adjust icon size */
-    cursor: pointer; /* Pointer cursor for icons */
-    margin-right: 10px; /* Space between icons and input */
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 10px;
+    color: #4c9ccf;
 }
 
 .message-input input {
-    flex-grow: 1; 
+    flex-grow: 1;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 20px;
-    margin-right: 10px; 
+    margin-right: 10px;
 }
 
 .message-input button {
@@ -138,22 +202,48 @@ h2 {
 }
 
 .message-input button:hover {
-    background-color: #225978; 
+    background-color: #225978;
 }
 
-
-.history-list {
-    margin-top: 10px; 
+.serv-name
+{
+    font-size: 20px;
+    color: #000000;
+    margin-left: 20px;
+    position: relative;
+    top: 15px;
+    left: 145px;
 }
 
-.chat-item {
-    margin: 10px 0; 
-    padding: 10px;
-    background-color: #e3f2fd; 
-    border-radius: 8px; 
+.serv-add
+{
+    font-size: 15px;
+    color: #000000;
+    margin-left: 20px;
+    top: 40px;
+    left: -165px;
+    position: relative;
 }
 
-.chat-item .service-name {
-    font-weight: bold; 
-}
+.profile-icon {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: absolute;
+    left: 700px;
+    top: 60px;
+    
+  }
 
+  .serv-chat
+{
+    font-size: 30px;
+    color: #000000;
+    margin-left: 20px;
+    position: relative;
+    font-weight: bold;
+    top: 25px;
+    left: 95px;
+    
+}

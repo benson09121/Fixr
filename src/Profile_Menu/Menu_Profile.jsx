@@ -33,6 +33,13 @@ export default function Menu_Profile(){
                       <button style={{ backgroundColor: "#ededea" }}>
                         Edit Profile
                       </button>
+                      <select name="status" id="status"  className="status-dropdown" style={{ border:"none"}}>
+                        <option value="available"><span><img src="pics/check.png" alt="" /></span>Available</option>
+                        <option value="busy">Busy</option>
+                        <option value="notdisturb" >Do not disturb</option>
+                        <option value="brb" >Be right Back</option>
+                        <option value="appear">Appear anyway</option>
+                      </select>
                     </span>
                   </p>
                 </div>

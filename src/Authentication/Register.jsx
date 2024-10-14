@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -16,11 +15,13 @@ function Register() {
     password: "",
     confirmPassword: "",
   });
+
   useEffect(() => {
     if (cookies.account_token) {
       navigate("/home");
     }
   }, []);
+
   const [cookies, setCookie, removeCookie] = useCookies(["token_user"]);
   const onhandleRegister = (e) => {
     setRegister({
@@ -62,80 +63,50 @@ function Register() {
   }
 
   return (
-    <div className="container">
-      <h1 style={{ marginTop: "1.5rem" }}>Sign up</h1>
+    <div className='register-background'>
+    <div className='register-container'>
+      <h1>Sign up</h1>
       <form onSubmit={handleSubmit}>
-        <div className="user-form">
-          <div className="user-fullname">
-            <div className="user-inputs">
-              <label htmlFor="f_name:">First Name:</label>
-              <input
-                type="text"
-                name="f_name"
-                placeholder="First Name"
-                onChange={onhandleRegister}
-              />
+        <div className='user-form'>
+            <div className='user-fullname'>
+            <div className='user-inputs'>
+            <label htmlFor="fname:">First Name:</label>
+            <input type="text" name="f_name" id="" placeholder='Surname, FirstName' onChange={onhandleRegister}/>
             </div>
-            <div className="user-inputs">
-              <label htmlFor="l_name:">Last Name:</label>
-              <input
-                type="text"
-                name="l_name"
-                placeholder="Last Name"
-                onChange={onhandleRegister}
-              />
+            <div className='user-inputs'>
+            <label htmlFor="lname:">Last Name:</label>
+            <input type="text" name="l_name" id="" placeholder='Surname, FirstName' onChange={onhandleRegister}/>
             </div>
-          </div>
-          <div className="user-inputs">
+            </div>
+            <div className='user-inputs'>
             <label htmlFor="Email:">Email:</label>
-            <input
-              type="text"
-              name="email"
-              placeholder="test@email.com"
-              onChange={onhandleRegister}
-            />
-          </div>
-          <div className="user-inputs">
+            <input type="text" name="email" id="" placeholder='test@email.com' onChange={onhandleRegister}/>
+            </div>
+            <div className='user-inputs'>
             <label htmlFor="Phone:">Phone:</label>
-            <input
-              type="text"
-              name="phone"
-              placeholder="####-###-####"
-              onChange={onhandleRegister}
-            />
-          </div>
-          <div className="user-inputs">
+            <input type="text" name="phone" id="" placeholder='####-###-####' onChange={onhandleRegister}/>
+            </div>
+            <div className='user-inputs'>
             <label htmlFor="Password:">Password:</label>
-            <input
-              type="password"
-              name="password"
-              placeholder=""
-              onChange={onhandleRegister}
-            />
-          </div>
-          <div className="user-inputs">
+            <input type="password" name="password" id="" placeholder='' onChange={onhandleRegister}/>
+            </div>
+            <div className='user-inputs'>
             <label htmlFor="Confirm Password:">Confirm Password:</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder=""
-              onChange={onhandleRegister}
-            />
-          </div>
+            <input type="password" name="confirmPassword" id="" placeholder='' onChange={onhandleRegister}/>
+            </div>
         </div>
-        <div className="terms">
-          <input type="checkbox" name="" id="" />
-          <label htmlFor="">
-            I agree with the <a href="">Terms and Conditions</a>
-          </label>
-        </div>
-        <button type="submit" className="signup-btn">
-          Sign Up
-        </button>
-      </form>
-      <span style={{ marginTop: "10px" }}>
-        Already have an Account? <Link to="/">Login Here</Link>
-      </span>
+            <div className='terms'>
+            <input type="checkbox" name="" id="" />
+            <label htmlFor="">I agree with the <a href="">Terms and Conditions</a></label>
+            </div>
+            <div className='register-footer'>
+            <button className='signup-btn'>Sign Up</button>
+            
+            <span style={{marginTop:"10px"}}>Already have an Account? <Link to='/'>Login Here</Link></span>
+            </div>
+            </form>
+    </div>  
+
     </div>
   );
 }
