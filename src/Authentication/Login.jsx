@@ -7,55 +7,62 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-    const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate();
-    const [cookies, setCookie, removeCookie] = useCookies(["token_user"]);
-    const [Login, setLogin] = useState({
-        email: "",
-        password: "",
-    });
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(["token_user"]);
+  const [Login, setLogin] = useState({
+      email: "",
+      password: "",
+  });
 
 
-  function handleLogin(e) {
-    setLogin({
-      ...Login,
-      [e.target.name]: e.target.value,
-    });
-  }
+function handleLogin(e) {
+  setLogin({
+    ...Login,
+    [e.target.name]: e.target.value,
+  });
+}
 
- function onHandleSubmit(e) {
-    e.preventDefault();
-    const login = {
-      email: e.target.email.value,
-      password: e.target.password.value,
-    };
-    axios
-    .post("http://localhost/FIXR/API/register.php", login, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then((res) => {
+function onHandleSubmit(e) {
+  e.preventDefault();
+  const login = {
+    email: e.target.email.value,
+    password: e.target.password.value,
+  };
+  axios
+  .post("http://localhost/FIXR/API/login.php", login, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+  .then((res) => {
+    if(res.status === 200){
       setCookie("account_token", res.data.data, {
         path: "/",  
         expires: null,
         secure: true,
         sameSite: "strict",
       });
-      if(res.status === 200){
-        navigate("/home");
-      }
+      navigate("/home");
+    }
+  
+  })
+  .catch((err) => {
+    if (err.response.status === 401) {
+      alert("Invalid Email or Password");
+    }
+    if(err.response.status === 404){
+      alert("User not found");
+    }
+  });
+}
+
+
     
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
-
-
   return (
-    <div className='content'>
-    <div className="container mt-5">
+   <div className="login-background">
+    <div className='content' >
+    <div className="login-container mt-5" >
       <div>
         <h1 style={{fontSize:'40px', fontFamily:'inherit',}}><b>Login</b></h1>
       </div>
@@ -63,11 +70,11 @@ function Login() {
       <div className="mb-3" style={{marginTop:"5%"}}>
            <div className='user-inputs' >
             <label htmlFor="Email:">Email:</label>
-            <input type="text" name="email"  placeholder='test@email.com' style={{height:"50px"}} onChange={handleLogin}/>
+            <input type="text" name="email" id="" style={{height:"50px"}} onChange={handleLogin}/>
             </div>
             <div className='user-inputs' style={{marginTop:"20px"}}>
             <label >Password:</label>
-            <input type="password" name="password" placeholder=''style={{height:"50px"}}/>
+            <input type="password" name="password" id="" placeholder=''style={{height:"50px"}} onChange={handleLogin}/>
             </div>
 
       </div>
@@ -76,18 +83,20 @@ function Login() {
         
       </div>
 
-
       <div className='signinbuttons mt-3'> 
           <div className="col mt-3">
-        <button className='loginbtn'>Login</button>
+       <button className='loginbtn'>Login</button>
           </div>
       </div>
       </form>
+
       <div className='noaccount'>
         <p>Don't have an Account?</p> 
         <Link to='register' className='register'>Register Here</Link>
       </div>
     </div>
+    </div>
+
     </div>
   );
 }

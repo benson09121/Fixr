@@ -1,7 +1,19 @@
-.container {
+.login-background {
+  background-image: url(/pics/wallpaper.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.login-container {
+    width: auto;
     display: flex;
     flex-direction: column;
     max-height: 100vh;
+    margin-left: 150px;
   }
   
   .googlebtn, .facebookbtn, .emailform, .loginbtn {
@@ -97,4 +109,6 @@
     font-size: 20px;
   }
   
- 
+ .user-inputs label {
+  margin-bottom: 5px;
+ }

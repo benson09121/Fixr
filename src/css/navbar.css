@@ -1,0 +1,35 @@
+
+.navbar {
+    display: flex;
+    height: 60px;
+    width: 100%;
+    background-color: #4596cb;
+}
+
+.navbar-content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar img {
+    width: 125px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.navbar ul {
+    color: white;
+    display: flex;
+    list-style: none;
+    margin-top: 10px;
+    margin-right: 50px;
+    gap: 20px;
+}
+
+
+.navbar-types a {
+    color: white;;
+    text-decoration: none;;
+}

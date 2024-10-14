@@ -6,6 +6,7 @@ import Bookings from './Bookings/Bookings';
 import Client from './Client/Client';
 import Userlocation from './Userlocation';
 import Chats from './Chats/Chats';
+import Feed from './Feed/Feed';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="client" element={<Client />} /> 
         <Route path="/userloc" element={<Userlocation />} /> 
         <Route path="/chats" element={<Chats />} />
+        <Route path="/feed" element={<Feed/>} />
       </Routes>
     </Router>
   );

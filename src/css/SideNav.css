@@ -1,35 +1,175 @@
-.sidebar {
-    width: 27vw;
-    height: 100vh;
+.sidenav {
     background-color: #4596cb;
+    height: auto;
+    width: 280px;
+    margin: 10px 5px;
+    border-radius: 10px;
 }
 
-.sidebar-header {
-    height: 160px;
+.sidenav-header {
+    display: flex;
+}
+
+.sidenav-header-profile{
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.sidenav-header-profile img {
+    margin-top: 5px;
+    margin-left: 5px;
+    width: 70px;
+}
+
+.sidenav-user-class {
+    align-self: center;
+    background-color: white;
+    font-size: 10px;
+    width: 50px;
     text-align: center;
-  
-}
-
-.logo img {
-    width: 230px;
-    
-}
-
-.sidebar-contents {
-    margin-bottom: 10px;
-    padding: 15px;
-    text-align: center;
-    width: 100%;
-    font-size: 15px;
-    font-family:sans-serif;
-}
-
-.sidebar-contents a{
-    text-decoration: none;
-    color: inherit;
-}
-
-.sidebar .active{
-    background-color: #f6f7f2;
+    border-radius: 50px;
+    margin-top: 5px;
     font-weight: bolder;
+}
+
+.sidenav-header-details {
+    display: flex;
+    flex-direction: column;
+    font-weight: bolder;
+    margin-top: 5px;
+}
+
+.sidenav-header-details img {
+   width: 15px;
+   margin-left: 5px;
+}
+
+.sidenav-header-details .sidenav-name {
+    font-size: 22px;
+    margin-left: 10px;
+}
+
+.sidenav-header-details .sidenav-number {
+    font-size: 12px;
+    font-weight: bolder;
+    margin-left: 10px;
+}
+
+.sidenav-header-details img {
+   cursor: pointer;
+}
+.sidenav-header-details .status-dropdown {
+    margin-left: 8px;
+    margin-top: 3px;
+    width: 80px;
+    height: 15px;
+    font-size: 11px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.sidenav-content h5 {
+    margin-left: 10px;
+  }
+  
+
+.sidenav-workers {
+    display: flex;
+  margin-left: 20px;
+  margin-bottom: 2px;
+}
+
+.sidenav-workers img {
+    width: 25px;
+}
+
+.workers-details {
+    display: flex;
+    flex-direction: column;
+}
+.workers-profile {
+    font-size: 10px;
+    display: flex;
+    margin-left: 10px;
+}
+
+.worker-name, 
+.worker-service,
+.worker-number {
+    margin-top: 4px;
+    font-weight: bolder;
+   
+}
+
+.worker-name {
+    margin-top: 4px;
+    font-size: 9px;
+    margin-right: 5px;
+}
+
+.worker-service {
+    font-size: 9px;
+    color: #1d587c;
+    margin-left: 5px;
+}
+
+.worker-number {
+    font-size: 8px;
+    margin-top: -2px;
+    margin-left: 10px;
+}
+
+.sidenav-notif {
+    background-color: #65c6f3;
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+
+.sidenav-notif-content {
+    margin-left: 20px;
+    display: flex;
+    margin-bottom:5px;
+}
+
+.sidenav-notif-content img{
+    width: 25px;
+    object-fit:contain;
+}
+
+.sidenav-notif-message {
+    display: flex;
+    flex-direction: column;
+    font-size: 9px;
+    margin-left: 10px;
+    font-weight: bolder;
+}
+
+.sidenav-footer-content{
+    width: 100%;
+    display: flex;
+    cursor: pointer;
+    padding: 7px 0px;
+}
+
+.sidenav-footer-content:hover{
+   background-color: #336c92;
+   border-bottom-right-radius: 10px;
+   border-bottom-left-radius: 10px;
+}
+
+.sidenav-footer-content img{
+    margin-left: 20px;
+    width: 30px;
+}
+
+.sidenav-footer-content span{
+    font-size: 18px;
+    margin-left: 20px;
+    font-weight: bolder;
+}
+
+.sidenav-footer-content a{
+    text-decoration: none;
+    color: black;
 }
