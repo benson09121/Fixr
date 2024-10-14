@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import { jwtDecode } from "jwt-decode";
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -18,7 +19,10 @@ function Register() {
 
   useEffect(() => {
     if (cookies.account_token) {
-      navigate("/home");
+      const token = jwtDecode(cookies.account_token);
+      if(!token.user_id == null && !token.account_type == null){
+        navigate("/home");
+      }
     }
   }, []);
 
@@ -40,25 +44,28 @@ function Register() {
       confirmPassword: e.target.confirmPassword.value,
     };
     axios
-      .post("http://localhost/FIXR/API/register.php", register, {
+      .post("http://localhost/FIXR/API/Authentication/register.php", register, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((res) => {
-        setCookie("account_token", res.data.data, {
-          path: "/",
-          expires: null,
-          secure: true,
-          sameSite: "strict",
-        });
         if(res.status === 200){
+          setCookie("account_token", res.data.data, {
+            path: "/",
+            expires: null,
+            secure: true,
+            sameSite: "strict",
+          });
           navigate("/home");
         }
       
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 409) {
+          alert("Email already exist");
+        }
+
       });
   }
 

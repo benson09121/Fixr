@@ -1,12 +1,13 @@
 
 import { Link } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../css/logincss.css'
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
-function Login() {
+export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["token_user"]);
@@ -14,6 +15,16 @@ function Login() {
       email: "",
       password: "",
   });
+
+  useEffect(() => {
+    if (cookies.account_token) {
+      const token = jwtDecode(cookies.account_token);
+      if(!token.user_id == null && !token.account_type == null){
+        navigate("/home");
+      }
+    }
+  }, []);
+
 
 
 function handleLogin(e) {
@@ -30,20 +41,26 @@ function onHandleSubmit(e) {
     password: e.target.password.value,
   };
   axios
-  .post("http://localhost/FIXR/API/login.php", login, {
+  .post("http://localhost/FIXR/API/Authentication/login.php", login, {
     headers: {
       "Content-Type": "application/json",
     },
   })
   .then((res) => {
     if(res.status === 200){
-      setCookie("account_token", res.data.data, {
-        path: "/",  
-        expires: null,
-        secure: true,
-        sameSite: "strict",
-      });
-      navigate("/home");
+      const token = jwtDecode(res.data.data);
+      if(token.user_id == null && token.account_type == null){
+        alert('Wrong Output!');
+      }else{
+        setCookie("account_token", res.data.data, {
+          path: "/",  
+          expires: null,
+          secure: true,
+          sameSite: "strict",
+        });
+        navigate("/home");
+      }
+      
     }
   
   })
@@ -100,5 +117,3 @@ function onHandleSubmit(e) {
     </div>
   );
 }
-
-export default Login;

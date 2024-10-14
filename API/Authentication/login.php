@@ -1,8 +1,8 @@
 <?php
 
-include 'database_conn.php';
+include '../Database/database_conn.php';
 
-include '../vendor/autoload.php';
+include '../../vendor/autoload.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: *");
@@ -13,7 +13,7 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\Key;
 
-$env = parse_ini_file('../.env');
+$env = parse_ini_file('../../.env');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 

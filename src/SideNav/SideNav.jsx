@@ -3,7 +3,18 @@ import { Link, useLocation } from "react-router-dom";
 import "../css/sidenav.css";
 import SideNav_Workers from "./SideNav_Workers";
 import SideNav_Notif from "./SideNav_Notif";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 export default function SideNav() {
+
+  const [cookies, setCookie, removeCookie] = useCookies(["account_token"]);
+  const navigate = useNavigate();
+
+  function handleLogout(e) {
+    e.preventDefault();
+    removeCookie("account_token");
+    navigate('/');
+  }
   return (
     <>
       <div className="sidenav">
@@ -119,7 +130,7 @@ export default function SideNav() {
 
                       <div className="sidenav-footer-content">
                             <img src="/pics/exit.png" alt="" />
-                           <Link to="/"><span>Log out</span></Link> 
+                           <span onClick={handleLogout}>Log out</span>
                       </div>
                   </div>
             </div>
