@@ -39,19 +39,10 @@ Before you begin, ensure you have met the following requirements:
     ```
 7. Start the PHP back-end server:
     ```bash
-    php -S localhost:8000
-    or you can use XAMPP with Apache
+    Open XAMPP with Apache
     ```
-8. Access the application at `http://localhost:3000`.
-### Database Setup
-1. Create a new database:
-    ```sql
-    CREATE DATABASE fixr_db;
-    ```
-2. Run database migrations to set up the schema:
-    ```bash
-    php artisan migrate
-    ```
+8. Access the application at `http://localhost:5173`.
+
 ### Usage
 - **Client Workflow**:
   1. Browse or search for service providers.
