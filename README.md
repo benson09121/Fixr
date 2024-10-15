@@ -1,5 +1,4 @@
-# React + Vite
-# Fixr - Connecting Clients with Service Providers
+# FIXR - Connecting Clients with Service Providers
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 **Fixr** is a web application that bridges the gap between clients and service providers, offering a convenient platform for finding and negotiating services. Whether you're looking for help with home improvement, tech support, or professional consultations, Fixr simplifies the process of connecting with service providers.
