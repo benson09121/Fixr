@@ -3,7 +3,6 @@
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 **Fixr** is a web application that bridges the gap between clients and service providers, offering a convenient platform for finding and negotiating services. Whether you're looking for help with home improvement, tech support, or professional consultations, Fixr simplifies the process of connecting with service providers.
 
-Currently, two official plugins are available:
 ## Features
 
 - **Service Listings**: Clients can browse through a variety of services offered by registered providers.
@@ -42,6 +41,7 @@ Before you begin, ensure you have met the following requirements:
 7. Start the PHP back-end server:
     ```bash
     php -S localhost:8000
+    or you can use XAMPP with Apache
     ```
 8. Access the application at `http://localhost:3000`.
 ### Database Setup
