@@ -3,32 +3,23 @@ import { Link, useLocation } from "react-router-dom";
 import "../css/sidenav.css";
 import SideNav_Workers from "./SideNav_Workers";
 import SideNav_Notif from "./SideNav_Notif";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
-export default function SideNav() {
-
-  const [cookies, setCookie, removeCookie] = useCookies(["account_token"]);
-  const navigate = useNavigate();
-
-  function handleLogout(e) {
-    e.preventDefault();
-    removeCookie("account_token");
-    navigate('/');
-  }
+export default function SideNav(prop) {
   return (
     <>
       <div className="sidenav">
             <div className="sidenav-content">
                   <div className="sidenav-header">
                       <div className="sidenav-header-profile">
-                        <img src="/pics/user.png" alt="" />
+                    <img src={prop.picture} alt="" />
                           <div className="sidenav-user-class">
-                              Worker
+                              {prop.class}
                           </div>
                         </div>
                           <div className="sidenav-header-details">
-                                <span className="sidenav-name">Benson Javier <img src="/pics/edit.png" alt="" /></span>
-                                <span className="sidenav-number">0912 345 6789</span>
+                                <span className="sidenav-name">{prop.name}
+                                  <Link to="/profile"><img src="/pics/edit.png" alt="" /> </Link>
+                                  </span>
+                                <span className="sidenav-number">{prop.number}</span>
                                     <select name="status" id="status"  className="status-dropdown" style={{ border:"none"}}>
                                           <option value="available"><span><img src="pics/check.png" alt="" /></span>Available</option>
                                           <option value="busy">Busy</option>
@@ -79,6 +70,8 @@ export default function SideNav() {
                     number="0999 999 9999"
                     />
 
+
+                    
                   <SideNav_Workers
                     picture="pics/user.png"
                     name="Red Reyes"
@@ -123,15 +116,15 @@ export default function SideNav() {
                             <span>Location</span>
                       </div>
 
-                      <div className="sidenav-footer-content">
+                     <Link to='/aboutus'><div className="sidenav-footer-content">
                             <img src="/pics/about.png" alt="" />
                             <span>About us</span>
-                      </div>
+                      </div> </Link>
 
-                      <div className="sidenav-footer-content">
+                      <Link to="/"><div className="sidenav-footer-content">
                             <img src="/pics/exit.png" alt="" />
-                           <span onClick={handleLogout}>Log out</span>
-                      </div>
+                           <span>Log out</span>
+                      </div> </Link> 
                   </div>
             </div>
       </div>

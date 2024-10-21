@@ -13,7 +13,13 @@ const Home = () => {
     <Navbar/>
    
     <div className="home-content">
-    <SideNav/>
+
+    <SideNav
+      picture="/pics/user.png"
+      name="Benson Javier"
+      number="0912 345 6789"
+      class="Worker"
+    />
       <div className="home-container">
       
 

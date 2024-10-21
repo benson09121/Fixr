@@ -1,5 +1,6 @@
 .sidenav {
     background-color: #4596cb;
+    min-height: 660px;
     height: auto;
     width: 280px;
     margin: 10px 5px;
@@ -150,6 +151,11 @@
     display: flex;
     cursor: pointer;
     padding: 7px 0px;
+}
+
+.sidenav-footer a{
+    text-decoration: none;
+    color: inherit;
 }
 
 .sidenav-footer-content:hover{

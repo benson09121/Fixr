@@ -112,3 +112,8 @@
  .user-inputs label {
   margin-bottom: 5px;
  }
+
+ .signinbuttons a {
+  text-decoration: none;
+  color:inherit;
+ }
