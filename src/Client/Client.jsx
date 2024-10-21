@@ -1,93 +1,94 @@
 import React, { useState } from "react";
 import "../css/clientcss.css";
-import { Link } from "react-router-dom";
-import Menu_Profile from "../Profile_Menu/Menu_Profile";
 import Client_Cards from "./Client_Cards";
-
+import Navbar from "../Navbar/Navbar";
+import SideNav from "../SideNav/SideNav";
+import News_Container from "./News_Container";
 
 const Client = () =>  {
 
     return (
+      
+      <>
+      <Navbar/>
      <div className="clienthome-content">
-        <div className="clienthome-sidebar">
-                <div className="clienthome-sidebar-header">
-                  <div className="clienthome-logo">
-                    <img src="/pics/logo4.png" alt="Logo" />
-                  </div>
-                </div>
-                <div className="clienthome-sidebar-contents" id="homes">
-                <Link to="/home"><h2>Home</h2> </Link> 
-                </div>
-                <div className="clienthome-sidebar-contents" id="bookings">
-                  <Link to="/bookings"><h2>Bookings</h2></Link>
-                </div>
-                <div className="clienthome-sidebar-contents" id="chats">
-                  <h2>Chat</h2>
-                </div>
-                <div className="clienthome-sidebar-contents" id="feeds">
-                  <h2>Feed</h2>
-                </div>
-                <div className="clienthome-sidebar-contents"  id="clienthome">
-                <Link to="/client"><h2>Client Home (preview)</h2></Link>
-                </div>
+     <SideNav
+      picture="/pics/user.png"
+      name="Benson Javier"
+      number="0912 345 6789"
+      class="Client"
+    />
+       <div className="clienthome-container"> 
+           <div className="clienthome-header mb-3">
+                <h3>News</h3>
+                     <div className="news-row">
+              
+                            <News_Container 
+                            news=""
+                            />
+
+                            <News_Container 
+                            news=""
+                            />
+
+                            <News_Container 
+                            news="" 
+                            />
+
+                            <News_Container 
+                            news=""
+                            />
+
+                       </div>    
+             </div>
+
+          <div className="client-seach-content">
+             <h4>Services</h4>
+             <div className="client-search-bar">
+                  <span>Search</span>
+                  <span> <i class="fa-solid fa-magnifying-glass"></i></span> 
               </div>
-        
-              <div className="container"> 
-                  
-                {/* profile button */}
-                <Menu_Profile/>
 
-                  <div className="clienthome-container">
-                    <h1>Services</h1>
-                        <div className="clienthome-search">
-                            <span>Search</span> <img src="/pics/search.png" alt="" />
-                        </div>
-                        <input type="text" className="clienthome-searchbar" />
-
-                      <div className="clienthome-services">
-
-                        {/*card 1*/}
-                        <Client_Cards 
-                            picture="pics/spray.png"
-                            name="Cleaning"
-                            />
-
-                         {/*card 2*/}
-                         <Client_Cards
-                            picture="pics/haircare.png"
-                            name="Hair Care"
-                            />
-                           
-
-                         {/*card 3*/}
-                         <Client_Cards
-                            picture="pics/beauty.png"
-                            name="Beauty"
-                            />
-
-                        {/*card 4*/}
-                        <Client_Cards
-                            picture="pics/aircon.png"
-                            name="Aircon"
-                            />
-                        {/*card 5*/}
-                           <Client_Cards
-                            picture="pics/massage.png"
-                            name="Massage"
-                            />
-                      </div>
-
-                  </div>
+              <div className="client-search-input">
+                      <input type="text" />
+                </div>
+           </div>
 
 
+        <div className="client-services">
+            <Client_Cards 
+            picture="/pics/spray.png"
+            name="Cleaning"
+            />
+
+            <Client_Cards 
+            picture="/pics/haircare.png"
+            name="Hair Care"
+            />
+
+            <Client_Cards 
+            picture="/pics/beauty.png"
+            name="Beauty"
+            />
+
+            <Client_Cards 
+            picture="/pics/aircon.png"
+            name="Aircon"
+            />
+
+          <Client_Cards 
+            picture="/pics/massage.png"
+            name="Massage"
+            />
+
+        </div>
 
 
-
-                </div> 
+       </div> 
 
          </div>   
 
-                
+         </>    
     )
 
 }

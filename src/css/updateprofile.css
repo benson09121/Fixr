@@ -1,0 +1,118 @@
+.update-content {
+    display: flex; 
+     flex-wrap: wrap;
+     background-color: #4596cb;
+     height: 101vh;
+ }
+ 
+ .update-back-button {
+    margin: 20px 110px 0px 50px;
+ }
+
+ .update-back-button button{
+   background-color: red;
+ }
+
+ .update-back-button i{
+    font-size: 40px;
+    transform: scale(-1, 1);
+    cursor: pointer;
+ }
+
+ .update-profile-picture {
+     margin: 40px;
+ }
+ .update-profile-picture img{
+    width: 225px;
+ }
+ 
+ .update-content-forms {
+     display: flex;
+     flex-direction: column;
+     width: 45%;
+ }
+ 
+ .update-content-forms h1 {
+     text-align: center;
+     font-size: 40px;
+ }
+ 
+ 
+ .update-forms{
+     display: flex;
+     flex-direction: column;
+     margin-top: 20px;
+ }
+ 
+label{
+     font-size: 17px;
+     margin-left: 4%;
+     margin-bottom: 8px;
+     color: #d1c8cc;
+ }
+ 
+ .input-form {
+     height: 40px;
+     border-radius: 40px;
+     border-color: transparent;
+     padding: 0px 15px;
+     font-size: 18px;
+ }
+ 
+ .update-buttons {
+     margin-top: 20px;
+     display: flex;
+     justify-content: space-evenly;
+ }
+ 
+ .update-buttons button{
+     border-color: transparent;
+     width: 40%;
+     height: 40px;
+     font-size: 20px;
+     border-radius: 40px;
+ }
+ 
+ .update-save-btn {
+     background-color: black;
+     color: white;
+ }
+ 
+ .update-changepass-btn {
+     background-color: #4796c8;
+     color: black;
+ }
+ 
+ .update-change-password {
+     display: flex;
+     flex-direction: column;
+     margin-top: 10px;
+ }
+ 
+ .update-change-password h2{
+     text-align: center;
+ }
+ 
+.update-profile-fields {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.update-profile-fields label{
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.update-profile-fields input{
+    margin-left: 40px;
+    width: 80%;
+    border-radius: 30px;
+    height: 35px;
+    border-color: transparent;
+    padding: 0px 10px
+}
+
+.eye {
+    margin-left: 10px;
+}

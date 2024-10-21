@@ -1,0 +1,120 @@
+:root {
+    --main-bg: #4596cb;
+}
+
+.admin-right-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    background-color: #4596cb;
+    border-radius: 20px;
+    border: solid 1px;
+    padding: 10px;
+}
+
+.manage-user-header {
+    display: flex;
+}
+
+.manage-user-searchbar  {
+  display: flex;
+  align-items: center;
+}
+
+.manage-user-searchbar i {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    padding: 5px;
+    margin-right: 5px;
+   
+}
+
+.manage-user-searchbar input {
+   height: 25px;
+   border-radius: 5px;
+   border-color: transparent;
+   border: solid 1px;
+   margin-right: 5px;
+}
+
+.manage-user-center {
+    max-height: 650px;
+    overflow-y: scroll;
+}
+
+.manage-user-center::-webkit-scrollbar {
+    width: 10px;
+    height: auto;
+    border: solid 1px;
+    background-color: var(--main-bg);
+}
+
+.manage-user-center::-webkit-scrollbar-thumb {
+    border: solid 1px;
+    background-color: white;
+}
+
+.manage-user-center table {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.manage-user-center table th {
+    width: 17%;
+    border: solid 1px;
+    text-align: center;
+}
+
+tr td {
+    text-align: center;
+    border: solid 1px;
+    padding: 15px 10px;
+    min-height: 1.7%;
+}
+
+td img {
+    width: 25px;
+    margin-right: 5px;
+}
+
+.manageuser-btn {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.manageuser-btn button{
+    width: 80px;
+    font-size: 12px;
+    text-align: center;
+    border-color: transparent;
+}
+
+.manageuser-edit{
+  background-color: black;
+  color: white;
+}
+
+.manage-user-footer {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    font-weight: bolder;
+    justify-content: space-between;
+}
+
+.manage-user-totalrows button {
+    background-color: transparent;
+    border-radius: 5px;
+    border-color: transparent;
+    border: solid 1px;
+    margin: 5px;
+    font-weight: bolder;
+}
+
+.manage-user-totalrows span{
+    margin: 5px;
+}

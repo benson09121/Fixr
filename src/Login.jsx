@@ -8,7 +8,10 @@ function Login() {
 
     
   return (
+    <>
+   
    <div className="login-background">
+
     <div className='content' >
     <div className="login-container mt-5" >
       <div>
@@ -46,6 +49,7 @@ function Login() {
     </div>
 
     </div>
+    </>
   );
 }
 

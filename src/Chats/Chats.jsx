@@ -70,7 +70,12 @@ export default function Chat() {
 <Navbar />
     <div className="app">
       
-      <SideNav />
+    <SideNav
+      picture="/pics/user.png"
+      name="Benson Javier"
+      number="0912 345 6789"
+      class="Worker"
+    />
       <div className="chat-container">
 
       
