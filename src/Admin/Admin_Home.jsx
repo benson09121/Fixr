@@ -94,12 +94,13 @@ export default function Admin_Home() {
                             picture="/pics/aircon.png" 
                             name="Aircon" 
                             />
-
+                            
                             <Admin_Cards 
                             picture="/pics/massage.png" 
                             name="Massage" 
                             />
-                            
+
+
                             <Admin_Cards 
                                 picture="/pics/add.png" 
                                 name="Add Service" 

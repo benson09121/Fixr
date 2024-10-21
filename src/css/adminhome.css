@@ -106,18 +106,33 @@
     display: flex;
     height: px;
     width: 100%;
- 
+    
 }
 
 .admin-service-card{
-    background-color: var(--main-bg);
+   background-color: var(--main-bg);
    display: flex;
-    width: 90%;
+   max-width: 1050px;
+   width: 90%;
    align-items: center;
    border: solid 1px;
    border-radius: 20px;
    margin-right: 10px;
+   overflow-x: scroll;
  }
+
+ .admin-service-card::-webkit-scrollbar {
+  height: 10px;
+  background-color: var(--main-bg);
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+ }
+
+.admin-service-card::-webkit-scrollbar-thumb {
+        border: solid 1px;
+        background-color: white;
+        
+}
 
 .admin-service-card img {
    width: 40px;
@@ -127,6 +142,7 @@
 .admin-card {
     display: flex;
     width: 15%;
+    min-width: 150px;
     border: solid 1px;
     justify-content: center;
     padding: 10px;
