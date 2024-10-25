@@ -12,6 +12,7 @@ import Admin_Home from './Admin/Admin_Home';
 import Admin_ManageUser from './Admin/Admin_ManageUser';
 import Test from './Home/Test';
 import About_Us from './About_Us/About_Us';
+import Service_Booking from './Service_Booking/Service_Booking';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/manageuser" element={<Admin_ManageUser/>} />
         <Route path="/test" element={<Test/>} />
         <Route path="/aboutus" element={<About_Us/>} />
+        <Route path="/servicebooking" element={<Service_Booking/>} />
       </Routes>
     </Router>
   );

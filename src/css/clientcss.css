@@ -51,6 +51,11 @@
     margin: 10;
 }
 
+.clienthome-card a{
+   text-decoration: none;
+    color: inherit
+}
+
 .clienthome-service-info {
     display: flex;
     flex-direction: column;
