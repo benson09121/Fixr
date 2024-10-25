@@ -1,0 +1,180 @@
+.servicebooking-container {
+    background-image: url(../pics/servicebg.png);
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw; 
+    display: flex;
+    z-index: 1;
+}
+
+.servicebooking-left {
+    display: flex;
+    flex-direction: column;
+    width: 28%;
+    z-index: 1;
+    justify-content: space-between;
+}
+.servicebooking-header {
+    display: flex;
+    flex-direction: row;
+}
+
+.servicebooking-logo {
+   display: flex;
+   margin-bottom: 10%;
+   margin-left: 5%;
+}
+.servicebooking-logo img {
+    width: 40%;
+    height: 80%;
+    margin-left: 2%;
+    margin-top: 1%;
+    margin-right: 30%;
+}
+
+.servicebooking-back {
+    width: 6vw;
+    height: 12vh;
+    background-image:
+      linear-gradient(to bottom right, transparent 50%, transparent 0),
+      linear-gradient(to top right, transparent 50%, transparent 0);
+    background-size: 50% 100%;
+    background-repeat: no-repeat;
+    background-position: left, right;
+    position: relative;
+}
+
+.servicebooking-back span {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2vw;
+    color: #fff; 
+    text-transform: uppercase; 
+  }
+
+.servicebooking-location {
+    position: absolute;
+    top: 30%;
+    left: 2%;
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+
+.servicebooking-location span {
+    font-size: 1.5vw;
+    font-weight: bold;
+}
+
+.servicebooking-location input {
+    height: 5vh;
+    border-radius: 3%;
+    border: none;
+    margin-bottom: 2%;
+}
+
+.servicebooking-location button {
+    align-self: center;
+    padding: 2% 10%;
+    height: 5vh;
+    font-size: 1.1vw;
+    border: none;
+}
+
+.servicebooking-worker {
+    width: 100%;
+    margin-bottom: 5%;
+}
+
+.servicebooking-profile {
+    display: flex;
+}
+
+.servicebooking-profile-class {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+}
+
+.servicebooking-profile-class span{
+    font-size: 1vw;
+}
+
+.servicebooking-profile img {
+    width: 50%;
+}
+
+.servicebooking-profile-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.servicebooking-profile-header {
+    font-size: 1.4vw;
+}
+
+
+.servicebooking-number, 
+.servicebooking-address {
+    font-size: .8vw;
+}
+
+.servicebooking-button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.servicebooking-button button{
+    padding: 1% 5%;
+    font-size: 1.1vw;
+    border: none;
+    border-radius: 15%;
+    margin-left: 5%;
+}
+
+.servicebooking-center {
+    width: 20%;
+    height: 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10%;
+}
+
+.servicebooking-center button{
+    width: 60%;
+    height: 15%;
+    font-size: 1.1vw;
+}
+
+.getlocation-btn {
+    background-color: #00afe8;
+    border-radius: 15%;
+    border: none;
+    color: white;
+}
+
+.closemap-btn {
+    background-color: #e80800;
+    border-radius: 15%;
+    border: none;
+    color: white;
+    font-size: 1.1vw;
+}
+
+.service-map-content {
+    margin-top: 2%;
+    margin-right: 2%;
+}
+
+.servicebooking-right {
+    width: 52%;
+    height: 100%; 
+    position: relative;
+}
