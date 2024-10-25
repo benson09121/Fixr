@@ -8,10 +8,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-
 use Firebase\JWT\JWT;
-use Firebase\JWT\ExpiredException;
-use Firebase\JWT\Key;
 
 $env = parse_ini_file('../../.env');
 
@@ -72,9 +69,6 @@ if ($method == "POST") {
         echo json_encode($data);
         exit();
     }
-
-
-    
 
 } else {
     header('HTTP/1.0 405 Method Not Allowed');

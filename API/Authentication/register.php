@@ -34,7 +34,7 @@ $l_name = $data['l_name'] ?? null;
 $email = $data['email'] ?? null;
 $password = $data['password'] ?? null;
 $phone = $data['phone'] ?? null;
-$account_type = "user";
+$account_type = "client";
 
 $sql = "SELECT * FROM tbl_accounts WHERE email = ?";
 $stmt = $conn->prepare($sql);

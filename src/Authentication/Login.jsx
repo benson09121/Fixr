@@ -40,14 +40,10 @@ function onHandleSubmit(e) {
     email: e.target.email.value,
     password: e.target.password.value,
   };
-  axios
-  .post("http://localhost/FIXR/API/Authentication/login.php", login, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  axios.post("http://localhost/FIXR/API/Authentication/login.php", login)
   .then((res) => {
-    if(res.status === 200){
+    console.log(res);
+    if(res.data.status === 200){
       const token = jwtDecode(res.data.data);
       if(token.user_id == null && token.account_type == null){
         alert('Wrong Output!');
@@ -61,9 +57,8 @@ function onHandleSubmit(e) {
         navigate("/client/home");
       }
       
-    }
-  
-  })
+    } 
+})
   .catch((err) => {
     if (err.response.status === 401) {
       alert("Invalid Email or Password");

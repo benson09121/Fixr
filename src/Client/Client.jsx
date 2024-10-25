@@ -1,12 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/clientcss.css";
 import Client_Cards from "./Client_Cards";
 import Navbar from "../Navbar/Navbar";
 import SideNav from "../SideNav/SideNav";
 import News_Container from "./News_Container";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
 
+
 const Client = () =>  {
+
+
+  const [cookies] = useCookies(["account_token"]);
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    phone: "",
+    account: "",
+  });
+  useEffect(() => {
+    const userInfo = jwtDecode(cookies.account_token);
+    axios.post("http://localhost/FIXR/API/Home/getInfo.php", userInfo)
+    .then((response) => {
+      setUserInfo({
+        name: response.data.data.name,
+        phone: response.data.data.phone,
+        account: response.data.data.account_type,
+      });
+    });
+  }, [cookies.account_token]);
 
     return (
       
@@ -15,9 +38,9 @@ const Client = () =>  {
      <div className="clienthome-content">
      <SideNav
       picture="/pics/user.png"
-      name="Benson Javier"
-      number="0912 345 6789"
-      class="Client"
+      name={userInfo.name}
+          number={userInfo.phone}
+      class={userInfo.account}
     />
        <div className="clienthome-container"> 
            <div className="clienthome-header mb-3">
