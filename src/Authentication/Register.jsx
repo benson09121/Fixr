@@ -21,7 +21,7 @@ function Register() {
     if (cookies.account_token) {
       const token = jwtDecode(cookies.account_token);
       if(!token.user_id == null && !token.account_type == null){
-        navigate("/home");
+        navigate("/client/home");
       }
     }
   }, []);
@@ -57,7 +57,7 @@ function Register() {
             secure: true,
             sameSite: "strict",
           });
-          navigate("/home");
+          navigate("/client/home");
         }
       
       })
