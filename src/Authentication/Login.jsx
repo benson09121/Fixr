@@ -20,7 +20,7 @@ export default function Login() {
     if (cookies.account_token) {
       const token = jwtDecode(cookies.account_token);
       if(!token.user_id == null && !token.account_type == null){
-        navigate("/home");
+        navigate("/client/home");
       }
     }
   }, []);
@@ -58,7 +58,7 @@ function onHandleSubmit(e) {
           secure: true,
           sameSite: "strict",
         });
-        navigate("/home");
+        navigate("/client/home");
       }
       
     }
@@ -72,6 +72,10 @@ function onHandleSubmit(e) {
       alert("User not found");
     }
   });
+}
+
+function handleRegisterClick(){
+  navigate("/client/register");
 }
 
 
@@ -109,7 +113,7 @@ function onHandleSubmit(e) {
 
       <div className='noaccount'>
         <p>Don't have an Account?</p> 
-        <Link to='register' className='register'>Register Here</Link>
+        <div style={{cursor: "pointer"}} onClick={handleRegisterClick} className='register'>Register Here</div>
       </div>
     </div>
     </div>
