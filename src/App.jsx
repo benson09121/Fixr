@@ -21,6 +21,7 @@ import AdminLogin from "./Admin/AdminLogin";
 import AdminLayout from "./Admin/AdminLayout";
 import AdminDashboard from "./Admin/dashboard/Dashboard";
 import ClientLayout from "./Client/ClientLayout";
+import Service_Booking from './Service_Booking/Service_Booking';
 
 
 function App() {
@@ -41,18 +42,17 @@ function App() {
         </Route>
         {/* Service Provider */}
         <Route path="/home" element={<Home />} />
+        <Route path="/servicebooking" element={<Service_Booking/>} />
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/userloc" element={<Userlocation />} />
         {/* <Route path="/chats" element={<Chats />} /> */}
-        
         <Route path="/adminhome" element={<Admin_Home />} />
-        
-
         <Route path="/admin" element={<Navigate to="/admin/login" />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="login" element={<AdminLogin />} />
           <Route path="dashboard" element={<AdminDashboard />} />
         </Route>
+
       </Routes>
     </Router>
   );

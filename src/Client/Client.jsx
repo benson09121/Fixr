@@ -4,6 +4,7 @@ import Client_Cards from "./Client_Cards";
 import Navbar from "../Navbar/Navbar";
 import SideNav from "../SideNav/SideNav";
 import News_Container from "./News_Container";
+import { Link } from "react-router-dom";
 
 const Client = () =>  {
 
@@ -22,7 +23,7 @@ const Client = () =>  {
            <div className="clienthome-header mb-3">
                 <h3>News</h3>
                      <div className="news-row">
-              
+
                             <News_Container 
                             news=""
                             />
@@ -56,6 +57,8 @@ const Client = () =>  {
 
 
         <div className="client-services">
+         
+         <Link></Link>
             <Client_Cards 
             picture="/pics/spray.png"
             name="Cleaning"
