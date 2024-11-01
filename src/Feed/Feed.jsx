@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import "../css/feed.css";
 import { Link } from "react-router-dom";
 import Menu_Profile from "../Profile_Menu/Menu_Profile";
-import SideNav from "../SideNav/SideNav";
+import Feed_Sidenav from "../SideNav/Feed_Sidenav";
 import Navbar from "../Navbar/Navbar";
 import FeedNotif from "./FeedNotif";
 
 function Feed() {
+ 
     return(
         <>
         <Navbar/>
         <div className="feed-content" style={{backgroundColor:"white"}}>
-        <SideNav
+        <Feed_Sidenav
       picture="/pics/user.png"
       name="Benson Javier"
       number="0912 345 6789"
@@ -51,7 +52,8 @@ function Feed() {
     
     </div>
     
-        </div>
+       
+ </div>
         </>
     )
     

@@ -1,5 +1,7 @@
+
+
 .sidenav {
-    background-color: #4596cb;
+    background-color: #00afe8;
     min-height: 660px;
     height: auto;
     width: 280px;
@@ -14,12 +16,12 @@
 .sidenav-header-profile{
     display: flex;
     flex-direction: column;
+    margin-top: 15px;
+    margin-left: 15px;
    
 }
 
 .sidenav-header-profile img {
-    margin-top: 5px;
-    margin-left: 5px;
     width: 70px;
 }
 
@@ -31,14 +33,16 @@
     text-align: center;
     border-radius: 50px;
     margin-top: 5px;
-    font-weight: bolder;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
 }
 
 .sidenav-header-details {
     display: flex;
     flex-direction: column;
-    font-weight: bolder;
-    margin-top: 5px;
+    margin-top: 15px;
+    margin-left: 5px;
 }
 
 .sidenav-header-details img {
@@ -49,6 +53,9 @@
 .sidenav-header-details .sidenav-name {
     font-size: 22px;
     margin-left: 10px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
 }
 
 .sidenav-header-details .sidenav-number {
@@ -59,6 +66,7 @@
 
 .sidenav-header-details img {
    cursor: pointer;
+   margin-left: 10px;
 }
 .sidenav-header-details .status-dropdown {
     margin-left: 8px;
@@ -68,14 +76,50 @@
     font-size: 11px;
     font-weight: bolder;
     cursor: pointer;
+    background-color: transparent;
+   
 }
 
 .sidenav-content {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
+    height: 100%;
+
+  }
+
+.sidenav-worker-content {
+    overflow-y: scroll;
+     height: 175px;
+     
+  }
+
+  .sidenav-container {
+    margin-top: 10px;
+    height: 100%;
+  }
+
+  .sidenav-worker-content h5 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  .sidenav-worker-content::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .sidenav-worker-content::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 10px;
   }
   
+  .workers-text {
+        position: sticky;
+        top: 0;
+        background-color: #00afe8;
+        width: 100%;
+  }
 
 .sidenav-content h5 {
     margin-left: 10px;
@@ -85,11 +129,11 @@
 .sidenav-workers {
     display: flex;
   margin-left: 20px;
-  margin-bottom: 2px;
+  margin-bottom: 10px;
 }
 
 .sidenav-workers img {
-    width: 25px;
+    width: 35px;
 }
 
 .workers-details {
@@ -97,9 +141,12 @@
     flex-direction: column;
 }
 .workers-profile {
-    font-size: 10px;
     display: flex;
     margin-left: 10px;
+}
+
+.workers-profile span {
+     font-size: 12px;
 }
 
 .worker-name, 
@@ -129,9 +176,45 @@
 }
 
 .sidenav-notif {
-   
-    margin-top: 10px;
-    padding-bottom: 10px;
+    background-color: #4596cb;
+    height: 180px;
+    overflow-y: scroll;
+}
+
+
+.worker-sidenav-notif {
+    background-color: #4596cb;
+    height: 380px;
+    overflow-y: scroll;
+}
+
+.sidenav-notif h5 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.sidenav-notif::-webkit-scrollbar {
+    width: 3px;
+}
+
+.sidenav-notif::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.worker-sidenav-notif::-webkit-scrollbar {
+    width: 3px;
+}
+
+.worker-sidenav-notif::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 10px;
+}
+.notification-text {
+    position: sticky;
+    top: 0;
+    background-color: #4596cb;
 }
 
 .sidenav-notif-content {
@@ -141,7 +224,7 @@
 }
 
 .sidenav-notif-content img{
-    width: 25px;
+    width: 35px;
     object-fit:contain;
 }
 
@@ -153,8 +236,23 @@
     font-weight: bolder;
 }
 
-.sidenav-footer {
 
+.notif-name {
+ font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 12px;
+}
+
+
+.notif-message {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.sidenav-footer{
+    height: auto;
 }
 
 .sidenav-footer-content{
@@ -170,7 +268,7 @@
 }
 
 .sidenav-footer-content:hover{
-   background-color: #336c92;
+   background-color: #608caa;
    border-bottom-right-radius: 10px;
    border-bottom-left-radius: 10px;
 }
