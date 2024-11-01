@@ -10,7 +10,7 @@ import Home from "./Home/Home";
 import Bookings from "./Bookings/Bookings";
 import Client from "./Client/Client";
 import Userlocation from "./Userlocation";
-// import Chats from "./Chats/Chats";
+ import Chats from "./Chats/Chats";
 import Feed from "./Feed/Feed";
 import Update_Profile from "./Update_Profile/Update_Profile";
 import Admin_Home from "./Admin/Admin_Home";
@@ -39,13 +39,13 @@ function App() {
           <Route path="feed" element={<Feed />} />
           <Route path="profile" element={<Update_Profile />} />
           <Route path="aboutus" element={<About_Us />} />
+          <Route path="chats" element={<Chats />} />
         </Route>
         {/* Service Provider */}
         <Route path="/home" element={<Home />} />
         <Route path="/servicebooking" element={<Service_Booking/>} />
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/userloc" element={<Userlocation />} />
-        {/* <Route path="/chats" element={<Chats />} /> */}
         <Route path="/adminhome" element={<Admin_Home />} />
         <Route path="/admin" element={<Navigate to="/admin/login" />} />
         <Route path="/admin" element={<AdminLayout />}>
