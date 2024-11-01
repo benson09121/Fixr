@@ -4,11 +4,11 @@ import UsersChart from "./component/UsersChart";
 import ServiceRequestChart from "./component/ServiceRequestChart";
 import ServiceList from "./component/ServiceList";
 
-export default function DashboardComponent({ Skeleton }) {
+export default function DashboardComponent({ Skeleton, users}) {
   return (
     <>
       <Grid container spacing={1}>
-        <UsersChart Skeleton={Skeleton} />
+        <UsersChart Skeleton={Skeleton} users={users} />
         <Grid size={4}>
           <ServiceRequestChart Skeleton={Skeleton} />
           <ServiceList Skeleton={Skeleton} />

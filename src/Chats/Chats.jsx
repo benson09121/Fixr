@@ -68,35 +68,33 @@ export default function Chat() {
   return (
 <>
 <Navbar />
-    <div className="app">
+    <div className="customApp">
       
     <SideNav
       picture="/pics/user.png"
       name="Benson Javier"
       number="0912 345 6789"
-      class="Worker"
+      class="customWorker"
     />
-      <div className="chat-container">
+      <div className="customChatContainer">
 
       
         <header>
-          <h2 className="serv-chat">Chat</h2>
-          <h2 className="serv-name">Service Name</h2>
-          <h2 className="serv-add">Barangay Name, Cavite City</h2>
-          <div className="profile">
-          <img src="..\pics\profile.png" alt="Profile Icon" className="profile-icon" />
-            <div className="status-indicator">
-              <span className="status-online"></span> Online 
+          <h2 className="customServChat">Chat</h2>
+          <h2 className="customServName">Service Name</h2>
+          <h2 className="customServAdd">Barangay Name, Cavite City</h2>
+          <div className="customProfile">
+          <img src="..\pics\profile.png" alt="Profile Icon" className="customProfileIcon" />
+            <div className="customStatusIndicator">
+              <span className="customStatusOnline"></span> Online 
             </div>
-            <FaEllipsisV className="options-icon" /> 
+            <FaEllipsisV className="customOptionsIcon" /> 
           </div>
         </header>
 
-       
-
-        <div className="chat-layout">
-          <div className="chat-history">
-            <div className="search">
+        <div className="customChatLayout">
+          <div className="customChatHistory">
+            <div className="customSearch">
               <input
                 type="text"
                 placeholder="Search chat history..."
@@ -104,15 +102,15 @@ export default function Chat() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <div className="history-list">
+            <div className="customHistoryList">
               {filteredChatHistory.length > 0 ? (
                 filteredChatHistory.map((chat) => (
-                  <div key={chat.id} className="chat-item">
-                    <FaUserCircle className="avatar-icon" />
-                    <div className="chat-details">
-                      <div className="chat-header">
-                        <div className="service-name">{chat.service}</div>
-                        <div className="time">{chat.time}</div> 
+                  <div key={chat.id} className="customChatItem">
+                    <FaUserCircle className="customAvatarIcon" />
+                    <div className="customChatDetails">
+                      <div className="customChatHeader">
+                        <div className="customServiceName">{chat.service}</div>
+                        <div className="customTime">{chat.time}</div> 
                       </div>
                       <p>{chat.message}</p>
                     </div>
@@ -124,26 +122,24 @@ export default function Chat() {
             </div>
           </div>
 
-          
-          <div className="booking-chat">
-            <div className="chat-display">
+          <div className="customBookingChat">
+            <div className="customChatDisplay">
               {bookingChat.map((chat) => (
                 <div
                   key={chat.id}
-                  className={`chat-message ${
-                    chat.service === "You" ? "client" : "provider"
+                  className={`customChatMessage ${
+                    chat.service === "You" ? "customClient" : "customProvider"
                   }`}
                 >
-                  <div className="service-name">{chat.service}</div>
+                  <div className="customServiceName">{chat.service}</div>
                   <p>{chat.message}</p>
                 </div>
               ))} 
             </div>
 
-          
-            <div className="message-input">
-              <FiPlus className="icon" />
-              <AiOutlinePicture className="icon" />
+            <div className="customMessageInput">
+              <FiPlus className="customIcon" />
+              <AiOutlinePicture className="customIcon" />
               <input
                 type="text"
                 placeholder="Type your message here..."

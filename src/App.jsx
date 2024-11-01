@@ -38,13 +38,13 @@ function App() {
           <Route path="home" element={<Client />} />
           <Route path="profile" element={<Update_Profile />} />
           <Route path="aboutus" element={<About_Us />} />
+          <Route path="chats" element={<Chats />} />
         </Route>
         {/* Service Provider */}
         <Route path="/home" element={<Home />} />
         <Route path="/servicebooking" element={<Service_Booking/>} />
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/userloc" element={<Userlocation />} />
-        <Route path="/chats" element={<Chats />} />
         <Route path="/adminhome" element={<Admin_Home />} />
         <Route path="/feed" element={<Feed />} />
         <Route path="/admin" element={<Navigate to="/admin/login" />} />
