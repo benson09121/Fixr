@@ -7,7 +7,7 @@ export default function SideNav() {
         <div className="navbar">
                 <div className="navbar-content">
                         <div className="navbar-logo">
-                          <Link to="/home">  <img src="/pics/logo4.png" alt="" /></Link>
+                          <Link to="/home">  <img src="/pics/fixrlogo.png" alt="" /></Link>
                         </div>
                             <div className="navbar-types">
                                 <ul>

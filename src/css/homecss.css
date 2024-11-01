@@ -12,6 +12,7 @@ body::-webkit-scrollbar {
 
 .home-container {
     width: 78%;
+    
 }
 
 .card-sets {
@@ -19,13 +20,16 @@ body::-webkit-scrollbar {
     flex-wrap: wrap;
     justify-content: space-around;
     margin-top: 50px;
-    margin-bottom: 80px;
+    margin-bottom: 100px;
+   
 }
 
 
 .card {
     width: 310px;
     margin-right: 20px;
+    margin-bottom: 20px;
+    
 }
 
 .card-header {
@@ -263,10 +267,10 @@ body::-webkit-scrollbar {
 }
 
 .home-appointment {
-    background-color: #4795ca;
+    background-color: #00afe8;
     height: 50px;
     text-align: center;
-    margin: 20px 50px;
+    margin:  0px 50px;
     border-radius: 50px;
     cursor: pointer;
 }
@@ -275,13 +279,14 @@ body::-webkit-scrollbar {
         margin-top: 13px;
         font-weight: bolder;
         cursor: pointer;
+        color: white;
 }
 
 .appointment-cards {
     display: flex;
-    background-color: rgb(209, 208, 208);
-    top: 4%;
-    right: 8%;
+    background-color: white;
+    top: 0;
+    right: 15%;
     width: 900px;
     height: auto;
     position: absolute;
@@ -289,18 +294,19 @@ body::-webkit-scrollbar {
     margin-top: 4rem;
     border-radius: 20px;
     border: solid 1px;
+    translate: (-50%, -50%);
     animation: fadein 0.5s forwards;
   }
  
   @keyframes fadein {
    0% {
-        transform: scale(0.1,0.1);
+        transform: scale(0.1);
         height: 0px;
         top: 90%; 
         opacity: 0.1;
     } 
    100%{
-       transform: scale(1,1);
+       transform: scale(1);
         height: 400px;
         top: 4%;
         opacity: 1;
@@ -316,10 +322,12 @@ body::-webkit-scrollbar {
 
 .appointment-card {
     margin: 20px;
-    margin-bottom: 130px;
     height: auto;
-    width: 200px;
+    width: 300px;
     background-color: #92bad4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .appointment-profile {
@@ -328,23 +336,26 @@ body::-webkit-scrollbar {
     flex-direction: column;
     margin: 10px 10px;
     height: 190px;
+  
+ 
 }
 
 .appointment-profile h1{
     margin-top: 2.5px;
-    font-size: 20px;
+    font-size: 1.5rem;
     font-weight: bolder;
 }
 
 
 .appointment-profile img{
-  width: 60px;
+  width: 120px;
 }
 
 .appointment-profile span{
    text-align: center;
    margin: 0px 35px;
-   font-size: 8px;
+   font-size: .7rem;
+   color: #5e7583;
 }
 
 .appointment-btn {
@@ -355,12 +366,14 @@ body::-webkit-scrollbar {
 }
 
 .appointment-btn button {
-    width: 60px ;
+    width: 120px ;
     height: auto;
     font-size: 8px;
     font-weight: bolder;
     color: black;
     border:none;
+    padding: 15px;
+    margin-bottom: 10px;
 }
 
 .appointment-accept {

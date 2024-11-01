@@ -19,9 +19,21 @@
     margin-right: 5%;
 }
 
+.clienthome-header h3 {
+    font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
 .client-search-content {
     display: flex;
     flex-direction: column;
+}
+
+.client-search-content h4{
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
 }
 .client-search-bar {
     display: flex;

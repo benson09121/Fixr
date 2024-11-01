@@ -41,29 +41,9 @@ const Client = () => {
           class={userInfo.account}
         />
         <div className="clienthome-container">
-          <div className="clienthome-header mb-3">
-            <h3>News</h3>
-            <div className="news-row">
-              <News_Container 
-              news="" 
-              />
+      
 
-              <News_Container 
-              news="" 
-              />
-
-              <News_Container 
-              news="" 
-              />
-
-              <News_Container 
-              news="" 
-              />
-
-            </div>
-          </div>
-
-          <div className="client-seach-content">
+          <div className="client-search-content">
             <h4>Services</h4>
             <div className="client-search-bar">
               <span>Search</span>
@@ -75,12 +55,17 @@ const Client = () => {
           </div>
 
           <div className="client-services">
-            {categories.map((category) => (
+
+            {categories.length > 0 ? (
+            categories.map((category) => (
               <Client_Cards 
                 picture="/pics/default.png"
                 name={category}
               />
-            ))}
+            ))
+          ) : (
+            <h3 style={{padding:"10px"}}>No available services.</h3>
+          )}
           </div>
         </div>
       </div>
