@@ -62,5 +62,84 @@
     background-color: #397197;
 }
 
+.feed-service-card {
+    position:absolute;
+    top: 75px;
+    left: 300px;
+    background-color: white;
+    width: 400px;
+    border: solid 1px;
+    height: 200px;
+    border-radius: 20px;
+}
 
+.feed-card-container {
+    margin: 10px 20px;
+}
 
+.feed-card-header {
+    display: flex; 
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    
+}
+
+.feed-card-name {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+   margin-top: 5px;
+}
+.feed-card-details {
+ 
+
+}
+.feed-card-content {
+    display: flex;
+    
+}
+.feed-card-profile {
+    margin-top: 10px;
+}
+.feed-card-profile img {
+    width: 40px;
+}
+
+.feed-card-name .feed-comment {
+    resize: none;
+    height: 75px
+}
+
+.feed-card-name .feed-comment::-webkit-scrollbar {
+    width: 5px;
+}
+
+.feed-card-name .feed-comment::-webkit-scrollbar-thumb {
+    background-color: #4596cb;
+    width: 5px;
+}
+
+.feed-sidenav-notif {
+    background-color: #4596cb;
+    height: 180px;
+    overflow-y: scroll;
+}
+
+.feed-sidenav-notif::-webkit-scrollbar {
+    width: 3px;
+}
+
+.feed-sidenav-notif::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.feed-side-post {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.feed-side-post span{
+    margin-left: 10px;
+}

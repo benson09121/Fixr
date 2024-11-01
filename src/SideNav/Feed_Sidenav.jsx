@@ -8,7 +8,7 @@ import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
 
 
-export default function SideNav(prop) {
+export default function Feed_Sidenav(prop) {
   const [cookies] = useCookies(["account_token"]);
   const [workers, setWorkers] = useState([]); 
 
@@ -77,36 +77,10 @@ export default function SideNav(prop) {
           </div>  
 
           <div className="sidenav-notif">
-            <div className="notification-text">
-            <h5>Notifications:</h5>
-            </div>
-            <SideNav_Notif 
-              profile="../pics/user.png"
-              notif_name="Aisha rated you 3 stars."
-              notif_message='"Thank you so much!"'
-            />
-            <SideNav_Notif 
-              profile="../pics/user.png"
-              notif_name="Rallian messaged you."
-              notif_message='"Hello, how much for your cleaning service?"'
-            />
-            <SideNav_Notif 
-              profile="../pics/user.png"
-              notif_name="Thea rated you 1 star."
-              notif_message='"Ampangit ng lasa nung milktea"'
-            />
-
-<SideNav_Notif 
-              profile="../pics/user.png"
-              notif_name="Thea rated you 1 star."
-              notif_message='"Ampangit ng lasa nung milktea"'
-            />
-
-<SideNav_Notif 
-              profile="../pics/user.png"
-              notif_name="Thea rated you 1 star."
-              notif_message='"Ampangit ng lasa nung milktea"'
-            />
+                <div className="feed-side-post">
+                <i className="fa-solid fa-magnifying-glass"></i>
+                     <span>Post</span>
+                </div>
           </div>
 
           <div className="sidenav-footer">

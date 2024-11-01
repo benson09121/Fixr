@@ -19,7 +19,7 @@ export default function Appointment() {
             <div className="appointment-content" >
                     <div className="appointment-card">
                           <div className="appointment-profile">
-                                <img src="pics/man.png" alt="" />
+                                <img src="pics/user.png" alt="" />
                                 <h1>Harry Potter</h1>
                                 <span>123 Maple Street, Bayan, Dasmariñas, Cavite City</span>
 
@@ -32,7 +32,7 @@ export default function Appointment() {
 
                     <div className="appointment-card">
                           <div className="appointment-profile">
-                                <img src="pics/man.png" alt="" />
+                                <img src="pics/user.png" alt="" />
                                 <h1>Harry Potter</h1>
                                 <span>123 Maple Street, Bayan, Dasmariñas, Cavite City</span>
 

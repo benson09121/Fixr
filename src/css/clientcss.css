@@ -19,9 +19,21 @@
     margin-right: 5%;
 }
 
+.clienthome-header h3 {
+    font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
 .client-search-content {
     display: flex;
     flex-direction: column;
+}
+
+.client-search-content h4{
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
 }
 .client-search-bar {
     display: flex;
@@ -48,7 +60,7 @@
     height: 55%;
     background-color: #8cbfde;
     border-radius: 20px;
-    margin: 10;
+    margin: 10px;
 }
 
 .clienthome-card a{
@@ -62,6 +74,7 @@
     align-items: center;
     font-size: 18px;
     font-weight: bolder;
+    height: 130px;
 }
 
 .clienthome-service-info img {
@@ -75,11 +88,12 @@
 
 .client-services {
     display: flex;
+    flex-wrap: wrap;
     margin-top: 40px;
-    height: 250px;
+    height: auto;
     width: 100%;
     border: solid 1px;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
-
+    
 }

@@ -3,28 +3,46 @@ import "../css/homecss.css";
 import { Link } from "react-router-dom";
 import Menu_Profile from "../Profile_Menu/Menu_Profile";
 import Message from "./Message";
-import SideNav from "../SideNav/SideNav";
+import Worker_SideNav from "../SideNav/Worker_Sidenav";
 import Navbar from "../Navbar/Navbar";
 import Appointment from "../Profile_Menu/Appointment";
-
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import { jwtDecode } from "jwt-decode";
 
 
 const Home = () => {
+  const [cookies] = useCookies(["account_token"]);
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    phone: "",
+    account: "",
+  });
 
-
+  useEffect(() => {
+    const userInfo = jwtDecode(cookies.account_token);
+    axios.post("http://localhost/FIXR/API/Home/getInfo.php", userInfo)
+      .then((response) => {
+        setUserInfo({
+          name: response.data.data.userInfo.name,
+          phone: response.data.data.userInfo.phone,
+          account: response.data.data.userInfo.account_type,
+        });
+        setCategories(response.data.data.categories); 
+      });
+  }, [cookies.account_token]);
 
   return (
     <>
     <Navbar/>
    
     <div className="home-content">
-
-    <SideNav
-      picture="/pics/user.png"
-      name="Benson Javier"
-      number="0912 345 6789"
-      class="Worker"
-    />
+    <Worker_SideNav
+          picture="/pics/user.png"
+          name={userInfo.name}
+          number={userInfo.phone}
+          class={userInfo.account}
+        />
       <div className="home-container">
       
 

@@ -61,7 +61,7 @@ export default function Service_Booking() {
         <div className="servicebooking-left">
           <div className="servicebooking-logo">
             <img src="../pics/logo4.png" alt="" />
-            <Link to='/client'>
+            <Link to='/client/home'>
               <div className="servicebooking-back"> 
                 <span>back</span>
               </div>

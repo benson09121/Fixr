@@ -1,33 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../css/sidenav.css";
-import SideNav_Workers from "./SideNav_Workers";
 import SideNav_Notif from "./SideNav_Notif";
-import axios from "axios";
-import { useCookies } from "react-cookie";
-import { jwtDecode } from "jwt-decode";
 
 
-export default function SideNav(prop) {
-  const [cookies] = useCookies(["account_token"]);
-  const [workers, setWorkers] = useState([]); 
 
-  useEffect(() => {
-    const workerInfo = jwtDecode(cookies.account_token);
-
-    axios.post("http://localhost/Fixr/API/Home/getworker.php", workerInfo)
-      .then((response) => {
-        if (response.data && response.data.data) { 
-          setWorkers(response.data.data); 
-        } else {
-          setWorkers([]); 
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching workers:", error);
-        setWorkers([]); 
-      });
-  }, [cookies.account_token]);
+export default function Worker_SideNav(prop) {
+ 
 
   return (
     <>
@@ -55,28 +34,10 @@ export default function SideNav(prop) {
               </select>
             </div>
           </div>
-          <hr />  
+     
 
-          <div className="sidenav-worker-content">
-            <div className="workers-text">
-            <h5>Workers (Online)</h5>
-            </div>
-            {workers.length > 0 ? (
-              workers.map(worker => (
-                <SideNav_Workers
-                  key={worker.user_id}
-                  picture="../pics/user.png"
-                  name={worker.name}
-                  service={worker.CategoryName}
-                  number={worker.phone}
-                />
-              ))
-            ) : (
-              <p>No available workers online.</p> 
-            )}
-          </div>  
-
-          <div className="sidenav-notif">
+        <div className="sidenav-container">
+          <div className="worker-sidenav-notif">
             <div className="notification-text">
             <h5>Notifications:</h5>
             </div>
@@ -98,11 +59,47 @@ export default function SideNav(prop) {
 
 <SideNav_Notif 
               profile="../pics/user.png"
+              notif_name="Aisha rated you 3 stars."
+              notif_message='"Thank you so much!"'
+            />
+            <SideNav_Notif 
+              profile="../pics/user.png"
+              notif_name="Rallian messaged you."
+              notif_message='"Hello, how much for your cleaning service?"'
+            />
+            <SideNav_Notif 
+              profile="../pics/user.png"
               notif_name="Thea rated you 1 star."
               notif_message='"Ampangit ng lasa nung milktea"'
             />
 
 <SideNav_Notif 
+              profile="../pics/user.png"
+              notif_name="Aisha rated you 3 stars."
+              notif_message='"Thank you so much!"'
+            />
+            <SideNav_Notif 
+              profile="../pics/user.png"
+              notif_name="Rallian messaged you."
+              notif_message='"Hello, how much for your cleaning service?"'
+            />
+            <SideNav_Notif 
+              profile="../pics/user.png"
+              notif_name="Thea rated you 1 star."
+              notif_message='"Ampangit ng lasa nung milktea"'
+            />
+
+            <SideNav_Notif 
+              profile="../pics/user.png"
+              notif_name="Aisha rated you 3 stars."
+              notif_message='"Thank you so much!"'
+            />
+            <SideNav_Notif 
+              profile="../pics/user.png"
+              notif_name="Rallian messaged you."
+              notif_message='"Hello, how much for your cleaning service?"'
+            />
+            <SideNav_Notif 
               profile="../pics/user.png"
               notif_name="Thea rated you 1 star."
               notif_message='"Ampangit ng lasa nung milktea"'
@@ -131,6 +128,7 @@ export default function SideNav(prop) {
               </div>
             </Link> 
           </div>
+      </div>  
         </div>
       </div>
     </>
