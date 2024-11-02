@@ -1,57 +1,62 @@
-import React ,{ useState} from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { useCookies } from "react-cookie";
+import {jwtDecode} from "jwt-decode"; 
+import axios from "axios";  
 
 export default function Appointment() {
+    const [cookies] = useCookies(["account_token"]);
     const [showAppointment, setShowAppointment] = useState(false);
-
-    const toggleAppointment = () => {
-      setShowAppointment(!showAppointment);
-    }
-    return(
-    <>
-    <div>
-    <div className="home-appointment" onClick={toggleAppointment}>
-              <label htmlFor=""><span>2</span> clients are looking for cleaning appointments</label>
-      </div>
-      {showAppointment && (
-     <div className="appointment-cards">
-            <div className="appointment-content" >
-                    <div className="appointment-card">
-                          <div className="appointment-profile">
-                                <img src="pics/user.png" alt="" />
-                                <h1>Harry Potter</h1>
-                                <span>123 Maple Street, Bayan, Dasmariñas, Cavite City</span>
-
-                          </div>
-                          <div className="appointment-btn">
-                        <button className="appointment-accept">Accept</button>
-                        <button className="appointment-reject">Reject</button>
-                       </div>
-                    </div>
-
-                    <div className="appointment-card">
-                          <div className="appointment-profile">
-                                <img src="pics/user.png" alt="" />
-                                <h1>Harry Potter</h1>
-                                <span>123 Maple Street, Bayan, Dasmariñas, Cavite City</span>
-
-                          </div>
-                          <div className="appointment-btn">
-                        <button className="appointment-accept">Accept</button>
-                        <button className="appointment-reject">Reject</button>
-                       </div>
-                    </div>
-                   
-            </div>
-
-            
-    </div>
+    const [appointmentInfo, setAppointmentInfo] = useState([]);
     
-          )}
-    </div>
-    </>
+    const toggleAppointment = () => {
+        setShowAppointment(!showAppointment);
+    };
+    
+    useEffect(() => {
+        const userInfo = jwtDecode(cookies.account_token);
+        axios.post("http://localhost/FIXR/API/Home/getAppointments.php", userInfo)
+            .then((response) => {
+                setAppointmentInfo(response.data.data);
+            })
+            .catch((error) => {
+                console.error("There was an error fetching the appointments!", error);
+            });
+    }, [cookies.account_token]);
 
+    return (
+        <>
+            <div>
+                <div className="home-appointment" onClick={toggleAppointment}>
+                    <label><span>{appointmentInfo.length}</span> clients are looking for cleaning appointments</label>
+                </div>
 
-    )
-};
+                {showAppointment && (
+                  <div className="appointment-cards">
+                        {appointmentInfo.map((appointment, index) => (
+                            <div key={index} className="appointment-item">
+                               <div className="appointment-content">
+                                    <div className="appointment-card">
+                                        <div className="appointment-profile">
+                                        <img src="pics/user.png" alt="User Profile" />
+                                <h1>{appointment.name}</h1>
+                                <span>{appointment.Address.Street}, {appointment.Address.Barangay}, {appointment.Address.Municipality}</span>
+                                <div className="appointment-category">
+                                <h6>Category: {appointment.CategoryName}</h6>
+                                <h6>Description: {appointment.Description}</h6>
+                                </div>
+                                </div>
+                                <div className="appointment-btn">
+                                            <button className="appointment-accept">Accept</button>
+                                            <button className="appointment-reject">Reject</button>
+                                        </div>
+                                      </div>
+                               </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </>
+    );
+}
