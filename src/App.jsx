@@ -10,7 +10,7 @@ import Home from "./Home/Home";
 import Bookings from "./Bookings/Bookings";
 import Client from "./Client/Client";
 import Userlocation from "./Userlocation";
-import Chats from "./Chats/Chats";
+// import Chats from "./Chats/Chats";
 import Feed from "./Feed/Feed";
 import Update_Profile from "./Update_Profile/Update_Profile";
 import Admin_Home from "./Admin/Admin_Home";
@@ -29,7 +29,6 @@ function App() {
     <Router>
       <Routes>
         {/* Authentication */}
-
         <Route path="/" element={<Navigate to="/client/login" />} />
         <Route path="/client" element={<Navigate to="/client/login" />} />
         <Route path="client" element={<ClientLayout />}>
@@ -38,7 +37,7 @@ function App() {
           <Route path="home" element={<Client />} />
           <Route path="profile" element={<Update_Profile />} />
           <Route path="aboutus" element={<About_Us />} />
-          <Route path="chats" element={<Chats />} />
+          {/* <Route path="chats" element={<Chats />} /> */}
         </Route>
         {/* Service Provider */}
         <Route path="/home" element={<Home />} />
