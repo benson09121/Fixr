@@ -7,6 +7,7 @@ import News_Container from "./News_Container";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const Client = () => {
   const [cookies] = useCookies(["account_token"]);
@@ -16,9 +17,16 @@ const Client = () => {
     account: "",
   });
   const [categories, setCategories] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
-    const userInfo = jwtDecode(cookies.account_token);
+    if (cookies.account_token && typeof cookies.account_token === 'string') {
+      try {
+        const decodedToken = jwtDecode(cookies.account_token);
+        if (decodedToken.account_type !== "client") {
+          console.log("Not a client");
+          navigate("/");
+        } else {
+          const userInfo = jwtDecode(cookies.account_token);
     axios.post("http://localhost/FIXR/API/Home/getInfo.php", userInfo)
       .then((response) => {
         setUserInfo({
@@ -28,6 +36,15 @@ const Client = () => {
         });
         setCategories(response.data.data.categories); 
       });
+        }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        navigate("/");
+      }
+    } else {
+      console.log("No valid token found");
+      navigate("/");
+    }
   }, [cookies.account_token]);
 
   return (

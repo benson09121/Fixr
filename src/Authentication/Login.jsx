@@ -9,22 +9,27 @@ import { jwtDecode } from "jwt-decode";
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["token_user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["account_token"]);
   const [Login, setLogin] = useState({
     email: "",
     password: "",
   });
-
+  
   useEffect(() => {
-
-    if (cookies.account_token) {
-      if (jwtDecode(cookies.account_token).account_type == "client") {
-        navigate("/client/home");
-      } else {
+    if (cookies.account_token && typeof cookies.account_token === 'string') {
+      try {
+        const decodedToken = jwtDecode(cookies.account_token);
+        if (decodedToken.account_type === "client") {
+          navigate("/client/home");
+        } else {
+          removeCookie("account_token");
+        }
+      } catch (error) {
+        console.error("Invalid token:", error);
         removeCookie("account_token");
       }
     } else {
-      removeCookie("account_token");
+      console.log("No token found");
     }
   }, []);
 
