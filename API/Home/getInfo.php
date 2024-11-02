@@ -41,6 +41,42 @@ if ($method == "POST") {
     $categorystmt->execute();
     $categories = $categorystmt->fetchAll(PDO::FETCH_COLUMN, 0); 
 
+
+    $workerstmt = $conn->prepare("
+    SELECT
+	tbl_service_category.CategoryName,
+    tbl_booking.BookingDate,
+    tbl_booking.Status
+    FROM tbl_service_request 
+    INNER JOIN
+    tbl_booking
+    ON
+    tbl_booking.request_id = tbl_service_request.request_id
+    INNER JOIN
+    tbl_service_category 
+    ON
+    tbl_service_request.category_id = tbl_service_category.category_id;
+    ");
+    
+    $workerstmt->execute();
+    $workers = $workerstmt->fetchAll(PDO::FETCH_ASSOC);
+    if (!$workers) {
+        header("HTTP/1.0 404 Not Found");
+        echo json_encode([
+            'status' => 404,
+            'message' => 'No Available Workers Found',
+            'debug' => $stmt->errorInfo() 
+        ]);
+        exit();
+    }
+    $workerInfo = array_map(function ($worker) {
+        return [
+            'CategoryName' => $worker['CategoryName'],
+            'BookingDate' => $worker['BookingDate'],
+            'Status' => $worker['Status'],
+        ];
+    }, $workers);
+
     header("HTTP/1.0 200 OK");
     echo json_encode([
         'status' => 200,
@@ -48,8 +84,10 @@ if ($method == "POST") {
         'data' => [
             'userInfo' => $userInfo,
             'categories' => $categories, 
+            'workerInfo' => $workerInfo
         ]
     ]);
+
 } else {
     header('HTTP/1.0 405 Method Not Allowed');
     echo json_encode(['status' => 405, 'message' => 'Invalid Request Method']);
