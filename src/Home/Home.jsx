@@ -13,6 +13,7 @@ import { jwtDecode } from "jwt-decode";
 
 const Home = () => {
   const [cookies] = useCookies(["account_token"]);
+  const [appointmentInfo, setAppointmentInfo] = useState([]);
   const [userInfo, setUserInfo] = useState({
     name: "",
     phone: "",
@@ -28,9 +29,10 @@ const Home = () => {
           phone: response.data.data.userInfo.phone,
           account: response.data.data.userInfo.account_type,
         });
-        setCategories(response.data.data.categories); 
       });
   }, [cookies.account_token]);
+
+  
 
   return (
     <>

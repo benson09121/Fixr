@@ -296,6 +296,7 @@ body::-webkit-scrollbar {
     border: solid 1px;
     translate: (-50%, -50%);
     animation: fadein 0.5s forwards;
+    overflow-x: scroll;
   }
  
   @keyframes fadein {
@@ -330,6 +331,22 @@ body::-webkit-scrollbar {
     justify-content: space-between;
 }
 
+.appointment-category {
+    position: absolute;
+    top: 220px;
+    width: 300px;
+    height: 75px;
+    overflow-y: scroll;
+}
+
+.appointment-category::-webkit-scrollbar {
+    width: 3px;
+}
+.appointment-category::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 10px;
+}
+
 .appointment-profile {
     display: flex;
     align-items: center;
@@ -356,6 +373,12 @@ body::-webkit-scrollbar {
    margin: 0px 35px;
    font-size: .7rem;
    color: #5e7583;
+}
+
+.appointment-card h6 {
+    text-align: center;
+    font-size: .8rem;
+    margin: 10px 0px;
 }
 
 .appointment-btn {

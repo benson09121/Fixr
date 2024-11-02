@@ -45,13 +45,9 @@ if ($method == "POST") {
     $workerstmt = $conn->prepare("
     SELECT
 	tbl_service_category.CategoryName,
-    tbl_booking.BookingDate,
-    tbl_booking.Status
+    tbl_service_request.RequestedDate,
+    tbl_service_request.Status
     FROM tbl_service_request 
-    INNER JOIN
-    tbl_booking
-    ON
-    tbl_booking.request_id = tbl_service_request.request_id
     INNER JOIN
     tbl_service_category 
     ON
@@ -72,7 +68,7 @@ if ($method == "POST") {
     $workerInfo = array_map(function ($worker) {
         return [
             'CategoryName' => $worker['CategoryName'],
-            'BookingDate' => $worker['BookingDate'],
+            'RequestedDate' => $worker['RequestedDate'],
             'Status' => $worker['Status'],
         ];
     }, $workers);
