@@ -6,187 +6,213 @@ import { FiPlus } from "react-icons/fi";
 import { AiOutlinePicture } from "react-icons/ai";
 import SideNav from "../SideNav/SideNav";
 import Navbar from "../Navbar/Navbar";
+import { useCookies } from "react-cookie";
+import {jwtDecode} from "jwt-decode";
+import axios from "axios";
 
 export default function Chat() {
-  const [message, setMessage] = useState("");
+  const [cookies] = useCookies(['account_token']);
+  const [userID, setUserID] = useState();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeConversation, setActiveConversation] = useState(null);
-    const [input, setInput] = useState("");
-    const [ws, setWs] = useState(null);
-  const [chatHistory, setChatHistory] = useState([
-    {
-      id: 1,
-      service: "Prince",
-      message:
-        "Hi! I just booked a cleaning service for tomorrow. Can I confirm if it includes deep cleaning of the carpets?",
-      time: "Sent",
-    },
-    {
-      id: 2,
-      service: "John Doe",
-      message: "You're all set! We'll see you then!",
-      time: "09/02",
-    },
-    {
-      id: 3,
-      service: "Jane Smith",
-      message: "That's it for now, thank you!",
-      time: "09/01",
-    },
-    {
-      id: 4,
-      service: "Lawrence",
-      message: "How can I book?",
-      time: "08/21",
-    },
-  ]);
-
-  const [bookingChat, setBookingChat] = useState([
-    { id: 1, service: "You", message: "Hi, I would like to book a service for next week." },
-    { id: 2, service: "Provider", message: "Sure! What service are you looking for?" },
-    { id: 3, service: "You", message: "I need a cleaning service on Monday." },
-    { id: 4, service: "Provider", message: "Your booking is confirmed for Monday at 10 AM." },
-    { id: 5, service: "You", message: "Great! Thank you!" },
-  ]);
+  const [input, setInput] = useState("");
+  const [ws, setWs] = useState(null);
+  const [chatHistory, setChatHistory] = useState([]); // List of conversations
+  const [bookingChat, setBookingChat] = useState([]); // Messages within a conversation
+  const [otherUserID, setOtherUserID] = useState(null); // Store the other user ID
+  const [selectedUserName, setSelectedUserName] = useState(""); // Store the selected user's name
 
   useEffect(() => {
+    const token = cookies.account_token;
+    console.log(token);
+    if (token) {
+      const decoded = jwtDecode(token);
+      setUserID(decoded.user_id);
+    }
+    console.log(userID);
     // Connect to WebSocket server
     const socket = new WebSocket("ws://localhost:8080");
 
     socket.onopen = () => {
-        console.log("Connected to WebSocket server.");
+      console.log("Connected to WebSocket server.");
     };
 
     socket.onmessage = (event) => {
-        const data = JSON.parse(event.data);
+      const data = JSON.parse(event.data);
 
-        // Check if received data is chat history or a new message
-        if (Array.isArray(data)) {
-            setMessages(data); // Load chat history for the selected conversation
-        } else {
-            setMessages((prevMessages) => [...prevMessages, data]);
-        }
+      // Check if received data is chat history or a new message
+      if (data.type === "chatHistory") {
+        setChatHistory(data.conversations); // Load chat history (list of conversations)
+      } else if (data.type === "messages") {
+        setBookingChat(data.messages); // Load messages for the selected conversation
+      } else {
+        setBookingChat((prevMessages) => [...prevMessages, data]);
+      }
     };
 
     setWs(socket);
 
     return () => {
-        socket.close();
+      socket.close();
     };
-}, []);
+  }, []);
 
-const sendMessage = () => {
-  if (ws && input.trim()) {
-      const message = { sender: "User1", message: input, conversationId: activeConversation };
+  useEffect(() => {
+    // Fetch the list of conversations for the current user
+    const fetchConversations = async () => {
+      try {
+        const response = await axios.get(`http://localhost/FIXR/API/getConversations.php?user_id=${userID}`);
+        setChatHistory(response.data.conversations);
+        console.log(response.data.conversations);
+      } catch (error) {
+        console.error("Error fetching conversations:", error);
+      }
+    };
+
+    if (userID) {
+      fetchConversations();
+    }
+  }, [userID]);
+
+  const checkOrCreateConversation = async (user1_id, user2_id) => {
+    try {
+      const response = await axios.post("http://localhost/FIXR/API/checkOrCreateConversation.php", {
+        user1_id,
+        user2_id
+      });
+      return response.data.conversation_id;
+    } catch (error) {
+      console.error("Error checking or creating conversation:", error);
+    }
+  };
+
+  const sendMessage = async () => {
+    if (ws && input.trim()) {
+      if (!activeConversation) {
+        const conversationId = await checkOrCreateConversation(userID, otherUserID);
+        setActiveConversation(conversationId);
+      }
+      const message = { sender_id: userID, message_text: input, conversation_id: activeConversation };
       ws.send(JSON.stringify(message));
+      setBookingChat((prevMessages) => [...prevMessages, message]);
       setInput("");
-  }
-};
+    }
+  };
 
-const selectConversation = (conversationId) => {
-  setActiveConversation(conversationId);
+  const selectConversation = (conversationId) => {
+    setActiveConversation(conversationId);
 
-  // Hypothetically fetch chat history for the selected conversation
-  if (ws) {
-      ws.send(JSON.stringify({ type: "getHistory", conversationId }));
-  }
-};
+    // Fetch messages for the selected conversation
+    if (ws) {
+      ws.send(JSON.stringify({ type: "getMessages", conversation_id: conversationId }));
+    }
 
-const filteredChatHistory = chatHistory.filter(
-  (chat) =>
-    chat.service.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    chat.message.toLowerCase().includes(searchTerm.toLowerCase())
-);
+    // Determine the other user ID and name in the selected conversation
+    const selectedChat = chatHistory.find(chat => chat.conversation_id === conversationId);
+    if (selectedChat) {
+      const otherUserId = selectedChat.user1_id === userID ? selectedChat.user2_id : selectedChat.user1_id;
+      setOtherUserID(otherUserId);
+      const otherUserName = selectedChat.user1_id === userID ? `${selectedChat.user2_first_name} ${selectedChat.user2_last_name}` : `${selectedChat.user1_first_name} ${selectedChat.user1_last_name}`;
+      setSelectedUserName(otherUserName);
+    }
+  };
+
+  const filteredChatHistory = chatHistory.filter(
+    (chat) =>
+      chat.user1_first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      chat.user1_last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      chat.user2_first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      chat.user2_last_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-<>
-<Navbar />
-    <div className="customApp">
-      
-    <SideNav
-      picture="/pics/user.png"
-      name="Benson Javier"
-      number="0912 345 6789"
-      class="customWorker"
-    />
-      <div className="customChatContainer">
-
-      
-        <header>
-          <h2 className="customServChat">Chat</h2>
-          <h2 className="customServName">Service Name</h2>
-          <h2 className="customServAdd">Barangay Name, Cavite City</h2>
-          <div className="customProfile">
-          <img src="..\pics\profile.png" alt="Profile Icon" className="customProfileIcon" />
-            <div className="customStatusIndicator">
-              <span className="customStatusOnline"></span> Online 
+    <>
+      <Navbar />
+      <div className="customApp">
+        <SideNav
+          picture="/pics/user.png"
+          name="Benson Javier"
+          number="0912 345 6789"
+          class="customWorker"
+        />
+        <div className="customChatContainer">
+          <header>
+            <h2 className="customServChat">Chat</h2>
+            <h2 className="customServName">{selectedUserName}</h2>
+            <h2 className="customServAdd">Barangay Name, Cavite City</h2>
+            <div className="customProfile">
+              <img src="..\pics\profile.png" alt="Profile Icon" className="customProfileIcon" />
+              <div className="customStatusIndicator">
+                <span className="customStatusOnline"></span> Online 
+              </div>
+              <FaEllipsisV className="customOptionsIcon" /> 
             </div>
-            <FaEllipsisV className="customOptionsIcon" /> 
-          </div>
-        </header>
+          </header>
 
-        <div className="customChatLayout">
-          <div className="customChatHistory">
-            <div className="customSearch">
-              <input
-                type="text"
-                placeholder="Search chat history..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <div className="customHistoryList">
-              {filteredChatHistory.length > 0 ? (
-                filteredChatHistory.map((chat) => (
-                  <div key={chat.id} className="customChatItem">
-                    <FaUserCircle className="customAvatarIcon" />
-                    <div className="customChatDetails">
-                      <div className="customChatHeader">
-                        <div className="customServiceName">{chat.service}</div>
-                        <div className="customTime">{chat.time}</div> 
+          <div className="customChatLayout">
+            <div className="customChatHistory">
+              <div className="customSearch">
+                <input
+                  type="text"
+                  placeholder="Search chat history..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <div className="customHistoryList">
+                {filteredChatHistory.length > 0 ? (
+                  filteredChatHistory.map((chat) => (
+                    <div key={chat.conversation_id} className="customChatItem" onClick={() => selectConversation(chat.conversation_id)}>
+                      <FaUserCircle className="customAvatarIcon" />
+                      <div className="customChatDetails">
+                        <div className="customChatHeader">
+                          <div className="customServiceName">
+                            {chat.user1_id === userID ? `${chat.user2_first_name} ${chat.user2_last_name}` : `${chat.user1_first_name} ${chat.user1_last_name}`}
+                          </div>
+                          <div className="customTime">{chat.created_at}</div> 
+                        </div>
+                        <p>{chat.user1_id === userID ? chat.user2_role : chat.user1_role}</p>
                       </div>
-                      <p>{chat.message}</p>
                     </div>
+                  ))
+                ) : (
+                  <p>No messages found.</p>
+                )}
+              </div>
+            </div>
+
+            <div className="customBookingChat">
+              <div className="customChatDisplay">
+                {bookingChat.map((chat) => (
+                  <div
+                    key={chat.messages_id}
+                    className={`customChatMessage ${
+                      chat.sender_id === userID ? "customClient" : "customProvider"
+                    }`}
+                  >
+                    <div className="customServiceName">{chat.sender_id === userID ? "You" : chat.sender_name}</div>
+                    <p>{chat.message_text}</p>
                   </div>
-                ))
-              ) : (
-                <p>No messages found.</p>
-              )}
-            </div>
-          </div>
+                ))} 
+              </div>
 
-          <div className="customBookingChat">
-            <div className="customChatDisplay">
-              {bookingChat.map((chat) => (
-                <div
-                  key={chat.id}
-                  className={`customChatMessage ${
-                    chat.service === "You" ? "customClient" : "customProvider"
-                  }`}
-                >
-                  <div className="customServiceName">{chat.service}</div>
-                  <p>{chat.message}</p>
-                </div>
-              ))} 
-            </div>
-
-            <div className="customMessageInput">
-              <FiPlus className="customIcon" />
-              <AiOutlinePicture className="customIcon" />
-              <input
-                type="text"
-                placeholder="Type your message here..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <button onClick={sendMessage}>
-                <BsFillChatFill />
-              </button>
+              <div className="customMessageInput">
+                <FiPlus className="customIcon" />
+                <AiOutlinePicture className="customIcon" />
+                <input
+                  type="text"
+                  placeholder="Type your message here..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                />
+                <button onClick={sendMessage}>
+                  <BsFillChatFill />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 }
