@@ -23,26 +23,12 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import AddService from "./component/AddService";
 import axios from "axios";
-export default function ManageServicesContent({ Skeleton }) {
+export default function ManageServicesContent({ Skeleton, services, setServiceChange }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [view, setView] = useState("list");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
-  const [services, setServices] = useState([]);
-  const [serviceChange, setServiceChange] = useState(false);
 
-  useEffect(() => {
-
-      axios.get("http://localhost/FIXR/API/admin/getService.php")
-      .then((response) => {
-        if(response.data.status == 200){
-          setServices(response.data.data);
-        }
-      }).catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-
-},[serviceChange]);
 
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -73,7 +59,6 @@ export default function ManageServicesContent({ Skeleton }) {
     formData.append("description", event.target.description.value);
     try {
         axios.post("http://localhost/FIXR/API/admin/addService.php", formData).then((response) => {
-        console.log
         setServiceChange((prev) => !prev);
         });    
     } catch (error) {

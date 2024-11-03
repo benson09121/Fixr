@@ -16,7 +16,7 @@
     overflow: hidden; 
 }
 
-header {
+.customChatContainer header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -26,7 +26,7 @@ header {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+.customChatContainer .header h2 {
     font-size: 24px; 
     color: #333;
 }
@@ -76,7 +76,7 @@ h2 {
 .customChatLayout {
     display: flex;
     flex-direction: row;
-    height: calc(82vh - 82px);
+    height: 83%;
 }
 .customChatHistory {
     width: 30%;

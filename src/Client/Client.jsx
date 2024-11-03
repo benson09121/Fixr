@@ -30,7 +30,13 @@ const Client = () => {
         const decodedToken = jwtDecode(cookies.account_token);
         if (decodedToken.account_type !== "client") {
           console.log("Not a client");
+          if(decodedToken.account_type === "worker") {
+            navigate("/worker/home");
+          } else if(decodedToken.account_type === "admin") {
+            navigate("/admin/dashboard");
+          } else {
           navigate("/");
+          }
         } else {
           const userInfo = jwtDecode(cookies.account_token);
     axios.post("http://localhost/FIXR/API/Home/getInfo.php", userInfo)
@@ -112,8 +118,8 @@ const Client = () => {
               categories.map((category, index) => (
                 <Client_Cards 
                   key={index}
-                  picture="/pics/default.png"
-                  name={category}
+                  picture={"http://localhost/FIXR/API/Images/" + category.image}
+                  name={category.CategoryName}
                 />
               ))
             ) : (

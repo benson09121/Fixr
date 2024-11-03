@@ -37,10 +37,9 @@ if ($method == "POST") {
         'created_at' => $user['created_at'],
     ];
 
-    $categorystmt = $conn->prepare("SELECT CategoryName FROM tbl_service_category");
+    $categorystmt = $conn->prepare("SELECT * FROM tbl_service_category");
     $categorystmt->execute();
-    $categories = $categorystmt->fetchAll(PDO::FETCH_COLUMN, 0); 
-
+    $categories = $categorystmt->fetchAll(PDO::FETCH_ASSOC); 
 
     $workerstmt = $conn->prepare("
     SELECT
@@ -60,15 +59,6 @@ if ($method == "POST") {
     
     $workerstmt->execute();
     $workers = $workerstmt->fetchAll(PDO::FETCH_ASSOC);
-    if (!$workers) {
-        header("HTTP/1.0 404 Not Found");
-        echo json_encode([
-            'status' => 404,
-            'message' => 'No Available Workers Found',
-            'debug' => $stmt->errorInfo() 
-        ]);
-        exit();
-    }
     $workerInfo = array_map(function ($worker) {
         return [
             'CategoryName' => $worker['CategoryName'],

@@ -34,7 +34,7 @@ if ($method == "POST") {
     $stmt->execute();
     if($stmt->rowCount() > 0){
         $row = $stmt->fetch();
-        if (password_verify($password, $row['password']) && $row['account_type'] === 'client') {
+        if (password_verify($password, $row['password']) && $row['account_type'] === 'client' || $row['account_type'] === 'worker') {
             $user_data = [
                 'user_id' => $row['user_id'],
                 'account_type' => $row['account_type'], 

@@ -19,7 +19,6 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import { data } from "../Admin_Home";
 
 const NAVIGATION = [
   {
@@ -122,6 +121,8 @@ export default function DashboardLayoutBasic(props) {
   const router = useDemoRouter("/dashboard");
   const [dataChanged, setDataChanged] = useState(false);
   const demoWindow = window ? window() : undefined;
+  const [services, setServices] = useState([]);
+  const [serviceChange, setServiceChange] = useState(false);
 
   useEffect(() => {
     if (cookies.admin_token) {
@@ -178,6 +179,20 @@ export default function DashboardLayoutBasic(props) {
     }
   };
 
+  // Manage Services
+  useEffect(() => {
+
+    axios.get("http://localhost/FIXR/API/admin/getService.php")
+    .then((response) => {
+      if(response.data.status == 200){
+        setServices(response.data.data);
+      }
+    }).catch((error) => {
+      console.error('Error fetching data:', error);
+    });
+
+},[serviceChange]);
+
   return (
     <AppProvider
       navigation={NAVIGATION}
@@ -194,7 +209,7 @@ export default function DashboardLayoutBasic(props) {
         <PageContainer>
           {console.log(router.pathname)}
           {router.pathname === "/dashboard" && (
-            <DashboardContent Skeleton={Skeleton} users={users} />
+            <DashboardContent Skeleton={Skeleton} users={users} services={services} />
           )}
           {router.pathname === "/manageusers" && (
             <ManageUsersContent
@@ -204,7 +219,7 @@ export default function DashboardLayoutBasic(props) {
             />
           )}
           {router.pathname === "/manageservices" && (
-            <ManageServicesContent Skeleton={Skeleton} />
+            <ManageServicesContent Skeleton={Skeleton} services={services} setServiceChange={setServiceChange} />
           )}
           {/* Add more conditions for other routes as needed */}
         </PageContainer>
