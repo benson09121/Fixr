@@ -86,7 +86,6 @@ const Client = () => {
     closeModal();
   };
 
-
   const filteredServices = activeFilter === "All"
     ? workerInfo
     : workerInfo.filter((workers) => workers.Status === activeFilter);
@@ -131,25 +130,23 @@ const Client = () => {
           <div className="booking-table">
             <h3 style={{marginBottom:"10px"}}>Booking List</h3>
             <div className="filter-options">
-              {/* Add the "All" button */}
               <button
                 className={`filter-option ${activeFilter === "All" ? "active" : ""}`}
                 onClick={() => setActiveFilter("All")}
               >
                 All
               </button>
-
               <button
-                className={`filter-option ${activeFilter === "Queue" ? "active" : ""}`}
-                onClick={() => setActiveFilter("Queue")}
+                className={`filter-option ${activeFilter === "Pending" ? "active" : ""}`}
+                onClick={() => setActiveFilter("Pending")}
               >
-                Queue
+                Pending
               </button>
               <button
-                className={`filter-option ${activeFilter === "Scheduled" ? "active" : ""}`}
-                onClick={() => setActiveFilter("Scheduled")}
+                className={`filter-option ${activeFilter === "In-Progress" ? "active" : ""}`}
+                onClick={() => setActiveFilter("In-Progress")}
               >
-                Scheduled
+                In-Progress
               </button>
               <button
                 className={`filter-option ${activeFilter === "Completed" ? "active" : ""}`}
@@ -170,20 +167,16 @@ const Client = () => {
                   </tr>
                 </thead>
                 <tbody>
-                {workerInfo.length > 0 ? (
-              workerInfo.map((workers, index) => (
+                  {filteredServices.map((workers, index) => (
                     <tr key={index} onClick={() => openModal(workers)}>
                       <td>{workers.CategoryName}</td>
                       <td>{0}</td>
-                      <td>{workers.BookingDate}</td>
+                      <td>{workers.RequestedDate}</td>
                       <td className={workers.Status === "Completed" ? "status-done" : "status-ongoing"}>
                         {workers.Status}
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <h3 style={{padding:"10px"}}>No available services.</h3>
-                )}
+                  ))}
                 </tbody>
               </table>
             ) : (
