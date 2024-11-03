@@ -8,7 +8,7 @@ import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
 
 
-export default function Feed_Sidenav(prop) {
+export default function Chat_Sidenav(prop) {
   const [cookies] = useCookies(["account_token"]);
   const [workers, setWorkers] = useState([]); 
 
@@ -77,9 +77,9 @@ export default function Feed_Sidenav(prop) {
           </div>  
 
           <div className="sidenav-notif">
-                <div className="feed-side-post" style={{cursor:"pointer"}}>
-                <i class="fa-regular fa-paper-plane"></i>
-                     <span>Post</span>
+                <div className="feed-side-post"  style={{cursor:"pointer"}}>
+                <i class="fa-regular fa-comment-dots"></i>
+                     <span>New Message</span>
                 </div>
           </div>
 

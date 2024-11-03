@@ -41,37 +41,32 @@ if ($method == "POST") {
     $categorystmt->execute();
     $categories = $categorystmt->fetchAll(PDO::FETCH_COLUMN, 0); 
 
-
     $workerstmt = $conn->prepare("
     SELECT
-	tbl_service_category.CategoryName,
-    tbl_service_request.RequestedDate,
-    tbl_service_request.Status
+        tbl_service_category.CategoryName,
+        tbl_service_request.RequestedDate,
+        tbl_service_request.Status
     FROM tbl_service_request 
     INNER JOIN
-    tbl_service_category 
+        tbl_service_category 
     ON
-    tbl_service_request.category_id = tbl_service_category.category_id;
+        tbl_service_request.category_id = tbl_service_category.category_id
+    WHERE tbl_service_request.user_id = ?
     ");
     
-    $workerstmt->execute();
+    $workerstmt->execute([$user_id]);
     $workers = $workerstmt->fetchAll(PDO::FETCH_ASSOC);
-    if (!$workers) {
-        header("HTTP/1.0 404 Not Found");
-        echo json_encode([
-            'status' => 404,
-            'message' => 'No Available Workers Found',
-            'debug' => $stmt->errorInfo() 
-        ]);
-        exit();
+
+    $workerInfo = [];
+    if ($workers) {
+        $workerInfo = array_map(function ($worker) {
+            return [
+                'CategoryName' => $worker['CategoryName'],
+                'RequestedDate' => $worker['RequestedDate'],
+                'Status' => $worker['Status'],
+            ];
+        }, $workers);
     }
-    $workerInfo = array_map(function ($worker) {
-        return [
-            'CategoryName' => $worker['CategoryName'],
-            'RequestedDate' => $worker['RequestedDate'],
-            'Status' => $worker['Status'],
-        ];
-    }, $workers);
 
     header("HTTP/1.0 200 OK");
     echo json_encode([

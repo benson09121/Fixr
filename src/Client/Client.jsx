@@ -5,7 +5,7 @@ import Navbar from "../Navbar/Navbar";
 import SideNav from "../SideNav/SideNav";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 const Client = () => {
   const [cookies] = useCookies(["account_token"]);
@@ -24,7 +24,7 @@ const Client = () => {
 
   useEffect(() => {
     const userInfo = jwtDecode(cookies.account_token);
-    axios.post("http://localhost/FIXR/API/Home/getInfo.php", userInfo)
+    axios.post("http://localhost/FIXR/API/Home/getInfo.php", { user_id: userInfo.user_id })
       .then((response) => {
         setUserInfo({
           name: response.data.data.userInfo.name,

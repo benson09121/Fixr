@@ -1,16 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/chat.css";
 import { FaUserCircle, FaEllipsisV } from "react-icons/fa"; 
 import { BsFillChatFill } from "react-icons/bs";
 import { FiPlus } from "react-icons/fi";
 import { AiOutlinePicture } from "react-icons/ai";
-import SideNav from "../SideNav/SideNav";
+import Chat_Sidenav from "../SideNav/Chat_Sidenav";
 import Navbar from "../Navbar/Navbar";
 import Menu_Profile from "../Profile_Menu/Menu_Profile";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import {jwtDecode} from "jwt-decode";
+
+
 
 export default function Chat() {
   const [message, setMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [cookies] = useCookies(["account_token"]);
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    phone: "",
+    account: "",
+  });
   const [chatHistory, setChatHistory] = useState([
     {
       id: 1,
@@ -65,17 +76,31 @@ export default function Chat() {
       chat.message.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  useEffect(() => {
+    const userInfo = jwtDecode(cookies.account_token);
+    axios.post("http://localhost/FIXR/API/Home/getInfo.php", { user_id: userInfo.user_id })
+      .then((response) => {
+        setUserInfo({
+          name: response.data.data.userInfo.name,
+          phone: response.data.data.userInfo.phone,
+          account: response.data.data.userInfo.account_type,
+        });
+        setCategories(response.data.data.categories);
+        setWorkerInfo(response.data.data.workerInfo);
+      });
+  }, [cookies.account_token]);
+
   return (
 <>
 <Navbar />
     <div className="app">
       
-    <SideNav
-      picture="/pics/user.png"
-      name="Benson Javier"
-      number="0912 345 6789"
-      class="Worker"
-    />
+    <Chat_Sidenav
+          picture="/pics/user.png"
+          name={userInfo.name}
+          number={userInfo.phone}
+          class={userInfo.account}
+        />
       <div className="chat-container">
 
       

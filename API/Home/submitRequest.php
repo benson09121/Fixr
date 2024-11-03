@@ -2,7 +2,7 @@
 include '../Database/database_conn.php';
 
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: *");
+header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -17,15 +17,15 @@ if ($method == "POST") {
     $data = json_decode($json, true);
 
     $user_id = $data['user_id'] ?? null;
-    $category_name = $data['category'] ?? null;
+    $category = $data['category'] ?? null;
     $description = $data['description'] ?? null;
-    $requested_date = date('Y-m-d'); 
-    $status = 'Pending'; 
+    $requested_date = date('Y-m-d H:i:s');
+    $status = 'Pending';
 
-    if ($user_id && $category_name && $description) {
-        $categoryStmt = $conn->prepare("SELECT category_id FROM tbl_service_category WHERE CategoryName = ?");
-        $categoryStmt->execute([$category_name]);
-        $category_id = $categoryStmt->fetchColumn();
+    if ($user_id && $category && $description) {
+        $stmt = $conn->prepare("SELECT category_id FROM tbl_service_category WHERE CategoryName = ?");
+        $stmt->execute([$category]);
+        $category_id = $stmt->fetchColumn();
 
         if ($category_id) {
             $stmt = $conn->prepare("INSERT INTO tbl_service_request (user_id, category_id, Description, Requesteddate, Status) VALUES (?, ?, ?, ?, ?)");

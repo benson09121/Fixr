@@ -17,25 +17,26 @@ if ($method == "POST") {
     $data = json_decode($json, true);
 
     $stmt = $conn->prepare("
-        SELECT 
-            tbl_accounts.f_name, 
-            tbl_accounts.l_name,
-            tbl_address_municipality.name AS municipality_name, 
-            tbl_address_barangay.name AS barangay_name,
-            tbl_address.street_address,
-            tbl_service_category.CategoryName,
-            tbl_service_request.Description
-        FROM tbl_service_request
-        INNER JOIN tbl_accounts
-            ON tbl_service_request.user_id = tbl_accounts.user_id
-        INNER JOIN tbl_address
-            ON tbl_accounts.user_id = tbl_address.user_id
-        INNER JOIN tbl_address_municipality
-            ON tbl_address.municipality_id = tbl_address_municipality.municipality_id
-        INNER JOIN tbl_address_barangay
-            ON tbl_address.barangay_id = tbl_address_barangay.barangay_id
-        INNER JOIN tbl_service_category
-            ON tbl_service_request.category_id = tbl_service_category.category_id;
+    SELECT 
+    tbl_service_request.request_id, 
+    tbl_accounts.f_name, 
+    tbl_accounts.l_name,
+    tbl_address_municipality.name AS municipality_name, 
+    tbl_address_barangay.name AS barangay_name,
+    tbl_address.street_address,
+    tbl_service_category.CategoryName,
+    tbl_service_request.Description
+  FROM tbl_service_request
+  LEFT JOIN tbl_accounts
+      ON tbl_service_request.user_id = tbl_accounts.user_id
+  LEFT JOIN tbl_address
+      ON tbl_accounts.user_id = tbl_address.user_id
+  LEFT JOIN tbl_address_municipality
+      ON tbl_address.municipality_id = tbl_address_municipality.municipality_id
+  LEFT JOIN tbl_address_barangay
+      ON tbl_address.barangay_id = tbl_address_barangay.barangay_id
+  LEFT JOIN tbl_service_category
+      ON tbl_service_request.category_id = tbl_service_category.category_id;
     ");
     
     $stmt->execute();
@@ -53,6 +54,7 @@ if ($method == "POST") {
 
     $appointmentInfo = array_map(function ($appointment) {
         return [
+            'request_id' => $appointment['request_id'],  
             'name' => $appointment['f_name'] . ' ' . $appointment['l_name'],
             'CategoryName' => $appointment['CategoryName'],
             'Description' => $appointment['Description'],
