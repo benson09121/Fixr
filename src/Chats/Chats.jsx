@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/chat.css";
 import { FaUserCircle, FaEllipsisV } from "react-icons/fa"; 
 import { BsFillChatFill } from "react-icons/bs";
@@ -6,11 +6,13 @@ import { FiPlus } from "react-icons/fi";
 import { AiOutlinePicture } from "react-icons/ai";
 import SideNav from "../SideNav/SideNav";
 import Navbar from "../Navbar/Navbar";
-import Menu_Profile from "../Profile_Menu/Menu_Profile";
 
 export default function Chat() {
   const [message, setMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeConversation, setActiveConversation] = useState(null);
+    const [input, setInput] = useState("");
+    const [ws, setWs] = useState(null);
   const [chatHistory, setChatHistory] = useState([
     {
       id: 1,
@@ -47,23 +49,54 @@ export default function Chat() {
     { id: 5, service: "You", message: "Great! Thank you!" },
   ]);
 
-  const handleSendMessage = () => {
-    if (message) {
-      const newMessage = {
-        id: bookingChat.length + 1,
-        service: "You",
-        message: message,
-      };
-      setBookingChat([...bookingChat, newMessage]);
-      setMessage("");
-    }
-  };
+  useEffect(() => {
+    // Connect to WebSocket server
+    const socket = new WebSocket("ws://localhost:8080");
 
-  const filteredChatHistory = chatHistory.filter(
-    (chat) =>
-      chat.service.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      chat.message.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    socket.onopen = () => {
+        console.log("Connected to WebSocket server.");
+    };
+
+    socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+
+        // Check if received data is chat history or a new message
+        if (Array.isArray(data)) {
+            setMessages(data); // Load chat history for the selected conversation
+        } else {
+            setMessages((prevMessages) => [...prevMessages, data]);
+        }
+    };
+
+    setWs(socket);
+
+    return () => {
+        socket.close();
+    };
+}, []);
+
+const sendMessage = () => {
+  if (ws && input.trim()) {
+      const message = { sender: "User1", message: input, conversationId: activeConversation };
+      ws.send(JSON.stringify(message));
+      setInput("");
+  }
+};
+
+const selectConversation = (conversationId) => {
+  setActiveConversation(conversationId);
+
+  // Hypothetically fetch chat history for the selected conversation
+  if (ws) {
+      ws.send(JSON.stringify({ type: "getHistory", conversationId }));
+  }
+};
+
+const filteredChatHistory = chatHistory.filter(
+  (chat) =>
+    chat.service.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    chat.message.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
   return (
 <>
@@ -146,7 +179,7 @@ export default function Chat() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
               />
-              <button onClick={handleSendMessage}>
+              <button onClick={sendMessage}>
                 <BsFillChatFill />
               </button>
             </div>

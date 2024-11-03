@@ -21,7 +21,7 @@ const columns = [
         field: 'Role',
         headerName: 'Role',
         type: 'singleSelect',
-        valueOptions: ['Client', 'Service Provider', 'Admin'],
+        valueOptions: ['client', 'worker', 'admin'],
         width: 150,
         editable: true,
     },

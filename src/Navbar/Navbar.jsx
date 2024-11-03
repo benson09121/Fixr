@@ -12,7 +12,7 @@ export default function SideNav() {
                             <div className="navbar-types">
                                 <ul>
                                    <Link to='/client/home'><li>Home</li></Link>
-                                   <Link to='/client/Chats'><li>Chat</li></Link>
+                                   <Link to='/Chats'><li>Chat</li></Link>
                                    <Link to="/client/feed"><li>Feed</li></Link>
                                 </ul>
                             </div>
