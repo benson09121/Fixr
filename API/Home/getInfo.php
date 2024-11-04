@@ -45,7 +45,8 @@ if ($method == "POST") {
     SELECT
         tbl_service_category.CategoryName,
         tbl_service_request.RequestedDate,
-        tbl_service_request.Status
+        tbl_service_request.Status,
+        tbl_service_request.request_id
     FROM tbl_service_request 
     INNER JOIN
         tbl_service_category 
@@ -64,6 +65,7 @@ if ($method == "POST") {
                 'CategoryName' => $worker['CategoryName'],
                 'RequestedDate' => $worker['RequestedDate'],
                 'Status' => $worker['Status'],
+                'request_id' => $worker['request_id'],
             ];
         }, $workers);
     }

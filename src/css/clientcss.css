@@ -185,8 +185,23 @@ tr:hover td {
     background-color: #f1f5f9;
 }
 
-.status-ongoing {
+.status-pending {
     color: #ff4c4c;
+    font-weight: 600;
+    padding: 6px 12px;
+    background-color: #ffe6e6;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.status-pending:hover {
+    transform: scale(1.05);
+}
+
+
+.status-ongoing {
+    color: #2d788f;
     font-weight: 600;
     padding: 6px 12px;
     background-color: #ffe6e6;
@@ -198,6 +213,7 @@ tr:hover td {
 .status-ongoing:hover {
     transform: scale(1.05);
 }
+
 
 .status-done {
     color: #4caf50;
