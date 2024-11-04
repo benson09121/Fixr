@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/chat.css";
 import { FaUserCircle, FaEllipsisV } from "react-icons/fa"; 
 import { BsFillChatFill } from "react-icons/bs";
@@ -7,73 +7,123 @@ import { AiOutlinePicture } from "react-icons/ai";
 import Chat_Sidenav from "../SideNav/Chat_Sidenav";
 import Navbar from "../Navbar/Navbar";
 import Menu_Profile from "../Profile_Menu/Menu_Profile";
-import axios from "axios";
 import { useCookies } from "react-cookie";
 import {jwtDecode} from "jwt-decode";
-
-
+import axios from "axios";
 
 export default function Chat() {
-  const [message, setMessage] = useState("");
+  const [cookies] = useCookies(['account_token']);
+  const [userID, setUserID] = useState();
   const [searchTerm, setSearchTerm] = useState("");
-  const [cookies] = useCookies(["account_token"]);
-  const [userInfo, setUserInfo] = useState({
-    name: "",
-    phone: "",
-    account: "",
-  });
-  const [chatHistory, setChatHistory] = useState([
-    {
-      id: 1,
-      service: "Prince",
-      message:
-        "Hi! I just booked a cleaning service for tomorrow. Can I confirm if it includes deep cleaning of the carpets?",
-      time: "Sent",
-    },
-    {
-      id: 2,
-      service: "John Doe",
-      message: "You're all set! We'll see you then!",
-      time: "09/02",
-    },
-    {
-      id: 3,
-      service: "Jane Smith",
-      message: "That's it for now, thank you!",
-      time: "09/01",
-    },
-    {
-      id: 4,
-      service: "Lawrence",
-      message: "How can I book?",
-      time: "08/21",
-    },
-  ]);
+  const [activeConversation, setActiveConversation] = useState(null);
+  const [input, setInput] = useState("");
+  const [ws, setWs] = useState(null);
+  const [chatHistory, setChatHistory] = useState([]); // List of conversations
+  const [bookingChat, setBookingChat] = useState([]); // Messages within a conversation
+  const [otherUserID, setOtherUserID] = useState(null); // Store the other user ID
+  const [selectedUserName, setSelectedUserName] = useState(""); // Store the selected user's name
 
-  const [bookingChat, setBookingChat] = useState([
-    { id: 1, service: "You", message: "Hi, I would like to book a service for next week." },
-    { id: 2, service: "Provider", message: "Sure! What service are you looking for?" },
-    { id: 3, service: "You", message: "I need a cleaning service on Monday." },
-    { id: 4, service: "Provider", message: "Your booking is confirmed for Monday at 10 AM." },
-    { id: 5, service: "You", message: "Great! Thank you!" },
-  ]);
+  useEffect(() => {
+    const token = cookies.account_token;
+    console.log(token);
+    if (token) {
+      const decoded = jwtDecode(token);
+      setUserID(decoded.user_id);
+    }
+    console.log(userID);
+    // Connect to WebSocket server
+    const socket = new WebSocket("ws://localhost:8080");
 
-  const handleSendMessage = () => {
-    if (message) {
-      const newMessage = {
-        id: bookingChat.length + 1,
-        service: "You",
-        message: message,
-      };
-      setBookingChat([...bookingChat, newMessage]);
-      setMessage("");
+    socket.onopen = () => {
+      console.log("Connected to WebSocket server.");
+    };
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+
+      // Check if received data is chat history or a new message
+      if (data.type === "chatHistory") {
+        setChatHistory(data.conversations); // Load chat history (list of conversations)
+      } else if (data.type === "messages") {
+        setBookingChat(data.messages); // Load messages for the selected conversation
+      } else {
+        setBookingChat((prevMessages) => [...prevMessages, data]);
+      }
+    };
+
+    setWs(socket);
+
+    return () => {
+      socket.close();
+    };
+  }, []);
+
+  useEffect(() => {
+    // Fetch the list of conversations for the current user
+    const fetchConversations = async () => {
+      try {
+        const response = await axios.get(`http://localhost/FIXR/API/getConversations.php?user_id=${userID}`);
+        setChatHistory(response.data.conversations);
+        console.log(response.data.conversations);
+      } catch (error) {
+        console.error("Error fetching conversations:", error);
+      }
+    };
+
+    if (userID) {
+      fetchConversations();
+    }
+  }, [userID]);
+
+  const checkOrCreateConversation = async (user1_id, user2_id) => {
+    try {
+      const response = await axios.post("http://localhost/FIXR/API/checkOrCreateConversation.php", {
+        user1_id,
+        user2_id
+      });
+      return response.data.conversation_id;
+    } catch (error) {
+      console.error("Error checking or creating conversation:", error);
+    }
+  };
+
+  const sendMessage = async () => {
+    if (ws && input.trim()) {
+      if (!activeConversation) {
+        const conversationId = await checkOrCreateConversation(userID, otherUserID);
+        setActiveConversation(conversationId);
+      }
+      const message = { sender_id: userID, message_text: input, conversation_id: activeConversation };
+      ws.send(JSON.stringify(message));
+      setBookingChat((prevMessages) => [...prevMessages, message]);
+      setInput("");
+    }
+  };
+
+  const selectConversation = (conversationId) => {
+    setActiveConversation(conversationId);
+
+    // Fetch messages for the selected conversation
+    if (ws) {
+      ws.send(JSON.stringify({ type: "getMessages", conversation_id: conversationId }));
+    }
+
+    // Determine the other user ID and name in the selected conversation
+    const selectedChat = chatHistory.find(chat => chat.conversation_id === conversationId);
+    if (selectedChat) {
+      const otherUserId = selectedChat.user1_id === userID ? selectedChat.user2_id : selectedChat.user1_id;
+      setOtherUserID(otherUserId);
+      const otherUserName = selectedChat.user1_id === userID ? `${selectedChat.user2_first_name} ${selectedChat.user2_last_name}` : `${selectedChat.user1_first_name} ${selectedChat.user1_last_name}`;
+      setSelectedUserName(otherUserName);
     }
   };
 
   const filteredChatHistory = chatHistory.filter(
     (chat) =>
-      chat.service.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      chat.message.toLowerCase().includes(searchTerm.toLowerCase())
+      chat.user1_first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      chat.user1_last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      chat.user2_first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      chat.user2_last_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
@@ -91,98 +141,93 @@ export default function Chat() {
   }, [cookies.account_token]);
 
   return (
-<>
-<Navbar />
-    <div className="app">
-      
-    <Chat_Sidenav
+    <>
+      <Navbar />
+      <div className="customApp">
+        <SideNav
           picture="/pics/user.png"
-          name={userInfo.name}
-          number={userInfo.phone}
-          class={userInfo.account}
+          name="Benson Javier"
+          number="0912 345 6789"
+          class="customWorker"
         />
-      <div className="chat-container">
-
-      
-        <header>
-          <h2 className="serv-chat">Chat</h2>
-          <h2 className="serv-name">Service Name</h2>
-          <h2 className="serv-add">Barangay Name, Cavite City</h2>
-          <div className="profile">
-          <img src="..\pics\profile.png" alt="Profile Icon" className="profile-icon" />
-            <div className="status-indicator">
-              <span className="status-online"></span> Online 
+        <div className="customChatContainer">
+          <header>
+            <h2 className="customServChat">Chat</h2>
+            <h2 className="customServName">{selectedUserName}</h2>
+            <h2 className="customServAdd">Barangay Name, Cavite City</h2>
+            <div className="customProfile">
+              <img src="..\pics\profile.png" alt="Profile Icon" className="customProfileIcon" />
+              <div className="customStatusIndicator">
+                <span className="customStatusOnline"></span> Online 
+              </div>
+              <FaEllipsisV className="customOptionsIcon" /> 
             </div>
-            <FaEllipsisV className="options-icon" /> 
-          </div>
-        </header>
+          </header>
 
-       
-
-        <div className="chat-layout">
-          <div className="chat-history">
-            <div className="search">
-              <input
-                type="text"
-                placeholder="Search chat history..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <div className="history-list">
-              {filteredChatHistory.length > 0 ? (
-                filteredChatHistory.map((chat) => (
-                  <div key={chat.id} className="chat-item">
-                    <FaUserCircle className="avatar-icon" />
-                    <div className="chat-details">
-                      <div className="chat-header">
-                        <div className="service-name">{chat.service}</div>
-                        <div className="time">{chat.time}</div> 
+          <div className="customChatLayout">
+            <div className="customChatHistory">
+              <div className="customSearch">
+                <input
+                  type="text"
+                  placeholder="Search chat history..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <div className="customHistoryList">
+                {filteredChatHistory.length > 0 ? (
+                  filteredChatHistory.map((chat) => (
+                    <div key={chat.conversation_id} className="customChatItem" onClick={() => selectConversation(chat.conversation_id)}>
+                      <FaUserCircle className="customAvatarIcon" />
+                      <div className="customChatDetails">
+                        <div className="customChatHeader">
+                          <div className="customServiceName">
+                            {chat.user1_id === userID ? `${chat.user2_first_name} ${chat.user2_last_name}` : `${chat.user1_first_name} ${chat.user1_last_name}`}
+                          </div>
+                          <div className="customTime">{chat.created_at}</div> 
+                        </div>
+                        <p>{chat.user1_id === userID ? chat.user2_role : chat.user1_role}</p>
                       </div>
-                      <p>{chat.message}</p>
                     </div>
+                  ))
+                ) : (
+                  <p>No messages found.</p>
+                )}
+              </div>
+            </div>
+
+            <div className="customBookingChat">
+              <div className="customChatDisplay">
+                {bookingChat.map((chat) => (
+                  <div
+                    key={chat.messages_id}
+                    className={`customChatMessage ${
+                      chat.sender_id === userID ? "customClient" : "customProvider"
+                    }`}
+                  >
+                    <div className="customServiceName">{chat.sender_id === userID ? "You" : chat.sender_name}</div>
+                    <p>{chat.message_text}</p>
                   </div>
-                ))
-              ) : (
-                <p>No messages found.</p>
-              )}
-            </div>
-          </div>
+                ))} 
+              </div>
 
-          
-          <div className="booking-chat">
-            <div className="chat-display">
-              {bookingChat.map((chat) => (
-                <div
-                  key={chat.id}
-                  className={`chat-message ${
-                    chat.service === "You" ? "client" : "provider"
-                  }`}
-                >
-                  <div className="service-name">{chat.service}</div>
-                  <p>{chat.message}</p>
-                </div>
-              ))} 
-            </div>
-
-          
-            <div className="message-input">
-              <FiPlus className="icon" />
-              <AiOutlinePicture className="icon" />
-              <input
-                type="text"
-                placeholder="Type your message here..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <button onClick={handleSendMessage}>
-                <BsFillChatFill />
-              </button>
+              <div className="customMessageInput">
+                <FiPlus className="customIcon" />
+                <AiOutlinePicture className="customIcon" />
+                <input
+                  type="text"
+                  placeholder="Type your message here..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                />
+                <button onClick={sendMessage}>
+                  <BsFillChatFill />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

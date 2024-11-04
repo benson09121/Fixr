@@ -1,43 +1,26 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid2";
-import { Card, CardContent, Typography, Pagination } from "@mui/material";
+import { Card, CardContent, Typography, Pagination, CardMedia } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Icon } from "@mui/material";
 
 const useStyles = makeStyles(() => ({
   card: {
     borderRadius: 16,
-    padding: 8, // Reduce padding to make the card smaller
-    width: 50, // Adjust the width of the card
-    height: 50, // Adjust the height of the card
+    width: 60, // Adjust the width of the card
+    height: 60, // Adjust the height of the card
+    padding: 0,
     boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-    margin: "auto", // Centers the card within the grid item
-  },
-  icon: {
-    fontSize: 40, // Reduce icon size
-    color: "#00bfa5", // Example icon color
-  },
-  cardContent: {
-    padding: 0, // Optional: reduce the content padding if needed
+    alignContent: "center",
+    justifyContent: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
 }));
 
-const services = [
-  { name: "Service 1    ", icon: "home" },
-  { name: "Service 2", icon: "work" },
-  { name: "Service 3", icon: "build" },
-  { name: "Service 4", icon: "phone" },
-  { name: "Service 5", icon: "star" },
-  { name: "Service 6", icon: "school" },
-  { name: "Service 7", icon: "flight" },
-  { name: "Service 8", icon: "camera" },
-  { name: "Service 6", icon: "school" },
-  { name: "Service 7", icon: "flight" },
-  { name: "Service 8", icon: "camera" },
-  // Add more services as needed
-];
 
-export default function ServiceList({ Skeleton }) {
+export default function ServiceList({ Skeleton, services }) {
   const classes = useStyles();
   const [page, setPage] = useState(1);
   const itemsPerPage = 4;
@@ -52,26 +35,33 @@ export default function ServiceList({ Skeleton }) {
     setPage(value);
   };
 
+
   return (
     <Skeleton height={165} sx={{ padding: "3%" }}>
       <Typography style={{ marginBottom: "20px" }}>Service List</Typography>
       <Grid container spacing={3} sx={{justifyContent: "center"}}>
-        {displayedServices.map((service, index) => (
+        {services.length === 0 ?(
+          <Typography variant="body1" sx={{ padding: 2 }}>
+            There are no services.
+          </Typography>
+        ) : (displayedServices.map((service, index) => (
           <Grid 
-            item
-            xs={12}
-            sm={6}
-            md={4}
             key={index}
+
           >
             <Card className={classes.card}>
-              <CardContent className={classes.cardContent}>
-                {/* <Icon className={classes.icon}>{service.icon}</Icon> */}
-                <Typography sx={{fontSize:"10px", textAlign:"start",float: "left"}}>{service.name}</Typography>
-              </CardContent>
+            <CardMedia
+                        component="img"
+                        src={"http://localhost/FIXR/API/Images/"+service.image}
+                        alt={service.name}
+                        style={{ width: 30, height: 30}}
+                      />
+                      <Typography sx={{fontSize:"11px", textAlign:"center", marginTop: "4%"}}>{service.CategoryName}</Typography>
             </Card>
           </Grid>
+        )
         ))}
+      
       </Grid>
 
       {/* Pagination Dots */}

@@ -1,4 +1,4 @@
-.app {
+.customApp {
     display: flex;
     height: 100vh;  
     background-color: #f5f9fa;
@@ -6,15 +6,17 @@
     font-family: 'Roboto', sans-serif;
 }
 
-.chat-container {
+.customChatContainer {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    background-color: #fff; 
-    width: 200px;
+    background-color: #fff;
+    height: 100vh; 
+    position: relative;
+    overflow: hidden; 
 }
 
-header {
+.customChatContainer header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -24,27 +26,27 @@ header {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+.customChatContainer .header h2 {
     font-size: 24px; 
     color: #333;
 }
 
-.profile {
+.customProfile {
     display: flex;
     align-items: center;
 }
 
-.status-indicator {
+.customStatusIndicator {
     display: flex;
     align-items: center;
     margin-left: 10px;
     position: relative;
     top: -2px;
-    left: -425px;
+    left: -488px;
     color: #4caf50;
 }
 
-.status-online {
+.customStatusOnline {
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -52,16 +54,16 @@ h2 {
     margin-right: 5px;
 }
 
-.options-icon {
+.customOptionsIcon {
     font-size: 18px;
     margin-left: 20px;
     cursor: pointer;
     position: relative;
-    top: 15px;
-    left: 60px;
+    top: 0px;
+    left: 0px;
 }
 
-.search input {
+.customSearch input {
     padding: 12px;
     border-radius: 20px;
     border: 1px solid #ccc;
@@ -71,25 +73,27 @@ h2 {
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); 
 }
 
-.chat-layout {
+.customChatLayout {
     display: flex;
     flex-direction: row;
-    height: calc(100vh - 80px); 
+    height: 83%;
 }
-
-.chat-history {
+.customChatHistory {
     width: 30%;
-    background-color: #f9f9f9; 
+    background-color: #f9f9f9;
     padding: 10px;
     border-right: 1px solid #ccc;
-    overflow-y: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.customHistoryList {
+    overflow-y: auto; 
+    flex-grow: 1;
+    padding-right: 10px;
 }
 
-.history-list {
-    margin-top: 10px;
-}
-
-.chat-item {
+.customChatItem {
     display: flex;
     align-items: flex-start;
     margin: 10px 0;
@@ -101,51 +105,53 @@ h2 {
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.chat-item:hover {
+.customChatItem:hover {
     background-color: #e0f7fa;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
-.avatar-icon {
+.customAvatarIcon {
     font-size: 32px;
     margin-right: 15px;
     color: #4c9ccf;
 }
 
-.chat-details {
+.customChatDetails {
     flex-grow: 1;
 }
 
-.chat-header {
+.customChatHeader {
     display: flex;
     justify-content: space-between;
     font-size: 15px;
     font-weight: bold;
 }
 
-.time {
+.customTime {
     font-size: 12px;
     color: #777;
 }
 
-.booking-chat {
+.customBookingChat {
     width: 70%;
     display: flex;
     flex-direction: column;
     padding: 20px;
-    background-color: #ffffff; 
+    background-color: #ffffff;
+    overflow: hidden;
 }
 
-.chat-display {
+.customChatDisplay {
     flex-grow: 1;
-    overflow-y: auto;
-    margin-bottom: 10px;
+    overflow-y: auto; 
     padding-right: 10px;
     display: flex;
     flex-direction: column;
+    margin-bottom: 10px;
+    max-height: calc(100vh - 200px); 
 }
 
-.chat-message {
+.customChatMessage {
     padding: 12px;
     border-radius: 8px;
     margin-bottom: 10px;
@@ -154,7 +160,7 @@ h2 {
     word-wrap: break-word;
 }
 
-.client {
+.customClient {
     background-color: #e0f7fa;
     align-self: flex-end; 
     color: #00796b;
@@ -162,29 +168,32 @@ h2 {
 }
 
 
-.provider {
+.customProvider {
     background-color: #ffffff;
     align-self: flex-start;
     color: #597ea5;
     text-align: left;
 }
 
-.message-input {
+.customMessageInput {
     display: flex;
     align-items: center;
     padding: 10px;
     background-color: #e3f2fd;
     border-top: 1px solid #ccc;
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
 }
 
-.message-input .icon {
+.customMessageInput .customIcon {
     font-size: 24px;
     cursor: pointer;
     margin-right: 10px;
     color: #4c9ccf;
 }
 
-.message-input input {
+.customMessageInput input {
     flex-grow: 1;
     padding: 10px;
     border: 1px solid #ccc;
@@ -192,7 +201,7 @@ h2 {
     margin-right: 10px;
 }
 
-.message-input button {
+.customMessageInput button {
     background-color: #4c9ccf;
     border: none;
     border-radius: 20px;
@@ -202,43 +211,40 @@ h2 {
     transition: background-color 0.3s;
 }
 
-.message-input button:hover {
+.customMessageInput button:hover {
     background-color: #225978;
 }
 
-.serv-name
-{
+.customServName {
     font-size: 20px;
     color: #000000;
     margin-left: 20px;
     position: relative;
-    top: 15px;
-    left: 145px;
+    top: 0px;
+    left: 135px;
 }
 
-.serv-add
-{
+.customServAdd {
     font-size: 15px;
     color: #000000;
     margin-left: 20px;
-    top: 40px;
-    left: -165px;
+    top: 25px;
+    left: -218px;
     position: relative;
 }
 
-.profile-icon {
-    width: 75px;
-    height: 75px;
+.customProfileIcon {
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     object-fit: cover;
     position: absolute;
-    left: 700px;
-    top: 60px;
+    left: 400px;
+    top: 15px;
     
-  }
+}
 
-  .serv-chat
-{
+.customServChat {
     font-size: 30px;
     color: #000000;
     margin-left: 20px;
@@ -248,3 +254,35 @@ h2 {
     left: 95px;
     
 }
+
+
+.customBookingChat {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #ffffff; 
+    overflow: hidden;
+}
+
+.customChatDisplay {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    max-height: calc(100vh - 200px); 
+}
+
+.customMessageInput {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #e3f2fd;
+    border-top: 1px solid #ccc;
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+}
+
