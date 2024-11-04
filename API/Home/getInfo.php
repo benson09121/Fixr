@@ -43,17 +43,18 @@ if ($method == "POST") {
 
     $workerstmt = $conn->prepare("
     SELECT
-	tbl_service_category.CategoryName,
-    tbl_service_request.RequestedDate,
-    tbl_service_request.Status
+        tbl_service_category.CategoryName,
+        tbl_service_request.RequestedDate,
+        tbl_service_request.Status
     FROM tbl_service_request 
     INNER JOIN
-    tbl_service_category 
+        tbl_service_category 
     ON
-    tbl_service_request.category_id = tbl_service_category.category_id;
+        tbl_service_request.category_id = tbl_service_category.category_id
+    WHERE tbl_service_request.user_id = ?
     ");
     
-    $workerstmt->execute();
+    $workerstmt->execute([$user_id]);
     $workers = $workerstmt->fetchAll(PDO::FETCH_ASSOC);
     $workerInfo = array_map(function ($worker) {
         return [
@@ -62,6 +63,7 @@ if ($method == "POST") {
             'Status' => $worker['Status'],
         ];
     }, $workers);
+
 
     header("HTTP/1.0 200 OK");
     echo json_encode([

@@ -2,15 +2,21 @@ import React, { useState, useEffect } from "react";
 import "../css/updateprofile.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import {jwtDecode} from "jwt-decode";
 
 function Update_Profile() {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
     const [description, setDescription] = useState("");
-    const [userId, setUserId] = useState(1); 
+    const [userId, setUserId] = useState(null); 
+    const [cookies] = useCookies(["account_token"]);
     const navigate = useNavigate();
 
     useEffect(() => {
+        const userInfo = jwtDecode(cookies.account_token);
+        setUserId(userInfo.user_id);
+
         axios.post("http://localhost/FIXR/API/Home/getCategory.php")
             .then(response => {
                 if (response.data.status === 200) {
@@ -20,7 +26,7 @@ function Update_Profile() {
                 }
             })
             .catch(error => console.error("Error fetching categories:", error));
-    }, []);
+    }, [cookies.account_token]);
 
     const handleSubmit = (event) => {
         event.preventDefault();

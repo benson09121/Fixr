@@ -4,8 +4,9 @@ import { FaUserCircle, FaEllipsisV } from "react-icons/fa";
 import { BsFillChatFill } from "react-icons/bs";
 import { FiPlus } from "react-icons/fi";
 import { AiOutlinePicture } from "react-icons/ai";
-import SideNav from "../SideNav/SideNav";
+import Chat_Sidenav from "../SideNav/Chat_Sidenav";
 import Navbar from "../Navbar/Navbar";
+import Menu_Profile from "../Profile_Menu/Menu_Profile";
 import { useCookies } from "react-cookie";
 import {jwtDecode} from "jwt-decode";
 import axios from "axios";
@@ -124,6 +125,20 @@ export default function Chat() {
       chat.user2_first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       chat.user2_last_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  useEffect(() => {
+    const userInfo = jwtDecode(cookies.account_token);
+    axios.post("http://localhost/FIXR/API/Home/getInfo.php", { user_id: userInfo.user_id })
+      .then((response) => {
+        setUserInfo({
+          name: response.data.data.userInfo.name,
+          phone: response.data.data.userInfo.phone,
+          account: response.data.data.userInfo.account_type,
+        });
+        setCategories(response.data.data.categories);
+        setWorkerInfo(response.data.data.workerInfo);
+      });
+  }, [cookies.account_token]);
 
   return (
     <>

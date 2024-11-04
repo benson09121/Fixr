@@ -298,6 +298,20 @@ body::-webkit-scrollbar {
     animation: fadein 0.5s forwards;
     overflow-x: scroll;
   }
+  
+.appointment-cards::-webkit-scrollbar {
+    height: 10px;
+    background-color: gray;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+
+.appointment-cards::-webkit-scrollbar-thumb {
+    background-color: #4596cb;
+    border-radius: 10px;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
  
   @keyframes fadein {
    0% {
