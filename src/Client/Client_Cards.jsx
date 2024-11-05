@@ -1,19 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-export default function Client_Cards(prop){
-
-    return(
-
-     <div className="clienthome-card">
-        <Link to="/clientform">
-        <div className="clienthome-service-info">
-              <img src={prop.picture} alt="" />
-              <span>{prop.name}</span>
-        </div>
-        </Link>
-</div>
-
-
-    )
+export default function Client_Cards({ picture, name, onClick }) {
+  return (
+    <div className="clienthome-card" onClick={() => onClick(name)}>
+      <div className="clienthome-service-info">
+        <img src={picture} alt="" />
+        <span>{name}</span>
+      </div>
+    </div>
+  );
 }

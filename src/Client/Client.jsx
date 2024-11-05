@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "../css/clientcss.css";
 import Client_Cards from "./Client_Cards";
-import { Link } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import SideNav from "../SideNav/SideNav";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
 const Client = () => {
@@ -23,6 +23,8 @@ const Client = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedWorker, setSelectedWorker] = useState(null);
   const [showWorkerModal, setShowWorkerModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [description, setDescription] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,7 +63,40 @@ const Client = () => {
     }
   }, [cookies.account_token]);
 
-  const openModal = (service) => {
+  const openModal = (category) => {
+    setSelectedCategory(category);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedCategory("");
+    setDescription("");
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const userInfo = jwtDecode(cookies.account_token);
+    const userId = userInfo.user_id;
+
+    axios.post("http://localhost/FIXR/API/Home/submitRequest.php", {
+      user_id: userId,
+      category: selectedCategory,
+      description: description
+    })
+    .then(response => {
+      if (response.data.status === 200) {
+        alert("Request submitted successfully!");
+        closeModal();
+      } else {
+        alert("Failed to submit request");
+      }
+    })
+    .catch(error => console.error("Error submitting request:", error));
+  };
+
+  const openServiceModal = (service) => {
     axios.post("http://localhost/FIXR/API/Home/getRequestDetails.php", { request_id: service.request_id })
       .then((response) => {
         setSelectedService({
@@ -77,7 +112,7 @@ const Client = () => {
       });
   };
 
-  const closeModal = () => {
+  const closeServiceModal = () => {
     setShowModal(false);
     setSelectedService(null);
   };
@@ -101,28 +136,11 @@ const Client = () => {
       status: 'Scheduled',
       status_date: new Date().toISOString()
     };
-    const handleStatusChange = (status) => {
-      axios.post("http://localhost/FIXR/API/Home/updateServiceRequestStatus.php", {
-        request_id: selectedService.request_id,
-        status: status
-      })
-      .then((response) => {
-        if (response.data.status === 200) {
-          console.log(`Service request status updated to ${status}`);
-          window.location.reload();
-        } else {
-          console.error(`Failed to update service request status to ${status}`);
-        }
-      })
-      .catch((error) => {
-        console.error(`There was an error updating the service request status to ${status}!`, error);
-      });
-    };
     axios.post("http://localhost/FIXR/API/Home/bookService.php", bookingData)
       .then((response) => {
         if (response.data.status === 200) {
           alert("Service booked successfully!");
-          axios.post("http://localhost/FIXR/API/Home/updateServiceRequestStatus.php", {
+          axios.post("http://localhost/FIXR/API/Home/updateServiceRequest.php", {
             request_id: selectedService.request_id,
             status: 'In-Progress'
           })
@@ -144,6 +162,24 @@ const Client = () => {
       .catch((error) => {
         console.error("There was an error booking the service!", error);
       });
+  };
+
+  const handleStatusChange = (status) => {
+    axios.post("http://localhost/FIXR/API/Home/updateServiceRequest.php", {
+      request_id: selectedService.request_id,
+      status: status
+    })
+    .then((response) => {
+      if (response.data.status === 200) {
+        console.log(`Service request status updated to ${status}`);
+        window.location.reload();
+      } else {
+        console.error(`Failed to update service request status to ${status}`);
+      }
+    })
+    .catch((error) => {
+      console.error(`There was an error updating the service request status to ${status}!`, error);
+    });
   };
 
   const filteredServices = activeFilter === "All"
@@ -179,6 +215,7 @@ const Client = () => {
                   key={index}
                   picture={"http://localhost/FIXR/API/Images/" + category.image}
                   name={category.CategoryName}
+                  onClick={openModal}
                 />
               ))
             ) : (
@@ -223,9 +260,9 @@ const Client = () => {
                 </thead>
                 <tbody>
                   {filteredServices.map((workers, index) => (
-                    <tr key={index} onClick={() => openModal(workers)}>
+                    <tr key={index} onClick={() => openServiceModal(workers)}>
                       <td>{workers.CategoryName}</td>
-                      <td>0</td>
+                      <td>{workers.providerCount}</td>
                       <td>{workers.RequestedDate}</td>
                       <td 
                         className={
@@ -233,6 +270,8 @@ const Client = () => {
                             ? "status-done" 
                             : workers.Status === "In-Progress" 
                             ? "status-ongoing" 
+                            : workers.Status === "Cancelled"
+                            ? "status-cancelled"
                             : "status-pending"
                         }
                       >
@@ -247,11 +286,35 @@ const Client = () => {
             )}
           </div>
 
-         {/* Modal for Booking Details */}
-         {showModal && selectedService && (
+          {/* Modal for Request Form */}
+          {showModal && selectedCategory && !selectedService && (
             <div className="modal-overlay" onClick={closeModal}>
               <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <button className="modal-close" onClick={closeModal}>X</button>
+                <h2>Request Form</h2>
+                <p className="mt-3"><strong>Category:</strong> {selectedCategory}</p>
+                <form onSubmit={handleSubmit}>
+                  <div className="update-forms mt-1">
+                    <p>Description:</p>
+                    <textarea
+                      id="description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    ></textarea>
+                  </div>
+                  <div className="update-buttons">
+                    <button className="update-save-btn" type="submit">Request</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* Modal for Booking Details */}
+          {showModal && selectedService && (
+            <div className="modal-overlay" onClick={closeServiceModal}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <button className="modal-close" onClick={closeServiceModal}>X</button>
                 <h3>Booking Details</h3>
                 <p><strong>Category Name:</strong> {selectedService.CategoryName}</p>
                 <p><strong>Description:</strong> {selectedService.Description}</p>
@@ -270,9 +333,18 @@ const Client = () => {
                       </div>
                     ))}
                     <div className="client-provider-footerbtn">
-                    <button onClick={() => handleStatusChange("Cancelled")} className="client-provider-cancelled">Mark this Cancelled</button>
+                    <button onClick={() => handleStatusChange("Cancelled")} className="client-provider-cancelled" type="submit">Mark this Cancelled</button>
                     <button onClick={() => handleStatusChange("Completed")} className="client-provider-complete">Mark this Complete</button>
                     </div>
+                  </>
+                ) : selectedService.Status === "Completed" ? (
+                  <>
+                    <p><strong>Completed Date:</strong> {new Date(selectedService.RequestedDate).toLocaleString()}</p>
+                    {selectedService.providers.map((provider, index) => (
+                      <div key={index}>
+                        <p><strong>Provider Name: </strong>{provider.f_name} {provider.l_name}</p>
+                      </div>
+                    ))}
                   </>
                 ) : (
                   <>
@@ -282,7 +354,7 @@ const Client = () => {
                         <li key={index}>
                           {provider.f_name} {provider.l_name}
                           <button onClick={() => handleBooking(provider)}>Book</button>
-                          <button onClick={closeModal}>Cancel</button>
+                          <button onClick={closeServiceModal}>Cancel</button>
                         </li>
                       ))}
                     </ul>

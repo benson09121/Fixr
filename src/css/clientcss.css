@@ -325,8 +325,18 @@ table tr {
     color: white;
 }
 
-
 .client-provider-cancelled {
     background-color: #ff4c4c;
     color: white;
 }
+
+.update-forms textarea {
+    resize: none;
+    height: 200px;
+    padding: 5px 10px;
+}
+
+.status-cancelled {
+    background-color: red;
+    color: white;
+  }
