@@ -45,7 +45,8 @@ if ($method == "POST") {
     SELECT
         tbl_service_category.CategoryName,
         tbl_service_request.RequestedDate,
-        tbl_service_request.Status
+        tbl_service_request.Status,
+        tbl_service_request.request_id
     FROM tbl_service_request 
     INNER JOIN
         tbl_service_category 
@@ -64,6 +65,20 @@ if ($method == "POST") {
         ];
     }, $workers);
 
+<<<<<<< HEAD
+    $workerInfo = [];
+    if ($workers) {
+        $workerInfo = array_map(function ($worker) {
+            return [
+                'CategoryName' => $worker['CategoryName'],
+                'RequestedDate' => $worker['RequestedDate'],
+                'Status' => $worker['Status'],
+                'request_id' => $worker['request_id'],
+            ];
+        }, $workers);
+    }
+=======
+>>>>>>> 35f07fec4ca536ddb8d05180f4622bafe66e3ce8
 
     header("HTTP/1.0 200 OK");
     echo json_encode([

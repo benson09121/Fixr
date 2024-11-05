@@ -17,7 +17,7 @@ const Client = () => {
   });
   const [categories, setCategories] = useState([]);
   const [workerInfo, setWorkerInfo] = useState([]);
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState("Pending");
   const [selectedService, setSelectedService] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedWorker, setSelectedWorker] = useState(null);
@@ -61,8 +61,19 @@ const Client = () => {
   }, [cookies.account_token]);
 
   const openModal = (service) => {
-    setSelectedService(service);
-    setShowModal(true);
+    axios.post("http://localhost/FIXR/API/Home/getRequestDetails.php", { request_id: service.request_id })
+      .then((response) => {
+        setSelectedService({
+          ...service,
+          ...response.data.data.requestDetails,
+          providers: response.data.data.providers,
+          providerCount: response.data.data.providerCount
+        });
+        setShowModal(true);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the request details!", error);
+      });
   };
 
   const closeModal = () => {
@@ -80,10 +91,42 @@ const Client = () => {
     setSelectedWorker(null);
   };
 
-  const handleBooking = () => {
-    alert(`Booking confirmed with ${selectedWorker.name}`);
-    closeWorkerModal();
-    closeModal();
+  const handleBooking = (provider) => {
+    const bookingData = {
+      request_id: selectedService.request_id,
+      provider_id: provider.provider_id,
+      booking_date: new Date().toISOString(),
+      service_date: selectedService.RequestedDate,
+      status: 'Scheduled',
+      status_date: new Date().toISOString()
+    };
+
+    axios.post("http://localhost/FIXR/API/Home/bookService.php", bookingData)
+      .then((response) => {
+        if (response.data.status === 200) {
+          alert("Service booked successfully!");
+          axios.post("http://localhost/FIXR/API/Home/updateServiceRequestStatus.php", {
+            request_id: selectedService.request_id,
+            status: 'In-Progress'
+          })
+          .then((response) => {
+            if (response.data.status === 200) {
+              console.log("Service request status updated to In-Progress");
+              window.location.reload();
+            } else {
+              console.error("Failed to update service request status");
+            }
+          })
+          .catch((error) => {
+            console.error("There was an error updating the service request status!", error);
+          });
+        } else {
+          alert("Failed to book service");
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error booking the service!", error);
+      });
   };
 
   const filteredServices = activeFilter === "All"
@@ -130,12 +173,7 @@ const Client = () => {
           <div className="booking-table">
             <h3 style={{marginBottom:"10px"}}>Booking List</h3>
             <div className="filter-options">
-              <button
-                className={`filter-option ${activeFilter === "All" ? "active" : ""}`}
-                onClick={() => setActiveFilter("All")}
-              >
-                All
-              </button>
+  
               <button
                 className={`filter-option ${activeFilter === "Pending" ? "active" : ""}`}
                 onClick={() => setActiveFilter("Pending")}
@@ -170,9 +208,17 @@ const Client = () => {
                   {filteredServices.map((workers, index) => (
                     <tr key={index} onClick={() => openModal(workers)}>
                       <td>{workers.CategoryName}</td>
-                      <td>{0}</td>
+                      <td>0</td>
                       <td>{workers.RequestedDate}</td>
-                      <td className={workers.Status === "Completed" ? "status-done" : "status-ongoing"}>
+                      <td 
+                        className={
+                          workers.Status === "Completed" 
+                            ? "status-done" 
+                            : workers.Status === "In-Progress" 
+                            ? "status-ongoing" 
+                            : "status-pending"
+                        }
+                      >
                         {workers.Status}
                       </td>
                     </tr>
@@ -190,23 +236,18 @@ const Client = () => {
               <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <button className="modal-close" onClick={closeModal}>X</button>
                 <h3>Booking Details</h3>
-                <p><strong>Name:</strong> {selectedService.name}</p>
-                <p><strong>Service:</strong> {selectedService.service}</p>
-                <p><strong>Date:</strong> {selectedService.date}</p>
-                <p><strong>Status:</strong> {selectedService.status}</p>
-
-                {selectedService.status === "Queue" && (
-                  <div>
-                    <h4>Available Workers</h4>
-                    <ul>
-                      {selectedService.workers.map((worker, index) => (
-                        <li key={index} onClick={() => openWorkerModal(worker)} style={{ cursor: "pointer", color: "blue" }}>
-                          {worker.name}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                <p><strong>Category Name:</strong> {selectedService.CategoryName}</p>
+                <p><strong>Description:</strong> {selectedService.Description}</p>
+                <h4>Providers</h4>
+                <ul>
+                  {selectedService.providers.map((provider, index) => (
+                    <li key={index}>
+                      {provider.f_name} {provider.l_name}
+                      <button onClick={() => handleBooking(provider)}>Book</button>
+                      <button onClick={closeModal}>Cancel</button>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           )}
