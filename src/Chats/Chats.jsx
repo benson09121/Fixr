@@ -17,10 +17,10 @@ export default function Chat() {
   const [activeConversation, setActiveConversation] = useState(null);
   const [input, setInput] = useState("");
   const [ws, setWs] = useState(null);
-  const [chatHistory, setChatHistory] = useState([]); // List of conversations
-  const [bookingChat, setBookingChat] = useState([]); // Messages within a conversation
-  const [otherUserID, setOtherUserID] = useState(null); // Store the other user ID
-  const [selectedUserName, setSelectedUserName] = useState(""); // Store the selected user's name
+  const [chatHistory, setChatHistory] = useState([]); 
+  const [bookingChat, setBookingChat] = useState([]); 
+  const [otherUserID, setOtherUserID] = useState(null); 
+  const [selectedUserName, setSelectedUserName] = useState(""); 
 
   useEffect(() => {
     const token = cookies.account_token;
@@ -30,7 +30,7 @@ export default function Chat() {
       setUserID(decoded.user_id);
     }
     console.log(userID);
-    // Connect to WebSocket server
+    
     const socket = new WebSocket("ws://localhost:8080");
 
     socket.onopen = () => {
@@ -40,11 +40,11 @@ export default function Chat() {
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
 
-      // Check if received data is chat history or a new message
+    
       if (data.type === "chatHistory") {
-        setChatHistory(data.conversations); // Load chat history (list of conversations)
+        setChatHistory(data.conversations);
       } else if (data.type === "messages") {
-        setBookingChat(data.messages); // Load messages for the selected conversation
+        setBookingChat(data.messages); 
       } else {
         setBookingChat((prevMessages) => [...prevMessages, data]);
       }
@@ -58,7 +58,7 @@ export default function Chat() {
   }, []);
 
   useEffect(() => {
-    // Fetch the list of conversations for the current user
+    
     const fetchConversations = async () => {
       try {
         const response = await axios.get(`http://localhost/FIXR/API/getConversations.php?user_id=${userID}`);
@@ -102,12 +102,12 @@ export default function Chat() {
   const selectConversation = (conversationId) => {
     setActiveConversation(conversationId);
 
-    // Fetch messages for the selected conversation
+  
     if (ws) {
       ws.send(JSON.stringify({ type: "getMessages", conversation_id: conversationId }));
     }
 
-    // Determine the other user ID and name in the selected conversation
+    
     const selectedChat = chatHistory.find(chat => chat.conversation_id === conversationId);
     if (selectedChat) {
       const otherUserId = selectedChat.user1_id === userID ? selectedChat.user2_id : selectedChat.user1_id;
@@ -169,7 +169,7 @@ export default function Chat() {
                           <div className="customServiceName">
                             {chat.user1_id === userID ? `${chat.user2_first_name} ${chat.user2_last_name}` : `${chat.user1_first_name} ${chat.user1_last_name}`}
                           </div>
-                          <div className="customTime">{chat.created_at}</div> 
+                          <div className="customTime">{chat.updated_at}</div> 
                         </div>
                         <p>{chat.user1_id === userID ? chat.user2_role : chat.user1_role}</p>
                       </div>
