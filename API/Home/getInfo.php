@@ -37,9 +37,9 @@ if ($method == "POST") {
         'created_at' => $user['created_at'],
     ];
 
-    $categorystmt = $conn->prepare("SELECT CategoryName FROM tbl_service_category");
+    $categorystmt = $conn->prepare("SELECT * FROM tbl_service_category");
     $categorystmt->execute();
-    $categories = $categorystmt->fetchAll(PDO::FETCH_COLUMN, 0); 
+    $categories = $categorystmt->fetchAll(PDO::FETCH_ASSOC); 
 
     $workerstmt = $conn->prepare("
     SELECT
@@ -57,7 +57,15 @@ if ($method == "POST") {
     
     $workerstmt->execute([$user_id]);
     $workers = $workerstmt->fetchAll(PDO::FETCH_ASSOC);
+    $workerInfo = array_map(function ($worker) {
+        return [
+            'CategoryName' => $worker['CategoryName'],
+            'RequestedDate' => $worker['RequestedDate'],
+            'Status' => $worker['Status'],
+        ];
+    }, $workers);
 
+<<<<<<< HEAD
     $workerInfo = [];
     if ($workers) {
         $workerInfo = array_map(function ($worker) {
@@ -69,6 +77,8 @@ if ($method == "POST") {
             ];
         }, $workers);
     }
+=======
+>>>>>>> 35f07fec4ca536ddb8d05180f4622bafe66e3ce8
 
     header("HTTP/1.0 200 OK");
     echo json_encode([

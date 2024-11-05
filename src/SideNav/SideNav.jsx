@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../css/sidenav.css";
 import SideNav_Workers from "./SideNav_Workers";
 import SideNav_Notif from "./SideNav_Notif";
@@ -9,25 +10,41 @@ import { jwtDecode } from "jwt-decode";
 
 
 export default function SideNav(prop) {
-  const [cookies] = useCookies(["account_token"]);
+  const [cookies, setCookies, removeCookies] = useCookies(["account_token"]);
   const [workers, setWorkers] = useState([]); 
-
+  const navigate = useNavigate();
   useEffect(() => {
-    const workerInfo = jwtDecode(cookies.account_token);
+    if (cookies.account_token && typeof cookies.account_token === 'string') {
+      try {
+        const workerInfo = jwtDecode(cookies.account_token);
+        axios.post("http://localhost/Fixr/API/Home/getworker.php", workerInfo)
+          .then((response) => {
+            if (response.data && response.data.data) { 
+              setWorkers(response.data.data); 
+            } else {
+              setWorkers([]); 
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching workers:", error);
+            setWorkers([]); 
+          });
+      } catch (error) {
+        console.error("Invalid token:", error);
 
-    axios.post("http://localhost/Fixr/API/Home/getworker.php", workerInfo)
-      .then((response) => {
-        if (response.data && response.data.data) { 
-          setWorkers(response.data.data); 
-        } else {
-          setWorkers([]); 
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching workers:", error);
-        setWorkers([]); 
-      });
+      }
+    } else {
+      console.log("No valid token found");
+   
+    }
   }, [cookies.account_token]);
+
+
+  function handleLogout(){
+    removeCookies("account_token",{path:"/"});
+    window.location.href = "/";
+    window.location.reload();
+  }
 
   return (
     <>
@@ -124,12 +141,10 @@ export default function SideNav(prop) {
                 <span>About us</span>
               </div>
             </Link>
-            <Link to="/">
-              <div className="sidenav-footer-content">
+              <div className="sidenav-footer-content" onClick={handleLogout}>
                 <img src="/pics/exit.png" alt="" />
                 <span>Log out</span>
               </div>
-            </Link> 
           </div>
         </div>
       </div>

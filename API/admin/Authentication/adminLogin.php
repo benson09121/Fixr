@@ -1,8 +1,8 @@
 <?php
 
-include '../Database/database_conn.php';
+include '../../Database/database_conn.php';
 
-include '../../vendor/autoload.php';
+include '../../../vendor/autoload.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: *");
@@ -10,7 +10,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 use Firebase\JWT\JWT;
 
-$env = parse_ini_file('../../.env');
+$env = parse_ini_file('../../../.env');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
@@ -29,27 +29,27 @@ if ($method == "POST") {
     $email = $data['email'] ?? null;
     $password = $data['password'] ?? null;
 
-    $stmt = $conn->prepare("SELECT * FROM tbl_accounts WHERE email = :email");
-    $stmt->bindParam(':email', $email);
-    $stmt->execute();
-    if($stmt->rowCount() > 0){
-        $row = $stmt->fetch();
-        if (password_verify($password, $row['password']) && $row['account_type'] === 'client' || $row['account_type'] === 'worker') {
-            $user_data = [
-                'user_id' => $row['user_id'],
-                'account_type' => $row['account_type'], 
-            ];
-        
-            $jwt = JWT::encode($user_data, $env['VITE_REACT_JWT_SECRET'], 'HS256');
-        
-            header("HTTP/1.0 200 OK");
-            $data = [
-                'status' => 200,
-                'message' => 'User Logged In Successfully',
-                'data' => $jwt,
-            ];
-            echo json_encode($data);
-            exit();
+    $query = "SELECT * FROM tbl_accounts";
+    $result = $conn->query($query);
+
+    if ($result->rowCount() > 0) {
+        while ($row = $result->fetch()) {
+            if ($row['email'] == $email && password_verify($password, $row['password']) && $row['account_type'] == 'admin') {
+                $user_data = [
+                    'user_id' => $row['user_id'],
+                    'account_type' => $row['account_type'], 
+                ];
+            
+                $jwt = JWT::encode($user_data, $env['VITE_REACT_JWT_SECRET'], 'HS256');
+            
+                header("HTTP/1.0 200 OK");
+                $data = [
+                    'status' => 200,
+                    'message' => 'Admin Logged In Successfully',
+                    'data' => $jwt,
+                ];
+                echo json_encode($data);
+                exit();
             } else {
                 header("HTTP/1.0 401 Unauthorized");
                 $data = [
@@ -59,8 +59,8 @@ if ($method == "POST") {
                 echo json_encode($data);
                 exit();
             }
-        
-} else {
+        }
+    } else {
         header("HTTP/1.0 404 Not Found");
         $data = [
             'status' => 404,

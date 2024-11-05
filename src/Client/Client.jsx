@@ -5,7 +5,8 @@ import Navbar from "../Navbar/Navbar";
 import SideNav from "../SideNav/SideNav";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const Client = () => {
   const [cookies] = useCookies(["account_token"]);
@@ -21,10 +22,24 @@ const Client = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedWorker, setSelectedWorker] = useState(null);
   const [showWorkerModal, setShowWorkerModal] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const userInfo = jwtDecode(cookies.account_token);
-    axios.post("http://localhost/FIXR/API/Home/getInfo.php", { user_id: userInfo.user_id })
+    if (cookies.account_token && typeof cookies.account_token === 'string') {
+      try {
+        const decodedToken = jwtDecode(cookies.account_token);
+        if (decodedToken.account_type !== "client") {
+          console.log("Not a client");
+          if(decodedToken.account_type === "worker") {
+            navigate("/worker/home");
+          } else if(decodedToken.account_type === "admin") {
+            navigate("/admin/dashboard");
+          } else {
+          navigate("/");
+          }
+        } else {
+          const userInfo = jwtDecode(cookies.account_token);
+    axios.post("http://localhost/FIXR/API/Home/getInfo.php", userInfo)
       .then((response) => {
         setUserInfo({
           name: response.data.data.userInfo.name,
@@ -34,6 +49,15 @@ const Client = () => {
         setCategories(response.data.data.categories);
         setWorkerInfo(response.data.data.workerInfo);
       });
+        }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        navigate("/");
+      }
+    } else {
+      console.log("No valid token found");
+      navigate("/");
+    }
   }, [cookies.account_token]);
 
   const openModal = (service) => {
@@ -136,8 +160,8 @@ const Client = () => {
               categories.map((category, index) => (
                 <Client_Cards 
                   key={index}
-                  picture="/pics/default.png"
-                  name={category}
+                  picture={"http://localhost/FIXR/API/Images/" + category.image}
+                  name={category.CategoryName}
                 />
               ))
             ) : (

@@ -6,19 +6,18 @@ import { useTheme } from "@mui/material/styles";
 import Chart from "react-apexcharts";
 import Typography from "@mui/material/Typography";
 
-export default function UsersChart({ Skeleton }) {
+export default function UsersChart({ Skeleton, users }) {
   const [month, setMonth] = React.useState("1");
 
   const handleChange = (event) => {
     setMonth(event.target.value);
   };
 
-  // chart color
+
   const theme = useTheme();
   const primary = theme.palette.primary.main;
   const secondary = theme.palette.secondary.main;
 
-  // chart
   const optionscolumnchart = {
     chart: {
       type: "bar",
@@ -63,7 +62,7 @@ export default function UsersChart({ Skeleton }) {
     },
     yaxis: {
       tickAmount: 4,
-    },
+    },   
     xaxis: {
       categories: [
         "January",
@@ -89,12 +88,21 @@ export default function UsersChart({ Skeleton }) {
     },
   };
 
-  const seriescolumnchart = [
-    {
-      name: "Registered users this month",
-      data: [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 5],
-    },
-  ];
+const monthCounts = Array(12).fill(0);
+
+if (users.length > 0) {
+  users.forEach(user => {
+    const month = new Date(user.createdAt).getMonth();
+    monthCounts[month]++;
+  });
+}
+
+const seriescolumnchart = [
+  {
+    name: "Registered users this month",
+    data: monthCounts,
+  },
+];
 
   return (
     <Grid size={8}>
