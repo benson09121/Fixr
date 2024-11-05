@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../css/clientcss.css";
 import Client_Cards from "./Client_Cards";
+import { Link } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import SideNav from "../SideNav/SideNav";
 import axios from "axios";
@@ -100,7 +101,23 @@ const Client = () => {
       status: 'Scheduled',
       status_date: new Date().toISOString()
     };
-
+    const handleStatusChange = (status) => {
+      axios.post("http://localhost/FIXR/API/Home/updateServiceRequestStatus.php", {
+        request_id: selectedService.request_id,
+        status: status
+      })
+      .then((response) => {
+        if (response.data.status === 200) {
+          console.log(`Service request status updated to ${status}`);
+          window.location.reload();
+        } else {
+          console.error(`Failed to update service request status to ${status}`);
+        }
+      })
+      .catch((error) => {
+        console.error(`There was an error updating the service request status to ${status}!`, error);
+      });
+    };
     axios.post("http://localhost/FIXR/API/Home/bookService.php", bookingData)
       .then((response) => {
         if (response.data.status === 200) {
@@ -230,24 +247,47 @@ const Client = () => {
             )}
           </div>
 
-          {/* Modal for Booking Details */}
-          {showModal && selectedService && (
+         {/* Modal for Booking Details */}
+         {showModal && selectedService && (
             <div className="modal-overlay" onClick={closeModal}>
               <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <button className="modal-close" onClick={closeModal}>X</button>
                 <h3>Booking Details</h3>
                 <p><strong>Category Name:</strong> {selectedService.CategoryName}</p>
                 <p><strong>Description:</strong> {selectedService.Description}</p>
-                <h4>Providers</h4>
-                <ul>
-                  {selectedService.providers.map((provider, index) => (
-                    <li key={index}>
-                      {provider.f_name} {provider.l_name}
-                      <button onClick={() => handleBooking(provider)}>Book</button>
-                      <button onClick={closeModal}>Cancel</button>
-                    </li>
-                  ))}
-                </ul>
+                {selectedService.Status === "In-Progress" ? (
+                  <>
+                    <h4>Provider</h4>
+                    {selectedService.providers.map((provider, index) => (
+                      <div key={index}>
+                        <div className="client-provider-content">
+                        <p>{provider.f_name} {provider.l_name}</p>
+                        <div className="client-provider-buttons">
+                              <Link to='/chats'><button className="client-provider-chat"> <i class="fa-regular fa-comment"></i>  Chat</button></Link>
+                              <Link to='/servicebooking'> <button className="client-provider-getloc"><i class="fa-solid fa-location-crosshairs"></i> Get Location</button></Link>
+                        </div>
+                        </div>
+                      </div>
+                    ))}
+                    <div className="client-provider-footerbtn">
+                    <button onClick={() => handleStatusChange("Cancelled")} className="client-provider-cancelled">Mark this Cancelled</button>
+                    <button onClick={() => handleStatusChange("Completed")} className="client-provider-complete">Mark this Complete</button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <h4>Providers</h4>
+                    <ul>
+                      {selectedService.providers.map((provider, index) => (
+                        <li key={index}>
+                          {provider.f_name} {provider.l_name}
+                          <button onClick={() => handleBooking(provider)}>Book</button>
+                          <button onClick={closeModal}>Cancel</button>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
               </div>
             </div>
           )}

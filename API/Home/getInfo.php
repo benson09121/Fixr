@@ -65,7 +65,7 @@ if ($method == "POST") {
         ];
     }, $workers);
 
-<<<<<<< HEAD
+
     $workerInfo = [];
     if ($workers) {
         $workerInfo = array_map(function ($worker) {
@@ -77,8 +77,7 @@ if ($method == "POST") {
             ];
         }, $workers);
     }
-=======
->>>>>>> 35f07fec4ca536ddb8d05180f4622bafe66e3ce8
+
 
     header("HTTP/1.0 200 OK");
     echo json_encode([

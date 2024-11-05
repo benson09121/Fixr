@@ -144,7 +144,7 @@ export default function Chat() {
     <>
       <Navbar />
       <div className="customApp">
-        <SideNav
+        <Chat_Sidenav
           picture="/pics/user.png"
           name="Benson Javier"
           number="0912 345 6789"
