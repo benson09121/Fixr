@@ -25,15 +25,17 @@ if ($method == "POST") {
     }
 
     $stmt = $conn->prepare("
-        SELECT
-            tbl_service_category.CategoryName,
-            tbl_service_request.Description
-        FROM tbl_service_request 
-        INNER JOIN
-            tbl_service_category 
-        ON
-            tbl_service_request.category_id = tbl_service_category.category_id
-        WHERE tbl_service_request.request_id = ?
+    SELECT
+        tbl_service_category.CategoryName,
+        tbl_service_request.Description,
+        tbl_service_request.Status,
+        tbl_service_request.RequestedDate
+    FROM tbl_service_request 
+    INNER JOIN
+        tbl_service_category 
+    ON
+        tbl_service_request.category_id = tbl_service_category.category_id
+    WHERE tbl_service_request.request_id = ?
     ");
     
     $stmt->execute([$request_id]);
@@ -45,7 +47,26 @@ if ($method == "POST") {
         exit();
     }
     
-    $providerStmt = $conn->prepare("
+    $providers = [];
+    $providerCount = 0;
+
+    if ($requestDetails['Status'] === 'In-Progress' || $requestDetails['Status'] === 'Completed') {
+        $providerStmt = $conn->prepare("
+        SELECT
+            tbl_accounts.f_name,
+            tbl_accounts.l_name,
+            tbl_service_provider.provider_id  
+        FROM tbl_booking
+        INNER JOIN tbl_service_provider ON tbl_booking.provider_id = tbl_service_provider.provider_id
+        INNER JOIN tbl_accounts ON tbl_service_provider.user_id = tbl_accounts.user_id
+        WHERE tbl_booking.request_id = ?
+        ");
+        
+        $providerStmt->execute([$request_id]);
+        $providers = $providerStmt->fetchAll(PDO::FETCH_ASSOC);
+        $providerCount = count($providers);
+    } else {
+        $providerStmt = $conn->prepare("
         SELECT
             tbl_accounts.f_name,
             tbl_accounts.l_name,
@@ -54,17 +75,12 @@ if ($method == "POST") {
         INNER JOIN tbl_service_provider ON tbl_compliance.provider_id = tbl_service_provider.provider_id
         INNER JOIN tbl_accounts ON tbl_service_provider.user_id = tbl_accounts.user_id
         WHERE tbl_compliance.request_id = ?
-    ");
-    
-    $providerStmt->execute([$request_id]);
-    $providers = $providerStmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    $Countstmt = $conn->prepare("
-        SELECT COUNT(*) as count FROM tbl_compliance WHERE request_id = ?
-    ");
-    
-    $Countstmt->execute([$request_id]);
-    $providerCount = $Countstmt->fetchColumn(); 
+        ");
+        
+        $providerStmt->execute([$request_id]);
+        $providers = $providerStmt->fetchAll(PDO::FETCH_ASSOC);
+        $providerCount = count($providers);
+    }
 
     header("HTTP/1.0 200 OK");
     echo json_encode([
@@ -72,7 +88,7 @@ if ($method == "POST") {
         'data' => [
             'requestDetails' => $requestDetails,
             'providers' => $providers,
-            'providerCount' => (int)$providerCount 
+            'providerCount' => $providerCount
         ]
     ]);
 

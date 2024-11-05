@@ -4,15 +4,14 @@ import {jwtDecode} from "jwt-decode";
 import axios from "axios";
 
 export default function Appointment() {
-    
     const [cookies] = useCookies(["account_token"]);
     const [showAppointment, setShowAppointment] = useState(false);
     const [appointmentInfo, setAppointmentInfo] = useState([]);
-    
+
     const toggleAppointment = () => {
         setShowAppointment(!showAppointment);
     };
-    
+
     useEffect(() => {
         const userInfo = jwtDecode(cookies.account_token);
         axios.post("http://localhost/FIXR/API/Home/getAppointments.php", userInfo)
@@ -31,10 +30,18 @@ export default function Appointment() {
             provider_id: userInfo.user_id,
         })
         .then((response) => {
-            console.log(response.data.message);
+            if (response.data.status === 200) {
+                alert("You have successfully accepted the service!");
+                setAppointmentInfo(prevAppointments =>
+                    prevAppointments.filter(appointment => appointment.request_id !== requestId)
+                );
+            } else {
+                alert("Failed to accept the service.");
+            }
         })
         .catch((error) => {
             console.error("There was an error accepting the appointment!", error);
+            alert("There was an error accepting the service.");
         });
     };
 
