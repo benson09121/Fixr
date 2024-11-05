@@ -17,13 +17,12 @@ if ($method == "POST") {
     $user1_id = $input['user1_id'];
     $user2_id = $input['user2_id'];
 
-    // Check if a conversation already exists
     $stmt = $conn->prepare("SELECT conversation_id FROM tbl_conversations WHERE (user1_id = :user1_id AND user2_id = :user2_id) OR (user1_id = :user2_id AND user2_id = :user1_id)");
     $stmt->execute(['user1_id' => $user1_id, 'user2_id' => $user2_id]);
     $conversation_id = $stmt->fetchColumn();
 
     if (!$conversation_id) {
-        // Create a new conversation
+      
         $stmt = $conn->prepare("INSERT INTO tbl_conversations (user1_id, user2_id) VALUES (:user1_id, :user2_id)");
         $stmt->execute(['user1_id' => $user1_id, 'user2_id' => $user2_id]);
         $conversation_id = $conn->lastInsertId();

@@ -16,7 +16,7 @@ class Chat implements MessageComponentInterface {
     }
 
     public function onOpen(ConnectionInterface $conn) {
-        // Store the new connection
+        
         $this->clients->attach($conn);
         echo "New connection! ({$conn->resourceId})\n";
     }
@@ -28,20 +28,25 @@ class Chat implements MessageComponentInterface {
 
         $data = json_decode($msg, true);
         if (isset($data['sender_id'], $data['message_text'], $data['conversation_id'])) {
-            // Store the message in the database
+            
             $stmt = $this->db->prepare("INSERT INTO tbl_messages (sender_id, message_text, conversation_id) VALUES (?, ?, ?)");
             $stmt->bind_param("isi", $data['sender_id'], $data['message_text'], $data['conversation_id']);
             $stmt->execute();
             $stmt->close();
 
-            // Broadcast the message to all clients except the sender
+
+            $stmt = $this->db->prepare("UPDATE tbl_conversations SET updated_at = NOW() WHERE conversation_id = ?");
+            $stmt->bind_param("i", $data['conversation_id']);
+            $stmt->execute();
+            $stmt->close();
+
+            
             foreach ($this->clients as $client) {
                 if ($from !== $client) {
                     $client->send($msg);
                 }
             }
         } elseif (isset($data['type']) && $data['type'] === 'getMessages' && isset($data['conversation_id'])) {
-            // Fetch messages for the specified conversation
             $stmt = $this->db->prepare("SELECT * FROM tbl_messages WHERE conversation_id = ?");
             $stmt->bind_param("i", $data['conversation_id']);
             $stmt->execute();
@@ -58,7 +63,7 @@ class Chat implements MessageComponentInterface {
     }
 
     public function onClose(ConnectionInterface $conn) {
-        // The connection is closed, remove it
+        
         $this->clients->detach($conn);
         echo "Connection {$conn->resourceId} has disconnected\n";
     }
@@ -77,5 +82,5 @@ $server = \Ratchet\Server\IoServer::factory(
     ),
     8080
 );
-echo "Server started at ws://localhost:8080\n";
+echo "Gusto ko na Humimlay Sir! Anyways, Server running on Port 8080\n";
 $server->run();

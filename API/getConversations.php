@@ -26,7 +26,7 @@ if ($method == "GET") {
             u2.f_name AS user2_first_name,
             u2.l_name AS user2_last_name,
             u2.account_type AS user2_role,
-            c.created_at
+            c.updated_at
         FROM 
             tbl_conversations c
         JOIN 
@@ -35,6 +35,8 @@ if ($method == "GET") {
             tbl_accounts u2 ON c.user2_id = u2.user_id
         WHERE 
             c.user1_id = :user_id OR c.user2_id = :user_id
+        ORDER BY 
+            c.updated_at DESC
     ";
 
     $stmt = $conn->prepare($sql);
