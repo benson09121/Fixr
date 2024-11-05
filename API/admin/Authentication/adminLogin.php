@@ -34,7 +34,7 @@ if ($method == "POST") {
 
     if ($result->rowCount() > 0) {
         while ($row = $result->fetch()) {
-            if ($row['email'] == $email && password_verify($password, $row['password']) && $row['account_type'] == 'admin') {
+            if ($row['email'] == $email && password_verify($password, $row['password'])) {
                 $user_data = [
                     'user_id' => $row['user_id'],
                     'account_type' => $row['account_type'], 

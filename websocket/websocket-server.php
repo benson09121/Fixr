@@ -9,7 +9,7 @@ class Chat implements MessageComponentInterface {
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
-        $this->db = new mysqli('localhost', 'root', 'root', 'db_fixr'); // Update with your database credentials
+        $this->db = new mysqli('localhost', 'root', '', 'fixr_test_db'); // Update with your database credentials
         if ($this->db->connect_error) {
             die("Connection failed: " . $this->db->connect_error);
         }
