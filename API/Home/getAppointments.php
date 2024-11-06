@@ -36,7 +36,8 @@ if ($method == "POST") {
   LEFT JOIN tbl_address_barangay
       ON tbl_address.barangay_id = tbl_address_barangay.barangay_id
   LEFT JOIN tbl_service_category
-      ON tbl_service_request.category_id = tbl_service_category.category_id;
+      ON tbl_service_request.category_id = tbl_service_category.category_id
+      WHERE tbl_service_request.status = 'Pending'
     ");
     
     $stmt->execute();
