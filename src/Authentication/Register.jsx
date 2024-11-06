@@ -86,7 +86,11 @@ function Register() {
             secure: true,
             sameSite: "strict",
           });
-          navigate("/client/home");
+          if (selected === "worker") {
+            navigate("/workerspecial");
+          } else {
+            navigate("/client/home");
+          }
         }
       })
       .catch((err) => {
@@ -109,28 +113,28 @@ function Register() {
             <div className='user-fullname'>
               <div className='user-inputs'>
                 <label htmlFor="fname:">First Name:</label>
-                <input type="text" name="f_name" id="" onChange={onhandleRegister}/>
+                <input type="text" name="f_name" id="" onChange={onhandleRegister} />
               </div>
               <div className='user-inputs'>
                 <label htmlFor="lname:">Last Name:</label>
-                <input type="text" name="l_name" id="" onChange={onhandleRegister}/>
+                <input type="text" name="l_name" id="" onChange={onhandleRegister} />
               </div>
             </div>
             <div className='user-inputs'>
               <label htmlFor="Email:">Email:</label>
-              <input type="text" name="email" id="" placeholder='test@email.com' onChange={onhandleRegister}/>
+              <input type="text" name="email" id="" placeholder='test@email.com' onChange={onhandleRegister} />
             </div>
             <div className='user-inputs'>
               <label htmlFor="Phone:">Phone:</label>
-              <input type="text" name="phone" id="" placeholder='####-###-####' onChange={onhandleRegister}/>
+              <input type="text" name="phone" id="" placeholder='####-###-####' onChange={onhandleRegister} />
             </div>
             <div className='user-inputs'>
               <label htmlFor="Password:">Password:</label>
-              <input type="password" name="password" id="" placeholder='' onChange={onhandleRegister}/>
+              <input type="password" name="password" id="" placeholder='' onChange={onhandleRegister} />
             </div>
             <div className='user-inputs'>
               <label htmlFor="Confirm Password:">Confirm Password:</label>
-              <input type="password" name="confirmPassword" id="" placeholder='' onChange={onhandleRegister}/>
+              <input type="password" name="confirmPassword" id="" placeholder='' onChange={onhandleRegister} />
             </div>
             <div className="role-selection">
               <div className={`role-option ${selected === "client" ? "selected" : ""}`} onClick={() => handleClick("client")}>

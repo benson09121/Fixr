@@ -22,6 +22,7 @@ import Service_Booking from './Service_Booking/Service_Booking';
 import WorkerLayout from "./Home/WorkerLayout";
 import Client_Cards from "./Client/Client_Cards";
 import Client_Forms from "./Client/Client_Forms";
+import Worker_Special from "./Authentication/Worker_Special";
 
 
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/" element={<Navigate to="/client/login" />} />
         <Route path="/client" element={<Navigate to="/client/login" />} />
         <Route path='/clientform' element={<Client_Forms />} />
+        <Route path='/workerspecial' element={<Worker_Special />} />
         <Route path="client" element={<ClientLayout />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />

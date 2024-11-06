@@ -21,19 +21,6 @@ if ($method == "POST") {
     $application_date = date('Y-m-d');
     $status = 'Pending';
 
-    $checkStmt = $conn->prepare("SELECT COUNT(*) FROM tbl_service_provider WHERE provider_id = :provider_id");
-    $checkStmt->bindParam(':provider_id', $provider_id, PDO::PARAM_INT);
-    $checkStmt->execute();
-    $exists = $checkStmt->fetchColumn();
-
-    if (!$exists) {
-        echo json_encode([
-            'status' => 400,
-            'message' => 'Invalid provider_id'
-        ]);
-        exit();
-    }
-
     $stmt = $conn->prepare("
         INSERT INTO tbl_compliance (request_id, provider_id, application_date, status) 
         VALUES (:request_id, :provider_id, :application_date, :status)
