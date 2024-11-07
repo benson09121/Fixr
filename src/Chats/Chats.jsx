@@ -13,7 +13,13 @@ import axios from "axios";
 
 export default function Chat() {
   const [cookies] = useCookies(['account_token']);
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    phone: "",
+    account: "",
+  });
   const [userID, setUserID] = useState();
+  const [workerInfo, setWorkerInfo] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeConversation, setActiveConversation] = useState(null);
   const [input, setInput] = useState("");
@@ -127,41 +133,61 @@ export default function Chat() {
   );
 
   useEffect(() => {
-    const userInfo = jwtDecode(cookies.account_token);
-    axios.post("http://localhost/FIXR/API/Home/getInfo.php", { user_id: userInfo.user_id })
+    if (cookies.account_token && typeof cookies.account_token === 'string') {
+      try {
+        const decodedToken = jwtDecode(cookies.account_token);
+        if (decodedToken.account_type !== "client") {
+          console.log("Not a client");
+          if(decodedToken.account_type === "worker") {
+            navigate("/worker/home");
+          } else if(decodedToken.account_type === "admin") {
+            navigate("/admin/dashboard");
+          } else {
+          navigate("/");
+          }
+        } else {
+          const userInfo = jwtDecode(cookies.account_token);
+    axios.post("http://localhost/FIXR/API/Home/getInfo.php", userInfo)
       .then((response) => {
         setUserInfo({
           name: response.data.data.userInfo.name,
           phone: response.data.data.userInfo.phone,
           account: response.data.data.userInfo.account_type,
         });
-        setCategories(response.data.data.categories);
         setWorkerInfo(response.data.data.workerInfo);
       });
+        }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        navigate("/");
+      }
+    } else {
+      console.log("No valid token found");
+      navigate("/");
+    }
   }, [cookies.account_token]);
+
 
   return (
     <>
       <Navbar />
       <div className="customApp">
-        <Chat_Sidenav
+      <Chat_Sidenav
           picture="/pics/user.png"
-          name="Benson Javier"
-          number="0912 345 6789"
-          class="customWorker"
+          name={userInfo.name}
+          number={userInfo.phone}
+          class={userInfo.account}
         />
         <div className="customChatContainer">
           <header>
             <h2 className="customServChat">Chat</h2>
-            <h2 className="customServName">{selectedUserName}</h2>
-            <h2 className="customServAdd">Barangay Name, Cavite City</h2>
-            <div className="customProfile">
-              <img src="..\pics\profile.png" alt="Profile Icon" className="customProfileIcon" />
-              <div className="customStatusIndicator">
-                <span className="customStatusOnline"></span> Online 
+            <div className="customServName">  
+              <h2>{selectedUserName}   <i class="fa-solid fa-circle" ></i> <span className="customStatusOnline">Online</span> </h2> 
+              <div>
+                  <h4>Barangay Name, Cavite City</h4>
               </div>
+           </div>
               <FaEllipsisV className="customOptionsIcon" /> 
-            </div>
           </header>
 
           <div className="customChatLayout">
