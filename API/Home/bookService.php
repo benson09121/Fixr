@@ -23,7 +23,7 @@ if ($method == "POST") {
     $status = $data['status'] ?? 'Scheduled';
     $status_date = $data['status_date'] ?? null;
 
-    if (!$request_id || !$provider_id || !$booking_date || !$service_date || !$status_date) {
+    if (!$request_id || !$provider_id) {
         header("HTTP/1.0 400 Bad Request");
         echo json_encode(['status' => 400, 'message' => 'Missing required fields']);
         exit();

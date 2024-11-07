@@ -10,8 +10,10 @@ import Menu_Profile from "../Profile_Menu/Menu_Profile";
 import { useCookies } from "react-cookie";
 import {jwtDecode} from "jwt-decode";
 import axios from "axios";
+import { useLocation } from 'react-router-dom';
 
 export default function Chat() {
+  const location = useLocation(); // Call useLocation before using the location variable
   const [cookies] = useCookies(['account_token']);
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -26,18 +28,18 @@ export default function Chat() {
   const [ws, setWs] = useState(null);
   const [chatHistory, setChatHistory] = useState([]); 
   const [bookingChat, setBookingChat] = useState([]); 
-  const [otherUserID, setOtherUserID] = useState(null); 
-  const [selectedUserName, setSelectedUserName] = useState(""); 
+  const [otherUserID, setOtherUserID] = useState(location.state?.otherUserID || null); 
+  const [selectedUserName, setSelectedUserName] = useState(location.state?.selectedUserName || ""); 
 
   useEffect(() => {
     const token = cookies.account_token;
-    console.log(token);
     if (token) {
       const decoded = jwtDecode(token);
       setUserID(decoded.user_id);
     }
-    console.log(userID);
-    
+  }, [cookies.account_token]);
+
+  useEffect(() => {
     const socket = new WebSocket("ws://localhost:8080");
 
     socket.onopen = () => {
@@ -47,7 +49,6 @@ export default function Chat() {
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
 
-    
       if (data.type === "chatHistory") {
         setChatHistory(data.conversations);
       } else if (data.type === "messages") {
@@ -65,7 +66,17 @@ export default function Chat() {
   }, []);
 
   useEffect(() => {
-    
+    if (userID && ws && location.state?.otherUserID) {
+      const fetchConversation = async () => {
+        const conversationId = await checkOrCreateConversation(userID, location.state.otherUserID);
+        setActiveConversation(conversationId);
+        ws.send(JSON.stringify({ type: "getMessages", conversation_id: conversationId }));
+      };
+      fetchConversation();
+    }
+  }, [userID, ws, location.state?.otherUserID]);
+
+  useEffect(() => {
     const fetchConversations = async () => {
       try {
         const response = await axios.get(`http://localhost/FIXR/API/getConversations.php?user_id=${userID}`);
@@ -95,11 +106,12 @@ export default function Chat() {
 
   const sendMessage = async () => {
     if (ws && input.trim()) {
-      if (!activeConversation) {
-        const conversationId = await checkOrCreateConversation(userID, otherUserID);
+      let conversationId = activeConversation;
+      if (!conversationId) {
+        conversationId = await checkOrCreateConversation(userID, otherUserID);
         setActiveConversation(conversationId);
       }
-      const message = { sender_id: userID, message_text: input, conversation_id: activeConversation };
+      const message = { sender_id: userID, message_text: input, conversation_id: conversationId };
       ws.send(JSON.stringify(message));
       setBookingChat((prevMessages) => [...prevMessages, message]);
       setInput("");
@@ -109,12 +121,10 @@ export default function Chat() {
   const selectConversation = (conversationId) => {
     setActiveConversation(conversationId);
 
-  
     if (ws) {
       ws.send(JSON.stringify({ type: "getMessages", conversation_id: conversationId }));
     }
 
-    
     const selectedChat = chatHistory.find(chat => chat.conversation_id === conversationId);
     if (selectedChat) {
       const otherUserId = selectedChat.user1_id === userID ? selectedChat.user2_id : selectedChat.user1_id;
@@ -131,6 +141,7 @@ export default function Chat() {
       chat.user2_first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       chat.user2_last_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
 
   useEffect(() => {
     if (cookies.account_token && typeof cookies.account_token === 'string') {
@@ -166,7 +177,6 @@ export default function Chat() {
       navigate("/");
     }
   }, [cookies.account_token]);
-
 
   return (
     <>

@@ -39,7 +39,6 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="home" element={<Client />} />
-          <Route path="profile" element={<Update_Profile />} />
           <Route path="aboutus" element={<About_Us />} />
         </Route>
         <Route path="/chats" element={<Chats />} /> 
@@ -47,7 +46,8 @@ function App() {
         <Route path="worker" element={<WorkerLayout />} >
         <Route path="home" element={<Home />} />
         
-        </Route> 
+        </Route>
+        <Route path="/profile" element={<Update_Profile />} />
         <Route path="/servicebooking" element={<Service_Booking/>} />
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/userloc" element={<Userlocation />} />
