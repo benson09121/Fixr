@@ -1,4 +1,4 @@
-![FIXR](pics/fixrlogo.png)
+![FIXR](pics/header_logo1.png)
 A comprehensive home service platform connecting clients with local service providers across the Philippines. Fixr streamlines the process of finding, hiring, and receiving professional home services while empowering the informal sector by providing reliable opportunities for local workers.
 
 ## 📋 Project Summary
